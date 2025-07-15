@@ -1,18 +1,15 @@
 import { useEffect, useState, type FC } from "react";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import axios from "axios";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js"; 
+import axios from "axios"; //making HTTP requests to the backend
 
 const serverURL = import.meta.env.VITE_API_URL;
-console.log(import.meta.env.VITE_API_URL);
 if(!serverURL){
     throw new Error('backend url is not defined')
 }
 
 
-
-
-interface CartItem {
-    product: string;
+interface CartItem { //describe the shape of item to be stored in a cart
+    product: string;  //products MongoDB id
     name: string;
     price: number;
     quantity: number;
@@ -20,15 +17,15 @@ interface CartItem {
 
 
 export const Checkout : FC = () => {
-    const stripe = useStripe()
-    const elements = useElements()
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NzBmNDE2MTA5ZmNmMWUxY2ViZjNlMCIsImlhdCI6MTc1MjIzMzA2NiwiZXhwIjoxNzU0ODI1MDY2fQ.c7enLLKy295om0UuwAxjwICMBweq3fjuSPg6VZMUmAA'
+    const stripe = useStripe() //hook to access stripe methods
+    const elements = useElements() //hook to allow stripe acces form elements and grab the card inputs
+    
 
     const [cartItems, setCartItems] = useState<CartItem[]>([])
-    const [clientSecret, setClientSecret] = useState<string>("");
+    const [clientSecret, setClientSecret] = useState<string>(""); //stores a unique key returned by Stripe to allow payment confirmation
     const [loading, setLoading] = useState<boolean>(false)
 
-    useEffect(()=> {
+    useEffect(()=> { 
         const cart = [{
             product: "686e8ce1b1b6ebe256d46dec",
             name: 'test product',
@@ -40,15 +37,18 @@ export const Checkout : FC = () => {
         setCartItems(cart);
     }, [])
 
-    const createPaymentIntent = async () => {
+    
+    const createPaymentIntent = async () => {//Asks Stripe to create a payment intent through which the client secret key is return
         const totalAmount = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
-        const { data } = await axios.post(`${serverURL}/orders/create-payment-intent`, 
+
+        //sends a request to the backend server to create a payment intent i.e a clientSecret key
+        const { data } = await axios.post(`${serverURL}/orders/create-payment-intent`,  
             {
                 amount : totalAmount
             },
             {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             }
         )
@@ -56,12 +56,12 @@ export const Checkout : FC = () => {
     }
 
 
-    const handlePayment = async () => {
+    const handlePayment = async () => { //defines the function to confirm payment wuth Stripe
         if(!stripe || !elements) return
 
         setLoading(true)
 
-        const result =  await stripe.confirmCardPayment(clientSecret, {
+        const result =  await stripe.confirmCardPayment(clientSecret, {  //confrims payment with the clientSecret created and card information collected by CardElement
             payment_method: {
                 card: elements.getElement(CardElement)!
             }
@@ -75,6 +75,7 @@ export const Checkout : FC = () => {
         }
 
         if(result.paymentIntent.status === "succeeded"){
+            //creates the order and its details in the database
             await axios.post(`${serverURL}/orders/`, 
                 {
                     orderItems: cartItems,
@@ -83,36 +84,43 @@ export const Checkout : FC = () => {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 }
             )
             alert('order successfull');
+
+            const getOrders = await axios.get(`${import.meta.env.VITE_API_URL}/my-orders`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            console.log(getOrders)
         }
         setLoading(false)
     }
 
     return(
-        <div>
-      <h2>Checkout</h2>
-      <ul>
-        {cartItems.map((item) => (
-          <li key={item.product}>
-            {item.name} x {item.quantity} - ${(item.price / 100).toFixed(2)}
-          </li>
-        ))}
-      </ul>
+    <div>
+        <h2>Checkout</h2>
+        <ul>
+          {cartItems.map((item) => (
+            <li key={item.product}>
+              {item.name} x {item.quantity} - ${(item.price / 100).toFixed(2)}
+            </li>
+          ))}
+        </ul>
 
-      {!clientSecret ? (
-        <button onClick={createPaymentIntent}>Create Payment Intent</button>
-      ) : (
-        <>
-          <CardElement />
-          <button onClick={handlePayment} disabled={loading}>
-            {loading ? "Processing..." : "Pay"}
-          </button>
-        </>
-      )}
+        {!clientSecret ? (
+          <button onClick={createPaymentIntent} className="border p-2 cursor-pointer">Create Payment Intent</button>
+        ) : (
+          <>
+            <CardElement />
+            <button onClick={handlePayment} disabled={loading}>
+              {loading ? "Processing..." : "Pay"}
+            </button>
+          </>
+        )}
     </div>
     )
 }
