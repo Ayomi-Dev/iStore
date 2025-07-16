@@ -5,27 +5,33 @@ interface User {
     _id: string;
     name: string;
     email: string;
+    message: string
 }
 
 
 interface UserContextType {
     user: User | null;
     login: (token: string, user: User) => void;
-    logout: () => void
-    token: string | null
+    logout: () => void;
+    token: string | null;
+    sidePanel: boolean;
+    openSidePanel: () => void
 }
 
 const UserContext = createContext<UserContextType>({
     user: null,
     login: () => {},
     logout: () => {},
-    token: null
+    token: null,
+    sidePanel: false,
+    openSidePanel: () => {}
 });
 
 
 export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null)
+    const [sidePanel, setSidePanel] = useState<boolean>(false)
 
     const login = (newToken: string, newUser: User) => {
         localStorage.setItem('token', newToken);
@@ -41,7 +47,11 @@ export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
         setUser(null)
     }
 
-    const value = {user, token, login, logout}
+    const openSidePanel = () => {
+        setSidePanel(!sidePanel)
+    }
+
+    const value = {user, token, login, logout, sidePanel, openSidePanel}
     return(
         <UserContext.Provider value = { value }>
             { children }

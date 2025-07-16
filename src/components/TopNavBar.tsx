@@ -1,32 +1,48 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { SearchBar } from '../utils/SearchBar'
-import { FaBars, FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa'
+import { FaArrowLeft, FaBars, FaSearch, FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa'
 import { FaCartShopping } from 'react-icons/fa6'
 import { Username } from '../utils/Username'
 import { useUserContext } from '../contexts/UserContext'
+import { useState } from 'react'
+
+
+
 
 export const TopNavBar = () => {
-  const {user, logout} = useUserContext()
+  const {user, logout, openSidePanel, sidePanel} = useUserContext()
   const navigate = useNavigate()
+  const [toggleSearchBar, setToggleSearchBar] = useState<boolean>(false)
+
+  const displaySearchBar = () => {
+    setToggleSearchBar(!toggleSearchBar)
+  }
 
   const handleLogout = () => {
     logout()
     navigate('/login')
   }
   return (
-    <section className='w-full sticky px-1 md:px-4 z-30 top-o left-0 h-[80px] bg-white'> 
-      <nav className='mx-3 h-full flex justify-between items-center'>
-
+    <section className='w-full sticky px-1 md:px-4 z-30 top-0 left-0 h-[60px]'> 
+      <nav className='mx-3 h-full w-full flex justify-between relative items-center'>
+    <a href="">refresh</a>
         <div className="flex h-full items-center gap-4">
-          <FaBars className="md:hidden block z-10" />
+          <div className="block z-10 cursor-pointer" onClick={openSidePanel}>
+            {sidePanel ? (
+              <FaArrowLeft />
+            ) : (
+              <FaBars  />
+            )}
+          </div>
           <h1 className='md:ml-4 ml-1 font-bold italic hidden md:block text-sm md:text-xl text-pink-600'>E-Store</h1>
         </div>
 
         <Username  />
         
-        <SearchBar />
+        <SearchBar toggleSearchBar={toggleSearchBar} displaySearchBar={displaySearchBar} />
         
         <div className="h-full relative flex gap-2 items-center">
+          <FaSearch className="block md:hidden mx-1 text-xs md:text-lg" onClick={displaySearchBar} />
           <div className="relative">
             <Link to='/cart' >
               <FaCartShopping className="mx-1 text-xs md:text-lg "/>

@@ -1,20 +1,13 @@
 import { SideNav } from './components/SideNav';
 import { TopNavBar } from './components/TopNavBar';
-import { useUserContext } from './contexts/UserContext';
 import { PageRoutes } from './routes/Routes';
 
 function App() {
-  const { user } = useUserContext()
   return (
-    <div className='relative'>
+    <div className='w-full'>
       <TopNavBar />
-      <div className="flex gap-2">
-        {user ? (
-          <SideNav />
-        )
-        :
-        ('')
-      }
+      <div className="flex gap-2 relative">
+        <SideNav />
         < PageRoutes />
       </div>
     </div>

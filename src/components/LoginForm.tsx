@@ -37,7 +37,6 @@ export const LoginForm = () => {
             )
 
             const userProfile = profileInfo.data
-            // localStorage.setItem('userProfile', JSON.stringify(userProfile)); //saves the information in the browser's storage
             console.log('User info', userProfile)
 
             login(token, userProfile)

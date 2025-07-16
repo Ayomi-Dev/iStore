@@ -9,7 +9,7 @@ export const ProtectedRoute: React.FC<{children : ReactNode}> = ( { children } )
     }
   return (
     <>
-        { children }
+      { children }
     </>
   )
 }

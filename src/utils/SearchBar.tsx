@@ -1,7 +1,12 @@
 import { useState } from 'react'
 import { FaSearch } from 'react-icons/fa';
 
-export const SearchBar = () => {
+interface SearchBarProp {
+  toggleSearchBar: boolean
+  displaySearchBar: () => void
+}
+
+export const SearchBar: React.FC<SearchBarProp> = ({toggleSearchBar, displaySearchBar}) => {
   const [ searchValue, setSearchValue ] = useState<string>('');
     
     const [showInput, setShowInput] = useState<boolean>(false);
@@ -16,7 +21,7 @@ export const SearchBar = () => {
       console.log(searchValue)
     }
   return (
-    <div className='flex bg-white justify-between absolute md:relative left-0 md:mx-0 top-[80px] md:top-0 w-full md:w-40 items-center h-10 md:h-full'>
+    <div className={`${toggleSearchBar ? 'absolute left-0 z-[99] bg-white w-full flex' : 'hidden md:flex'} flex justify-between md:mx-0 md:relative md:top-0  md:w-40 items-center`}>
         <input type="text" 
             className={`w-full h-full md:h-3/4 outline-none bg-none border-none p-3 text-gray-400`}
             placeholder='Search here...' 
@@ -26,7 +31,10 @@ export const SearchBar = () => {
               handleSearch(text)
             } }
         />
-        <FaSearch className="mr-3" onClick={ handleInputField } />
+        <FaSearch className="mr-3" onClick={() => {
+          handleInputField()
+          displaySearchBar()
+          }} />
     </div>
   )
 }

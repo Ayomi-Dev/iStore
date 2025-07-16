@@ -1,5 +1,6 @@
 import { motion } from "framer-motion"
 import { type ReactNode } from "react"
+import { useUserContext } from "../contexts/UserContext";
 
 export const PageWrapper = ({children}: {children: ReactNode}) => {
     const variants = {
@@ -7,10 +8,11 @@ export const PageWrapper = ({children}: {children: ReactNode}) => {
       enter: { opacity: 1, x: 0 },
       exit: { opacity: 0, y: 100 },
     };
+    const {sidePanel} = useUserContext()
 
   return (
     <motion.section
-      className="md:w-[85%] md:left-[15%] md:rounded-tl-lg left-0 top-[60px] px-2 relative"
+      className={`${sidePanel ? 'md:w-[85%] md:left-[15%] md:mx-0 ' : 'left-0 w-[95%] mx-auto'} min-h-screen top-[40px] md:top-0 bg-white px-2 relative`}
       initial="hidden"
       animate="enter"
       exit="exit" 

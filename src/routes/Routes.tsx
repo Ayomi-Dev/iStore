@@ -13,6 +13,8 @@ import { ProtectedRoute } from './ProtectedRoute'
 export const PageRoutes = () => {
   const location = useLocation()
   return (
+    <div className="flex-1 m-4">
+
     <AnimatePresence mode='wait' initial={false}>
 
       <Routes location={location} key={location.pathname}>
@@ -36,9 +38,17 @@ export const PageRoutes = () => {
             
             }>
           </Route>
-          <Route path='/order' element = { <Order />}></Route>
+
+          
+          <Route path='/order' element = { 
+            <ProtectedRoute>
+              <Order />
+            </ProtectedRoute> 
+          }>
+          </Route>
       </Routes>
 
     </AnimatePresence>
+    </div>
   )
 }

@@ -1,22 +1,29 @@
-import React, { useEffect, useState } from 'react';
+
 import { FaCartPlus, FaClock, FaCompass, FaHeart, FaHome } from 'react-icons/fa';
 import { FaGears, FaMessage, FaUser } from 'react-icons/fa6';
 import { Link, useLocation } from 'react-router-dom';
+import { useUserContext } from '../contexts/UserContext';
+
 
 
 
 
 export const SideNav = ( ) => {
   const location = useLocation()
+  const { sidePanel } = useUserContext()
+  console.log(sidePanel)
   
   const activePage = (path: string) => {
+    window.scrollTo(0,0)
     return location.pathname === path ? 'active' : '';
   }
 
   return (
     <>
       
-      <aside className={`active w-[15%] fixed z-10 bg-white overflow-x-auto h-full px-4 left-0 `}>
+      <aside className={`${sidePanel ? 'translate-x-0 ' : '-translate-x-full'} active w-[75%] fixed 
+      z-[10] overflow-x-auto min-h-screen px-4 left-0 md:w-[15%] transform transition-transform 
+      duration-300 ease-in-out bg-gray-50`}>
         
         <div className="mx-auto shadow-lg w-28 h-28 mt-4">
           {/* <img src={Image} className='w-full rounded-full border-white border-8 shadow-md' alt="" /> */}
