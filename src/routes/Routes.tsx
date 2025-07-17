@@ -2,12 +2,13 @@ import { Route,  Routes, useLocation } from 'react-router-dom'
 import { UserProfile } from '../pages/UserProfile'
 import { Login } from '../pages/Login'
 import { SignUp } from '../pages/SignUp'
-import { Products } from '../pages/Products'
+import { ProductsList } from '../pages/Products'
 import { CartPage } from '../pages/CartPage'
 import { Home } from '../pages/Home'
 import { Order } from '../pages/Order'
 import { AnimatePresence } from 'framer-motion'
 import { ProtectedRoute } from './ProtectedRoute'
+import { ProductDetails } from '../pages/ProductDetails'
 
 
 export const PageRoutes = () => {
@@ -20,6 +21,7 @@ export const PageRoutes = () => {
       <Routes location={location} key={location.pathname}>
 
           <Route path='/' element = { <Home />}></Route>
+          <Route path='/product/:id' element = { <ProductDetails />}></Route>
           <Route path='/profile' element = 
           {
             <ProtectedRoute>
@@ -29,7 +31,7 @@ export const PageRoutes = () => {
           </Route>
           <Route path='/login' element = {<Login />}> </Route>
           <Route path= '/sign-up' element = { <SignUp />}></Route>
-          <Route path='/products' element = { <Products />}></Route>
+          <Route path='/products' element = { <ProductsList />}></Route>
           <Route path='/cart' element = { 
             
             <ProtectedRoute>

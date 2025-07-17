@@ -1,6 +1,12 @@
-import { useEffect, useState, type FC } from "react";
+import { useState, type FC } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js"; 
 import axios from "axios"; //making HTTP requests to the backend
+import { useSelector } from "react-redux";
+import type { RootState } from "../redux/store";
+import { FaPlus } from "react-icons/fa";
+import { increaseQty, type CartItem } from '../redux/cartSlice'
+import { ConvertToCartItem } from "../utils/ConvertToCartItem";
+import { useDispatch } from "react-redux";
 
 const serverURL = import.meta.env.VITE_API_URL;
 if(!serverURL){
@@ -8,39 +14,32 @@ if(!serverURL){
 }
 
 
-interface CartItem { //describe the shape of item to be stored in a cart
-    product: string;  //products MongoDB id
-    name: string;
-    price: number;
-    quantity: number;
-}
+
 
 
 export const Checkout : FC = () => {
     const stripe = useStripe() //hook to access stripe methods
     const elements = useElements() //hook to allow stripe acces form elements and grab the card inputs
     
+    const {cartItems, totalAmount, totalQuantity } = useSelector((state: RootState) => state.cart)
 
-    const [cartItems, setCartItems] = useState<CartItem[]>([])
     const [clientSecret, setClientSecret] = useState<string>(""); //stores a unique key returned by Stripe to allow payment confirmation
     const [loading, setLoading] = useState<boolean>(false)
+    const dispatch = useDispatch()
+    const formatedItems = cartItems.map((item) => ({
+        product: item._id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        total: item.total
+    }))
 
-    useEffect(()=> { 
-        const cart = [{
-            product: "686e8ce1b1b6ebe256d46dec",
-            name: 'test product',
-            price: 5000,
-            quantity: 3 
-        }
-        ]
-        console.log(cart)
-        setCartItems(cart);
-    }, [])
+    
 
     
     const createPaymentIntent = async () => {//Asks Stripe to create a payment intent through which the client secret key is return
-        const totalAmount = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
-
+        const totalAmount = Math.ceil(cartItems.reduce((sum, item) => sum + item.total * item.quantity, 0)*100)
+        console.log(totalAmount)
         //sends a request to the backend server to create a payment intent i.e a clientSecret key
         const { data } = await axios.post(`${serverURL}/orders/create-payment-intent`,  
             {
@@ -78,7 +77,7 @@ export const Checkout : FC = () => {
             //creates the order and its details in the database
             await axios.post(`${serverURL}/orders/`, 
                 {
-                    orderItems: cartItems,
+                    orderItems: formatedItems,
                     totalAmount: result.paymentIntent.amount,
                     paymentIntentId: result.paymentIntent.id
                 },
@@ -88,16 +87,20 @@ export const Checkout : FC = () => {
                     }
                 }
             )
+            setLoading(false)
             alert('order successfull');
 
-            const getOrders = await axios.get(`${import.meta.env.VITE_API_URL}/my-orders`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            })
-            console.log(getOrders)
+            // const getOrders = await axios.get(`${import.meta.env.VITE_API_URL}/my-orders`, {
+            //     headers: {
+            //         Authorization: `Bearer ${localStorage.getItem('token')}`
+            //     }
+            // })
+
         }
-        setLoading(false)
+    }
+
+    const handleIncrease = (product: CartItem ) => {
+        dispatch(increaseQty(product))
     }
 
     return(
@@ -105,8 +108,10 @@ export const Checkout : FC = () => {
         <h2>Checkout</h2>
         <ul>
           {cartItems.map((item) => (
-            <li key={item.product}>
-              {item.name} x {item.quantity} - ${(item.price / 100).toFixed(2)}
+            <li key={item._id}>
+              {item.name} {item.price} x {item.quantity} - ${item.total}
+
+             <FaPlus onClick={() => handleIncrease(item)} />
             </li>
           ))}
         </ul>
@@ -121,6 +126,10 @@ export const Checkout : FC = () => {
             </button>
           </>
         )}
+
+
+
+        {totalAmount} {totalQuantity}
     </div>
     )
 }

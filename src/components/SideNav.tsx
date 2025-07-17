@@ -11,7 +11,6 @@ import { useUserContext } from '../contexts/UserContext';
 export const SideNav = ( ) => {
   const location = useLocation()
   const { sidePanel } = useUserContext()
-  console.log(sidePanel)
   
   const activePage = (path: string) => {
     window.scrollTo(0,0)
@@ -41,8 +40,8 @@ export const SideNav = ( ) => {
                 </div>
               </Link>
             </li>
-            <li className={`${activePage('/shop')} w-full items-center p-2  shadow-lg rounded-sm my-2 flex justify-center`}>
-              <Link to={`/shop`}>
+            <li className={`${activePage('/products')} w-full items-center p-2  shadow-lg rounded-sm my-2 flex justify-center`}>
+              <Link to={`/products`}>
                 <div className="flex gap-2 ">
                   <FaCompass className=" px-1 text-2xl"/>
                   <span>Shop</span>

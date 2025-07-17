@@ -6,14 +6,17 @@ import { StripeProvider } from './contexts/StripeProvider.tsx'
 import App from './App.tsx'
 import { BrowserRouter } from 'react-router-dom'
 import { UserProvider } from './contexts/UserContext.tsx'
+import { ProductListProvider } from './contexts/ProductsContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <UserProvider>
-        <StripeProvider>
-          <App />
-        </StripeProvider>
+        <ProductListProvider>
+          <StripeProvider>
+            <App />
+          </StripeProvider>
+        </ProductListProvider>
       </UserProvider>
     </BrowserRouter>
   </StrictMode>

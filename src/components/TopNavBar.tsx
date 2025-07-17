@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { SearchBar } from '../utils/SearchBar'
-import { FaArrowLeft, FaBars, FaSearch, FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa'
+import { FaArrowLeft, FaBars, FaPowerOff, FaSearch, FaSignInAlt, FaUser } from 'react-icons/fa'
 import { FaCartShopping } from 'react-icons/fa6'
 import { Username } from '../utils/Username'
 import { useUserContext } from '../contexts/UserContext'
@@ -23,7 +23,7 @@ export const TopNavBar = () => {
     navigate('/login')
   }
   return (
-    <section className='w-full sticky px-1 md:px-4 z-30 top-0 left-0 h-[60px]'> 
+    <section className='w-full sticky px-1 md:px-4 z-30 top-0 left-0 h-[60px] bg-gray-50'> 
       <nav className='mx-3 h-full w-full flex justify-between relative items-center'>
     <a href="">refresh</a>
         <div className="flex h-full items-center gap-4">
@@ -56,7 +56,7 @@ export const TopNavBar = () => {
           
           {user ? (
             
-            <FaSignOutAlt className="mx-1 text-xs md:text-lg " onClick={handleLogout} />
+            <FaPowerOff className="mx-1 text-xs md:text-lg " onClick={handleLogout} />
             
           ) :
           (

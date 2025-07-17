@@ -62,7 +62,7 @@ export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
 export const useUserContext = () => {
     const context = useContext(UserContext)
     if(!context){
-        throw new Error("useNoteContext must be used within a NoteProvider")
+        throw new Error("userContext must be used within a userContextProvider")
     }
     return context;
 }
