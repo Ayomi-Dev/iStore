@@ -3,10 +3,11 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios"; //making HTTP requests to the backend
 import { useSelector } from "react-redux";
 import type { RootState } from "../redux/store";
-import { FaPlus } from "react-icons/fa";
-import { increaseQty, type CartItem } from '../redux/cartSlice'
-import { ConvertToCartItem } from "../utils/ConvertToCartItem";
+import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
+import { increaseQty, decreaseQty, removeItem, type CartItem, clearCart } from '../redux/cartSlice'
+
 import { useDispatch } from "react-redux";
+
 
 const serverURL = import.meta.env.VITE_API_URL;
 if(!serverURL){
@@ -38,12 +39,13 @@ export const Checkout : FC = () => {
 
     
     const createPaymentIntent = async () => {//Asks Stripe to create a payment intent through which the client secret key is return
-        const totalAmount = Math.ceil(cartItems.reduce((sum, item) => sum + item.total * item.quantity, 0)*100)
-        console.log(totalAmount)
+        const total = totalAmount / 100
         //sends a request to the backend server to create a payment intent i.e a clientSecret key
         const { data } = await axios.post(`${serverURL}/orders/create-payment-intent`,  
             {
-                amount : totalAmount
+                total,
+                totalQuantity
+
             },
             {
                 headers: {
@@ -101,6 +103,13 @@ export const Checkout : FC = () => {
 
     const handleIncrease = (product: CartItem ) => {
         dispatch(increaseQty(product))
+        // dispatch(upDateQuantity(product))
+    }
+    const handleDecrease = (product: CartItem) => {
+        dispatch(decreaseQty(product))
+    }
+    const handleRemove = (id: string) => {
+        dispatch(removeItem(id))
     }
 
     return(
@@ -110,8 +119,11 @@ export const Checkout : FC = () => {
           {cartItems.map((item) => (
             <li key={item._id}>
               {item.name} {item.price} x {item.quantity} - ${item.total}
-
-             <FaPlus onClick={() => handleIncrease(item)} />
+            <div className="flex gap-4">
+                <FaMinus className="cursor-pointer" onClick={() => handleDecrease(item)} />
+                <FaPlus  className="cursor-pointer" onClick={() => handleIncrease(item)} />
+                <FaTrash className="cursor-pointer" onClick={() => handleRemove(item._id)} />
+            </div>
             </li>
           ))}
         </ul>
@@ -130,6 +142,8 @@ export const Checkout : FC = () => {
 
 
         {totalAmount} {totalQuantity}
+        {cartItems.length === 0 ? (<p></p>) : <p onClick={()=> dispatch(clearCart())}>Clear cart</p>}
+        
     </div>
     )
 }

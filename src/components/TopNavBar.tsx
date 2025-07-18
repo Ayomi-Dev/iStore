@@ -5,6 +5,8 @@ import { FaCartShopping } from 'react-icons/fa6'
 import { Username } from '../utils/Username'
 import { useUserContext } from '../contexts/UserContext'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import type { RootState } from '../redux/store'
 
 
 
@@ -13,6 +15,7 @@ export const TopNavBar = () => {
   const {user, logout, openSidePanel, sidePanel} = useUserContext()
   const navigate = useNavigate()
   const [toggleSearchBar, setToggleSearchBar] = useState<boolean>(false)
+  const {cartItems} = useSelector((state: RootState) => state.cart)
 
   const displaySearchBar = () => {
     setToggleSearchBar(!toggleSearchBar)
@@ -46,7 +49,7 @@ export const TopNavBar = () => {
           <div className="relative">
             <Link to='/cart' >
               <FaCartShopping className="mx-1 text-xs md:text-lg "/>
-              <span className="top-3 right-0 text-2xl font-bold absolute"></span>
+              <span className="top-3 right-0 text-2xl font-bold absolute">{cartItems.length}</span>
             </Link>
           </div>
 
