@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
 
 
@@ -37,10 +37,16 @@ export const LoginForm = () => {
             )
 
             const userProfile = profileInfo.data
-            console.log('User info', userProfile)
-
+            
             login(token, userProfile)
-            navigate('/profile') //navigates to profile page where user sees their info
+
+            if(userProfile.isAdmin){ //navigates profile page if user is an admin or not
+                navigate('/admin/dashboard')
+            }
+            else{
+                navigate('/profile')
+ 
+            } 
         }
         catch(err: any) {
             console.log(err);
@@ -58,7 +64,7 @@ export const LoginForm = () => {
             <input type="password" name='password' className='block w-full p-2 mb-3 border'  value={password} onChange={(e) => setPassword(e.target.value)} />
             <button className='border p-2 rounded-md' disabled={loading}>{loading ? 'Loggin in...' : 'Login'}</button>
         </form>
-
+        <Link to={`/sign-up`}>Sign Up</Link>
         {error && (
             <p className="text-red-500">{error}</p>
         )}

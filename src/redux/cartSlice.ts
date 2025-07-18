@@ -26,10 +26,13 @@ const cartSlice = createSlice({
     initialState,
 
     reducers: {
-        addItems: (state, action: PayloadAction<CartItem>) => {
-            const cartItem = action.payload
+
+        addItems: (state, action: PayloadAction<CartItem>) => { //includes or adds a selected item to the cart list
+            const cartItem = action.payload  //
+
             const existingCartItem = state.cartItems.find((item) => item._id === cartItem._id)
-            if(!existingCartItem){
+
+            if(!existingCartItem){ //checks if selected item already exists in the cart list
                 state.cartItems.push(cartItem);
 
                 //calculating total number of items in the cart selected by a user
@@ -46,7 +49,7 @@ const cartSlice = createSlice({
 
         },
 
-        removeItem: (state, action: PayloadAction<string>) => {
+        removeItem: (state, action: PayloadAction<string>) => { //removes an item from the cart list
             state.cartItems = state.cartItems.filter(item => item._id !== action.payload);
 
             // recalculates the total quantity of items in the cart 
@@ -56,27 +59,27 @@ const cartSlice = createSlice({
             state.totalAmount = Math.round(state.cartItems.reduce((sum, item) => sum + item.total, 0) * 100) / 100 ;
 
         },
-        increaseQty: (state, action:PayloadAction<CartItem>) => {
-            //finding index of individaul item selected by a user
+
+        increaseQty: (state, action:PayloadAction<CartItem>) => { //increases the quantity of an item as user desires
+            //finds the index of individaul item selected by a user
             const itemIndex = state.cartItems.findIndex(item => item._id === action.payload._id)
 
-            //increasing quantity of the individual item selected by 1
+            //increases the quantity of the an item selected by 1
             state.cartItems[itemIndex].quantity = state.cartItems[itemIndex].quantity + 1
 
-            //calculating the price of the item selected based on the number of quantities
+            //calculates the price of the item selected based on the number of quantities
             state.cartItems[itemIndex].total = Math.round((state.cartItems[itemIndex].quantity * state.cartItems[itemIndex].price) * 100 ) / 100;
 
-            
-
-            //recalculating the total quantities of all items in the cart whenever user increases the quantity of an item
+            //recalculates the total quantities of all items in the cart whenever user increases the quantity of an item
             state.totalQuantity = state.cartItems.reduce((sum, item) => sum + item.quantity, 0)
 
-            //recalculating the total price of all items in the cart whenever user increases the quantity of an item
+            //recalculates the total price of all items in the cart whenever user increases the quantity of an item
             state.totalAmount = Math.round((state.cartItems.reduce((sum, item) => sum + item.total, 0))* 100) / 100 ;
 
            
         },
-        decreaseQty: (state, action:PayloadAction<CartItem>) => {
+
+        decreaseQty: (state, action:PayloadAction<CartItem>) => { //lets user decrease the quantity of an item as often times
             //finding index of individaul item selected by a user
             const itemIndex = state.cartItems.findIndex(item => item._id === action.payload._id)
 
@@ -99,7 +102,7 @@ const cartSlice = createSlice({
         },
 
        
-        clearCart: (state) => {
+        clearCart: (state) => { //empties the cart
             state.cartItems = []
         },
     }

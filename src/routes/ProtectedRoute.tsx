@@ -1,16 +1,16 @@
-import React, { type ReactNode } from 'react'
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useUserContext } from '../contexts/UserContext';
 
-export const ProtectedRoute: React.FC<{children : ReactNode}> = ( { children } ) => {
-    const token = localStorage.getItem('token');
+export const ProtectedRoute = (  ) => {
+    const { user } = useUserContext();
   
     
-    if(!token){
+    if(!user){
         return <Navigate to={`/login`} />
     }
   return (
     <>
-      { children }
+      <Outlet />
     </>
   )
 }

@@ -9,6 +9,9 @@ import { Order } from '../pages/Order'
 import { AnimatePresence } from 'framer-motion'
 import { ProtectedRoute } from './ProtectedRoute'
 import { ProductDetails } from '../pages/ProductDetails'
+import { AdminRoute } from './AdminRoute'
+import { AdminDashboard } from '../pages/AdminDashboard'
+import { CreateProduct } from '../pages/CreateProduct'
 
 
 export const PageRoutes = () => {
@@ -20,34 +23,24 @@ export const PageRoutes = () => {
 
       <Routes location={location} key={location.pathname}>
 
-          <Route path='/' element = { <Home />}></Route>
-          <Route path='/product/:id' element = { <ProductDetails />}></Route>
-          <Route path='/profile' element = 
-          {
-            <ProtectedRoute>
-              <UserProfile /> 
-            </ProtectedRoute>
-          }>
-          </Route>
-          <Route path='/login' element = {<Login />}> </Route>
-          <Route path= '/sign-up' element = { <SignUp />}></Route>
-          <Route path='/products' element = { <ProductsList />}></Route>
-          <Route path='/cart' element = { 
-            
-            <ProtectedRoute>
-              <CartPage />
-            </ProtectedRoute>
-            
-            }>
-          </Route>
+        <Route path='/' element = { <Home />}></Route>
+        <Route path='/product/:id' element = { <ProductDetails />}></Route>
 
+        <Route  element = { <ProtectedRoute />}>
+          <Route path='/profile' element = { <UserProfile />} />
+          <Route path='/cart' element = { <CartPage />} />
+          <Route path='/order' element = { <Order />} />
+        </Route>
+        
+        <Route path='/login' element = {<Login />}> </Route>
+        <Route path= '/sign-up' element = { <SignUp />}></Route>
+        <Route path='/products' element = { <ProductsList />}></Route>
+
+        <Route element={ <AdminRoute />}>
+          <Route path={`/admin/dashboard`} element={ <AdminDashboard />} />
+          <Route path={`/add-new-product`} element={ <CreateProduct />} />
+        </Route>
           
-          <Route path='/order' element = { 
-            <ProtectedRoute>
-              <Order />
-            </ProtectedRoute> 
-          }>
-          </Route>
       </Routes>
 
     </AnimatePresence>

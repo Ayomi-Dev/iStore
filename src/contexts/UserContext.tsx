@@ -1,11 +1,11 @@
 import { useContext, createContext, type ReactNode, useState } from "react";
 
-
 interface User {
     _id: string;
     name: string;
     email: string;
-    message: string
+    message: string;
+    isAdmin: boolean
 }
 
 
@@ -26,6 +26,7 @@ const UserContext = createContext<UserContextType>({
     sidePanel: false,
     openSidePanel: () => {}
 });
+
 
 
 export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
