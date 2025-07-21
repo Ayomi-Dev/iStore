@@ -1,0 +1,47 @@
+import { FaStar } from 'react-icons/fa'
+// import Img from '../assets/product.jpg'
+import { FaCartPlus } from 'react-icons/fa'
+import { useDispatch } from 'react-redux'
+import { addItems, type CartItem } from '../redux/cartSlice'
+import { ConvertToCartItem } from '../utils/ConvertToCartItem'
+import { useSelector } from 'react-redux'
+import {type RootState } from '../redux/store'
+import type{ Products } from '../contexts/ProductsContext'
+
+
+interface ProductProp{
+    product: Products
+}
+
+export const ProductCard: React.FC<ProductProp> = ({product}) => {
+    const dispatch = useDispatch()
+     const  cartItems  = useSelector((state: RootState) => state.cart.cartItems)
+    
+     const handleAddItem = (product: CartItem) => {
+        dispatch(addItems({ ...product, quantity:1}))
+        console.log(cartItems)
+     }
+  return (
+        <div className="flex flex-col gap-4 bg-white shadow-lg rounded-md items-center">
+            <div className="w-[95%] mx-auto h-[150px]">
+                <img src={product.images[1]} alt="" className='w-full h-full rounded-md object-cover' />
+            </div>
+            <div className="text-center px-2">
+                <h1 className='font-bold'>{product.name}</h1>
+                <p className='text-[0.7rem] font-light'>{product.description}</p>
+                <span className='font-semibold'>${product.price}</span>
+                <div className="flex justify-center text-sm text-gray-300">
+                    <FaStar className='text-yellow-300' />
+                    <FaStar className='text-yellow-300' />
+                    <FaStar className='text-yellow-300' />
+                    <FaStar className='text-yellow-300' />
+                    <FaStar  />
+                </div>
+            </div>
+            <div className="w-full flex gap-4 items-center justify-center text-white bg-[#f31b87] py-2 font-semibold rounded-b-md" onClick={() =>handleAddItem(ConvertToCartItem(product))}>
+                <h2>Add To Cart</h2>
+                <FaCartPlus />
+            </div>
+        </div>
+  )
+}
