@@ -103,106 +103,103 @@ export const SignupForm = () => {
 
 
   return (
-    <section className="page">
         
-        <div className="w-full md:w-4/5 mx-auto">
-            <form action="" onSubmit={ handleSignUp } className='mt-4 rounded-sm shadow-md py-4'>
+    <div className="w-full md:w-4/5 mx-auto bg-white">
+        <form action="" onSubmit={ handleSignUp } className='mt-4 rounded-sm shadow-md py-4'>
                 
-                <div className="form-group">
-                    <FaUser className="fa"/>
-                    <input  type="text" name="name" onChange={(e) => {console.log(e.target.value); setName(e.target.value)}} value={name}  />
-                    <label htmlFor="">Username</label>
-                </div>
+            <div className="form-group">
+                <FaUser className="fa"/>
+                <input  type="text" name="name" onChange={(e) => {setName(e.target.value)}} value={name}  />
+                <label htmlFor="">Username</label>
+            </div>
+            
+            <div className="form-group">
+                <FaEnvelope className="fa" />
+                <input required type="email" name="email" onChange={(e) => setEmail(e.target.value)} value={email} />
+                <label htmlFor="">Email</label>
+            </div>
+            <div className="form-group">
+                <FaLock className="fa" />
+                <input required type="password" name="password" onChange={ handlePasswordValidation} 
+                value={password}  />
+                <label htmlFor="">Password</label>
+            </div>
+            <div className="form-group">
+                <FaLock className="fa" />
+                <input required type="password" name="confirmPassword" onChange={(e) => {setConfirmPassword(e.target.value)}}    />
+                <label htmlFor="">Confirm Password</label>
+            </div>
+            <div className="block ml-5 mb-4">
+                <h1 className='text-sm text-gray-500'>Password should contain at least:</h1>
+                <ul className='checks'>
+                    <li className="flex items-center gap-2">
+                        {passwordConditions.length
+                         ? 
+                            (<FaCheck className="text-xs text-green-400"/>)
+                          : 
+                            (<FaCircle className="text-xs text-gray-300"/>)
+                        }
+                        
+                        <span className={`${passwordConditions.length ? "text-green-400" : "text-gray-300"}`}>8 characters in length</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                        {passwordConditions.lowercase
+                         ? 
+                            (<FaCheck className="text-xs text-green-400"/>)
+                          : 
+                            (<FaCircle className="text-xs text-gray-300"/>)
+                        }
+                        
+                        <span className={`${passwordConditions.lowercase ? "text-green-400" : "text-gray-300"}`}>A lowercase letter</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                        {passwordConditions.number
+                         ? 
+                            (<FaCheck className="text-xs text-green-400"/>)
+                          : 
+                            (<FaCircle className="text-xs text-gray-300"/>)
+                        }
+                        
+                        <span className={`${passwordConditions.number ? "text-green-400" : "text-gray-300"}`}>A number</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                        {passwordConditions.specialCase
+                         ? 
+                            (<FaCheck className="text-xs text-green-400"/>)
+                          : 
+                            (<FaCircle className="text-xs text-gray-300"/>)
+                        }
+                        
+                        <span className={`${passwordConditions.specialCase ? "text-green-400" : "text-gray-300"}`}>A special character</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                        {passwordConditions.uppercase
+                         ? 
+                            (<FaCheck className="text-xs text-green-400"/>)
+                          : 
+                            (<FaCircle className="text-xs text-gray-300"/>)
+                        }
+                        
+                        <span className={`${passwordConditions.uppercase ? "text-green-400" : "text-gray-300"}`}>An uppercase letter</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div className="flex flex-col items-center gap-4">
+                <button className='w-[95%] mx-auto cursor-pointer text-white px-4 py-2 rounded-md sm:w-1/2 bg-[#f31b87] hover:bg-green-500 transition duration-500 ease-in-out font-bold ' disabled={loading}>{loading ? 'Signing up...' : 'Sign up'}</button>
+                <p className='text-sm cursor-pointer'>
+                    Already have an account? 
+                    <Link to={`/login`} className="text-green-400 pl-2 hover:text-green-500 font-bold duration-75 cursor-pointer">
+                        Login
+                    </Link>
+                </p>
+            </div>
 
-                
+        </form>
 
-                <div className="form-group">
-                    <FaEnvelope className="fa" />
-                    <input required type="email" name="email" onChange={(e) => setEmail(e.target.value)} value={email} />
-                    <label htmlFor="">Email</label>
-                </div>
+        {errorMessage && <p>{errorMessage}</p>}
+    </div>
 
-                <div className="form-group">
-                    <FaLock className="fa" />
-                    <input required type="password" name="password" onChange={ handlePasswordValidation} 
-                    value={password}  />
-                    <label htmlFor="">Password</label>
-                </div>
-
-                <div className="form-group">
-                    <FaLock className="fa" />
-                    <input required type="password" name="confirmPassword" onChange={(e) => {setConfirmPassword(e.target.value)}}    />
-                    <label htmlFor="">Confirm Password</label>
-                </div>
-
-                <div className="block ml-5 mb-4">
-                    <h1 className='text-sm text-gray-500'>Password should contain at least:</h1>
-
-                    <ul className='checks'>
-                        <li className="flex items-center gap-2">
-                            {passwordConditions.length
-                             ? 
-                                (<FaCheck className="text-xs text-green-400"/>)
-                              : 
-                                (<FaCircle className="text-xs text-gray-300"/>)
-                            }
-                            
-                            <span className={`${passwordConditions.length ? "text-green-400" : "text-gray-300"}`}>8 characters in length</span>
-                        </li>
-                        <li className="flex items-center gap-2">
-                            {passwordConditions.lowercase
-                             ? 
-                                (<FaCheck className="text-xs text-green-400"/>)
-                              : 
-                                (<FaCircle className="text-xs text-gray-300"/>)
-                            }
-                            
-                            <span className={`${passwordConditions.lowercase ? "text-green-400" : "text-gray-300"}`}>A lowercase letter</span>
-                        </li>
-                        <li className="flex items-center gap-2">
-                            {passwordConditions.number
-                             ? 
-                                (<FaCheck className="text-xs text-green-400"/>)
-                              : 
-                                (<FaCircle className="text-xs text-gray-300"/>)
-                            }
-                            
-                            <span className={`${passwordConditions.number ? "text-green-400" : "text-gray-300"}`}>A number</span>
-                        </li>
-                        <li className="flex items-center gap-2">
-                            {passwordConditions.specialCase
-                             ? 
-                                (<FaCheck className="text-xs text-green-400"/>)
-                              : 
-                                (<FaCircle className="text-xs text-gray-300"/>)
-                            }
-                            
-                            <span className={`${passwordConditions.specialCase ? "text-green-400" : "text-gray-300"}`}>A special character</span>
-                        </li>
-                        <li className="flex items-center gap-2">
-                            {passwordConditions.uppercase
-                             ? 
-                                (<FaCheck className="text-xs text-green-400"/>)
-                              : 
-                                (<FaCircle className="text-xs text-gray-300"/>)
-                            }
-                            
-                            <span className={`${passwordConditions.uppercase ? "text-green-400" : "text-gray-300"}`}>An uppercase letter</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div className="flex items-center justify-center">
-                    <button className='m-0 cursor-pointer' disabled={loading}>{loading ? 'Signing up...' : 'Sign up'}</button>
-
-                    <p className='ml-4 text-sm hover:text-pink-500 duration-75 cursor-pointer'>Already have an account? <Link to={`/login`}>Login</Link></p>
-                </div>
-
-            </form>
-
-            {errorMessage && <p>{errorMessage}</p>}
-        </div>
-
-    </section>
+    
   )
 }

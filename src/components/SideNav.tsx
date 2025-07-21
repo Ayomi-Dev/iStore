@@ -21,7 +21,7 @@ export const SideNav = ( ) => {
     <>
       
       <aside className={`${sidePanel ? 'translate-x-0 ' : '-translate-x-full'} active w-[75%] fixed 
-      z-[10] overflow-x-auto min-h-screen px-4 left-0 md:w-[15%] transform transition-transform 
+      z-[10] overflow-x-auto h-full px-4 left-0 md:w-[15%] transform transition-transform 
       duration-300 ease-in-out bg-gray-50`}>
         
         <div className="mx-auto shadow-lg w-28 h-28 mt-4">
@@ -31,7 +31,6 @@ export const SideNav = ( ) => {
         <nav className="w-full py-3">
           <ul className="flex flex-col items-center justify-center mx-auto">
                 
-            
             <li className={`${activePage('/')} w-full items-center p-2  shadow-lg rounded-sm my-2 flex justify-center`}>
               <Link to={`/`}>
                 <div className="flex gap-2 ">
@@ -40,6 +39,7 @@ export const SideNav = ( ) => {
                 </div>
               </Link>
             </li>
+            
             <li className={`${activePage('/products')} w-full items-center p-2  shadow-lg rounded-sm my-2 flex justify-center`}>
               <Link to={`/products`}>
                 <div className="flex gap-2 ">

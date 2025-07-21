@@ -2,6 +2,7 @@ import axios from "axios"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
+import { FaEnvelope, FaLock } from "react-icons/fa";
 
 
 
@@ -58,16 +59,34 @@ export const LoginForm = () => {
        
     }
   return (
-    <>
-        <form action="" onSubmit={loginUser} w-full>
-            <input type="email" name='email' className='block w-full p-2 mb-3 border' value={email} onChange={(e) => setEmail(e.target.value)}/>
-            <input type="password" name='password' className='block w-full p-2 mb-3 border'  value={password} onChange={(e) => setPassword(e.target.value)} />
-            <button className='border p-2 rounded-md' disabled={loading}>{loading ? 'Loggin in...' : 'Login'}</button>
+    <div className='w-[95%] md:w-[60%] shadow-2xl flex flex-col rounded-lg items-center justify-center mx-auto'>
+        <form action="" onSubmit={ loginUser } className='mt-4 py-4 w-full h-[500px]'>
+            <div className="form-group">
+                <FaEnvelope className="fa" />
+                <input required type="email" name="email" onChange={(e) => setEmail(e.target.value)} value={email} />
+                <label htmlFor="">Email</label>
+            </div>
+            <div className="form-group">
+                <FaLock className="fa" />
+                <input required type="password" name="password" onChange={(e) => setPassword(e.target.value)} 
+                value={password}  />
+                <label htmlFor="">Password</label>
+            </div>
+
+            <div className="flex flex-col items-center gap-4">
+                <button className='w-[95%] mx-auto cursor-pointer text-white px-4 py-2 rounded-md sm:w-1/2 bg-[#f31b87] hover:bg-green-500 transition duration-500 ease-in-out font-bold ' disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
+                <p className='text-sm cursor-pointer'>
+                    Don't have an account yet? 
+                    <Link to={`/sign-up`} className="text-green-400 pl-2 hover:text-green-500 font-bold duration-75 cursor-pointer">
+                        Sign Up
+                    </Link>
+                </p>
+            </div>
         </form>
-        <Link to={`/sign-up`}>Sign Up</Link>
+        
         {error && (
             <p className="text-red-500">{error}</p>
         )}
-    </>
+    </div>
   )
 }

@@ -5,6 +5,9 @@ body{
     min-height: 100vh;
     width: 100%;
 }
+::-webkit-scrollbar{
+   display: none;
+}
 aside nav ul li{
     transition: 0.4s all ease-in-out;
 }
@@ -16,7 +19,6 @@ aside nav ul li:hover, nav ul li.active{
     background: #f31b87 ;
     color: #fff;
 }
-
 .form-group{
     position: relative;
     width: 100%;
