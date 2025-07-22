@@ -10,8 +10,9 @@ import { AnimatePresence } from 'framer-motion'
 import { ProtectedRoute } from './ProtectedRoute'
 import { ProductDetails } from '../pages/ProductDetails'
 import { AdminRoute } from './AdminRoute'
-import { AdminDashboard } from '../pages/AdminDashboard'
-import { CreateProduct } from '../pages/CreateProduct'
+import { AdminDashboard } from '../admin/pages/AdminDashboard'
+import { CreateProduct } from '../admin/components/CreateProduct'
+import { AdminProducts } from '../admin/pages/AdminProducts'
 
 
 export const PageRoutes = () => {
@@ -24,7 +25,7 @@ export const PageRoutes = () => {
         <Routes location={location} key={location.pathname}>
     
           <Route path='/' element = { <Home />}></Route>
-          <Route path='/product/:id' element = { <ProductDetails />}></Route>
+          <Route path='/product/:id/details' element = { <ProductDetails />}></Route>
     
           <Route  element = { <ProtectedRoute />}>
             <Route path='/profile' element = { <UserProfile />} />
@@ -38,7 +39,8 @@ export const PageRoutes = () => {
     
           <Route element={ <AdminRoute />}>
             <Route path={`/admin/dashboard`} element={ <AdminDashboard />} />
-            <Route path={`/add-new-product`} element={ <CreateProduct />} />
+            <Route path={`/admin/add-new-product`} element={ <CreateProduct />} />
+            <Route path={`/admin/products`} element={ <AdminProducts />} />
           </Route>
             
         </Routes>

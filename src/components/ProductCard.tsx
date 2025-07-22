@@ -1,12 +1,11 @@
-import { FaStar } from 'react-icons/fa'
+import { FaEdit, FaStar, FaTrash } from 'react-icons/fa'
 // import Img from '../assets/product.jpg'
 import { FaCartPlus } from 'react-icons/fa'
 import { useDispatch } from 'react-redux'
 import { addItems, type CartItem } from '../redux/cartSlice'
 import { ConvertToCartItem } from '../utils/ConvertToCartItem'
-import { useSelector } from 'react-redux'
-import {type RootState } from '../redux/store'
 import type{ Products } from '../contexts/ProductsContext'
+import { useUserContext } from '../contexts/UserContext'
 
 
 interface ProductProp{
@@ -14,17 +13,16 @@ interface ProductProp{
 }
 
 export const ProductCard: React.FC<ProductProp> = ({product}) => {
+    const { user } = useUserContext()
     const dispatch = useDispatch()
-     const  cartItems  = useSelector((state: RootState) => state.cart.cartItems)
     
      const handleAddItem = (product: CartItem) => {
         dispatch(addItems({ ...product, quantity:1}))
-        console.log(cartItems)
      }
   return (
         <div className="flex flex-col gap-4 bg-white shadow-lg rounded-md items-center">
             <div className="w-[95%] mx-auto h-[150px]">
-                <img src={product.images[1]} alt="" className='w-full h-full rounded-md object-cover' />
+                <img src={product.images[0]} alt="" className='w-full h-full rounded-md object-cover' />
             </div>
             <div className="text-center px-2">
                 <h1 className='font-bold'>{product.name}</h1>
@@ -38,9 +36,22 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
                     <FaStar  />
                 </div>
             </div>
-            <div className="w-full flex gap-4 items-center justify-center text-white bg-[#f31b87] py-2 font-semibold rounded-b-md" onClick={() =>handleAddItem(ConvertToCartItem(product))}>
-                <h2>Add To Cart</h2>
-                <FaCartPlus />
+            <div className="w-full">
+                
+                {user?.isAdmin ? 
+                    (
+                        <div className="flex w-full gap-4 items-center justify-center text-white bg-[#f31b87] py-2 font-semibold rounded-b-md">
+                            <FaEdit />
+                            <FaTrash />
+                        </div>
+                    ) :
+                    (
+                        <div className="flex gap-4 items-center justify-center text-white bg-[#f31b87] py-2 font-semibold rounded-b-md" onClick={() =>handleAddItem(ConvertToCartItem(product))}>
+                            <h2>Add To Cart</h2>
+                            <FaCartPlus />
+                        </div>
+                    )
+            }
             </div>
         </div>
   )

@@ -1,11 +1,11 @@
 
-import { Checkout } from '../components/Checkout'
+import { Cart } from '../components/Cart'
 import { PageWrapper } from '../utils/PageWrapper'
 
 export const CartPage = () => {
   return (
     <PageWrapper>
-      <Checkout />
+      <Cart />
     </PageWrapper>
     
   )

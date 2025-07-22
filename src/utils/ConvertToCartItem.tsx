@@ -8,7 +8,8 @@ export const ConvertToCartItem = (product: Products) : CartItem => {
         name: product.name,
         price: product.price,
         quantity: 1,
-        total: product.price
+        total: product.price,
+        images: product.images
     }
   )
 }

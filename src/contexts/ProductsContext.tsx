@@ -8,12 +8,16 @@ export interface Products {
   images: string[];
   _id: string;
   category: string;
+  total: number
+  reviews: string[]
 }
 
 interface ProductContextType {
     allProducts: Products[] | null;
     loading: boolean;
     error: string;
+    setAllProducts: React.Dispatch<React.SetStateAction<Products[]>>;
+    fetchProducts: () => Promise<void>
 }
 
 const ProductContext = createContext<ProductContextType | null>(null)
@@ -23,8 +27,8 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<string>('')
     
-    useEffect(() => { //fetches all products from the database once the app mounts
-      const fetchProducts = async () => {
+
+    const fetchProducts = async () => {
           setLoading(true)
 
         try {
@@ -41,11 +45,12 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
         finally{
             setLoading(false);
         }
-      }  
+      } 
+    useEffect(() => { //fetches all products from the database once the app mounts
       fetchProducts();
     },[])
     
-    const value = { allProducts, loading, error}
+    const value = { allProducts, loading, error, setAllProducts, fetchProducts}
     return (
         <ProductContext.Provider value = { value } >
             { children }

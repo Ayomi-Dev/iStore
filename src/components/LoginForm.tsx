@@ -85,7 +85,7 @@ export const LoginForm = () => {
         </form>
         
         {error && (
-            <p className="text-red-500">{error}</p>
+            <p className="text-red-500">Login Failed. Please check your network</p>
         )}
     </div>
   )

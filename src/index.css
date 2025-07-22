@@ -55,8 +55,8 @@ aside nav ul li:hover, nav ul li.active{
     transition: .3s;
     font-size: .8rem;
 }
-.form-group input:focus ~ label, .form-group textarea:focus ~ label,
-.form-group input:valid ~ label, .form-group textarea:valid ~ label
+.form-group input:focus ~ label, 
+.form-group input:valid ~ label
 {
     top: -6px;
     opacity: 1;
@@ -67,4 +67,9 @@ aside nav ul li:hover, nav ul li.active{
 .form-group input:valid, .form-group textarea:valid
 {
     border-bottom: 1px solid #000000;
+}
+
+.admin .form-group input:focus ~ label, .admin .form-group textarea:focus ~ label,
+.admin .form-group input:valid ~ label, .admin .form-group textarea:valid ~ label{
+    color: blue;
 }
