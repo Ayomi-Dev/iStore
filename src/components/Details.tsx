@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useProductContext } from "../contexts/ProductsContext"
+import { type Products, useProductContext } from "../contexts/ProductsContext"
 import { useEffect, useState } from "react";
 import  { type CartItem, addItems } from "../redux/cartSlice";
 import { useDispatch } from "react-redux";
@@ -11,13 +11,42 @@ import axios from "axios";
 
 
 
-export const Details = () => {
-    const { allProducts, fetchProducts } = useProductContext();
+export const Details = () => { 
+    const { fetchProducts } = useProductContext();
     const { user } = useUserContext()
     const { id } = useParams()
+    const [currentProduct, setCurrentProduct] = useState<Products>()
     const dispatch = useDispatch()
-    const currentProduct = allProducts?.find(product => product._id === id)
+    
+    const [error, setError] = useState<string>("")
     const [quantity, setQuantity] = useState(1);
+
+    
+    const [mainImg, setMainImg] = useState<string>("")
+    const changeImg = (image:string) => {
+        setMainImg(image)
+    }
+
+    const getProduct = async () => { 
+        setError("");
+        try{
+            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/products/${id}`);
+            setCurrentProduct(data);
+            setMainImg(data.images[0])
+            setError("")
+        }
+        catch(error){
+            console.log(error)
+            setError('Sorry, product cannot be found. Kindly refresh page.')
+        }
+    }
+
+    useEffect(()=> { //fetches the selected product whenever the component mounts
+        getProduct();
+        if(currentProduct){
+            setMainImg(currentProduct.images[0])
+        }
+    }, [])
 
     const unitPrice = currentProduct?.price || 0 //extracts the price of the current product
     const [total, setTotal] = useState(unitPrice)
@@ -47,15 +76,12 @@ export const Details = () => {
     }
 
     //displaying individual image on the main image view
-    const [mainImg, setMainImg] = useState(currentProduct?.images[0])
-    const changeImg = (image:string) => {
-        setMainImg(image)
-    }
     
-     useEffect(() => { //automatically updating product price whenever its quantity changes
+    
+     useEffect(() => { //automatically updates product price whenever its quantity changes
        if(currentProduct){
            setTotal (currentProduct?.price * quantity) 
-       }
+        }
         
     }, [quantity, currentProduct]);
     
@@ -100,13 +126,20 @@ export const Details = () => {
             (
                 <div className="w-full">
 
-                    <div className="flex flex-col md:flex-row py-3 gap-2 items-center mx-auto h-screen shadow-lg rounded-sm bg-white mt-4 w-11/12">
+                    <div className="flex flex-col md:flex-row py-3 gap-2 items-center mx-auto shadow-lg rounded-sm bg-white mt-4 w-11/12">
                         <div className="flex-1 h-full">
                             <div className="w-[500px] mx-auto h-[500px]">
-                                <img src={mainImg} className='rounded-md w-full object-cover h-full' alt="" />
+                                {mainImg ? (
+                                    <img src={mainImg} className='rounded-md w-full object-cover h-full' alt="" />
+
+                                ) :
+                                (
+                                    <div className="h-64 w-64 bg-gray-100 animate-pulse" />
+                                )
+                                }
                             </div>
 
-                            <div className="w-[500px] mx-auto my-5 h-20">
+                            <div className="w-[500px] items-center justify-center flex mx-auto my-5 h-20">
                                 {currentProduct?.images.map((image, index) => 
                                     {
                                         return(
@@ -192,7 +225,7 @@ export const Details = () => {
                                 {currentProduct.reviews.map((review, index) => {
                                     return(
                                         <li key={index} className="block my-2">
-                                            <h1 className="font-bold"><span className="text-pink-600">{user?.name}</span> {review.date}</h1>
+                                            <h1 className="font-bold"><span className="text-pink-600">{}</span>{review.userName} {review.date}</h1>
                                             <p>{review.review}</p>
                                         </li>
                                     )
@@ -214,6 +247,11 @@ export const Details = () => {
 
             )
         }
+        {error && (
+            <div className="flex items-center mx-auto justify-center w-[500px] text-black h-[500px] text-2xl font-bold">
+                <h2>{error}</h2>
+            </div>
+        )}
     </div>
   )
 }

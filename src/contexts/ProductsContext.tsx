@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState, type ReactNode }
 import axios from 'axios';
 
 export interface Review {
+    userName: string
     review: string;
     date: string
 }
