@@ -1,6 +1,10 @@
 import React, { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import axios from 'axios';
 
+export interface Review {
+    review: string;
+    date: string
+}
 export interface Products {
   name: string;
   price: number;
@@ -8,8 +12,9 @@ export interface Products {
   images: string[];
   _id: string;
   category: string;
-  total: number
-  reviews: string[]
+  total: number;
+  reviews: Review[];
+  numReviews: number;
 }
 
 interface ProductContextType {

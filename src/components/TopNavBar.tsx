@@ -75,11 +75,15 @@ export const TopNavBar = () => {
                 </Link>
               </div>
               ) :
-              (
-                <Link to='/cart' >
-                  <FaCartShopping className="mx-1 text-xs md:text-lg " title='go to cart'/>
-                  <span className="top-3 right-0 text-2xl font-bold absolute">{cartItems.length}</span>
+              (<div className="relative flex gap-2">
+                 <Link to={'/products'}>
+                  <FaShopify className="mx-1 text-xs md:text-lg " title='see all products'/>
                 </Link>
+                <Link to='/cart'>
+                  <FaCartShopping className="mx-1 text-xs md:text-lg " title='go to cart'/>
+                  <span className="top-[-20px] right-[0] text-2xl font-bold text-pink-600 absolute">{cartItems.length == 0 ? '' : cartItems.length}</span>
+                </Link>
+              </div>
               )
             }
           </div>

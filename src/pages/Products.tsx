@@ -12,7 +12,7 @@ export const ProductsList = () => {
   return (
     <PageWrapper>
       
-      <div className="grid grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))] gap-4 p-3 md:p-0">
+      <div className="grid grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))] gap-4 p-2 md:p-0">
         {allProducts?.map((product) => {
           return( 
               <ProductCard key={product._id} product={product} />

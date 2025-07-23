@@ -12,7 +12,7 @@ export const PageWrapper = ({children}: {children: ReactNode}) => {
 
   return (
     <motion.section
-      className={`${sidePanel ? 'md:w-[85%] md:left-[15%] md:mx-0 ' : 'left-0 w-full mx-auto'} min-h-screen top-[40px] md:top-0 px-2 relative`}
+      className={`${sidePanel ? 'md:w-[85%] md:left-[15%] md:mx-0 ' : 'left-0 w-[97%] mx-auto'} min-h-screen  md:top-[10px] px-2 relative`}
       initial="hidden"
       animate="enter"
       exit="exit" 
