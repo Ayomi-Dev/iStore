@@ -21,7 +21,6 @@ export const Details = () => {
     const [error, setError] = useState<string>("")
     const [quantity, setQuantity] = useState(1);
 
-    
     const [mainImg, setMainImg] = useState<string>("")
     const changeImg = (image:string) => {
         setMainImg(image)
@@ -58,26 +57,21 @@ export const Details = () => {
         setTab(tabbName)
     }
 
-
     const handleIncrease = ( ) => {//increases product quantity by 1
         setQuantity(quantity + 1)
     }
-
 
     //decreasing product quantity by 1 on every click
     const handleDecrease = ( ) => {
         setQuantity(Math.max(1, quantity - 1))//minimum value of product quantity must be 1
     }
 
-    
     //adding selected item by userName to the cart list
     const addItemToCart = (product: CartItem) => {
         dispatch(addItems({ ...product, quantity, total }))        
     }
 
     //displaying individual image on the main image view
-    
-    
      useEffect(() => { //automatically updates product price whenever its quantity changes
        if(currentProduct){
            setTotal (currentProduct?.price * quantity) 
@@ -85,7 +79,6 @@ export const Details = () => {
         
     }, [quantity, currentProduct]);
     
-
     const [review, setReview] = useState<string>('');
 
     const handleReview = async (e:React.FormEvent) => {
