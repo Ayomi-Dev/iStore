@@ -1,4 +1,4 @@
-import { useContext, createContext, type ReactNode, useState } from "react";
+import { useContext, createContext, type ReactNode, useState, useEffect } from "react";
 
 interface User {
     _id: string;
@@ -8,7 +8,6 @@ interface User {
     isAdmin: boolean
 }
 
-
 interface UserContextType {
     user: User | null;
     login: (token: string, user: User) => void;
@@ -16,6 +15,7 @@ interface UserContextType {
     token: string | null;
     sidePanel: boolean;
     openSidePanel: () => void
+    isLoading: boolean
 }
 
 const UserContext = createContext<UserContextType>({
@@ -24,21 +24,57 @@ const UserContext = createContext<UserContextType>({
     logout: () => {},
     token: null,
     sidePanel: false,
-    openSidePanel: () => {}
+    openSidePanel: () => {},
+    isLoading: true
 });
-
-
 
 export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null)
     const [sidePanel, setSidePanel] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState(true)
 
+    useEffect(() => {
+        const userToken = localStorage.getItem('token')
+        const storedUser = localStorage.getItem('userProfile');
+
+        if(userToken){
+            setToken(userToken)
+            
+            if(storedUser){
+                setUser(JSON.parse(storedUser))
+            }
+            else{
+                const jwtUser = parseJwt(userToken);
+                if(jwtUser){
+                    setUser({
+                        _id: jwtUser._id,
+                        name: "",
+                        email: jwtUser.email,
+                        message: "",
+                        isAdmin: jwtUser.isAdmin,
+                    });
+                }
+            }
+        }
+        setIsLoading(false)
+    }, [])
+
+    const parseJwt = (token: string): User | null => { //a helper function to help decode a JWT i.e extract the info attached to the token
+        try {
+            return JSON.parse(atob(token.split(".")[1]))
+        } catch (error) {
+            console.log(error)
+            return null
+        }
+    }
     const login = (newToken: string, newUser: User) => {
         localStorage.setItem('token', newToken);
         localStorage.setItem("userProfile", JSON.stringify(newUser));
         setToken(newToken);
         setUser(newUser);
+        
+        
     }
 
     const logout = () => {
@@ -47,12 +83,12 @@ export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
         setToken(null);
         setUser(null)
     }
-
     const openSidePanel = () => {
         setSidePanel(!sidePanel)
     }
 
-    const value = {user, token, login, logout, sidePanel, openSidePanel}
+
+    const value = {user, token, login, logout, sidePanel, openSidePanel, isLoading}
     return(
         <UserContext.Provider value = { value }>
             { children }

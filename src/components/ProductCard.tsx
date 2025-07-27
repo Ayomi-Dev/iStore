@@ -7,6 +7,7 @@ import { ConvertToCartItem } from '../utils/ConvertToCartItem'
 import type{ Products } from '../contexts/ProductsContext'
 import { useUserContext } from '../contexts/UserContext'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 
 interface ProductProp{
@@ -20,7 +21,19 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
      const handleAddItem = (product: CartItem) => {
         dispatch(addItems({ ...product, quantity:1}))
      }
-
+    
+    const deleteProduct = async (id: string) => {
+        try {
+          await axios.delete(`${import.meta.env.VITE_API_URL}/products/${id}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          })  
+        } 
+        catch (error) {
+            console.log(error)
+        }
+    }
 
   return (
         <div className="flex flex-col overflow-hidden gap-4 bg-white shadow-lg rounded-md items-center">
@@ -48,7 +61,7 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
                     (
                         <div className="flex w-full gap-4 items-center justify-center text-white bg-[#f31b87] py-2 font-semibold rounded-b-md">
                             <FaEdit />
-                            <FaTrash />
+                            <FaTrash onClick={() => deleteProduct(product._id)} />
                         </div>
                     ) :
                     (

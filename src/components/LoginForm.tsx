@@ -46,8 +46,8 @@ export const LoginForm = () => {
             }
             else{
                 navigate('/profile')
- 
             } 
+            
         }
         catch(err: any) {
             console.log(err);
@@ -56,7 +56,8 @@ export const LoginForm = () => {
         finally{
             setLoading(false)
         }
-       
+       setEmail("")
+        setPassword("")
     }
   return (
     <div className='w-[95%] md:w-[60%] shadow-2xl flex flex-col rounded-lg items-center justify-center mx-auto'>

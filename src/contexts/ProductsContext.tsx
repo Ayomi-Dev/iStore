@@ -19,23 +19,29 @@ export interface Products {
 }
 
 interface ProductContextType {
-    allProducts: Products[] | null;
+    allProducts: Products[];
     loading: boolean;
     error: string;
     setAllProducts: React.Dispatch<React.SetStateAction<Products[]>>;
-    fetchProducts: () => Promise<void>
+    fetchProducts: () => Promise<void>;
+    getProductsByCategory: (category: string) => Products[];
+    filterByCategories: (category: string) => Products[];
+    filteredProducts: Products[];
+    setFilteredProducts: React.Dispatch<React.SetStateAction<Products[]>>
 }
 
-const ProductContext = createContext<ProductContextType | null>(null)
+const ProductContext = createContext<ProductContextType | null>(null) 
 
 export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { children } ) => {
     const [allProducts, setAllProducts] = useState<Products[]>([])
     const [loading, setLoading] = useState<boolean>(false)
-    const [error, setError] = useState<string>('')
+    const [error, setError] = useState<string>('');
+    const [filteredProducts, setFilteredProducts] = useState<Products[]>([])
+    
     
 
     const fetchProducts = async () => {
-          setLoading(true)
+        setLoading(true)
 
         try {
            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/products`) 
@@ -54,15 +60,44 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
       } 
     useEffect(() => { //fetches all products from the database once the app mounts
       fetchProducts();
-    },[])
+    },[]);
+
+    const getProductsByCategory = (category: string) => {
+        const filteredProducts = allProducts.filter(product => product.category.trim().toLowerCase() === category.trim().toLowerCase());
+
+        const shuffleProducts = [...filteredProducts].sort(() => Math.random() - 0.5);
+
+        const selectedProducts = shuffleProducts.slice(0,3);
+
+        return selectedProducts
+    }
     
-    const value = { allProducts, loading, error, setAllProducts, fetchProducts}
+    const filterByCategories = (category: string) => { //returns products with specific category slected by a user
+        
+        const filteredProductsArr = allProducts.filter(product => {
+            if(category === "all"){
+                return product
+            }
+            if(product.category.trim().toLowerCase() === category.trim().toLowerCase()){
+                return product.category === category
+            }
+        })
+        
+        setFilteredProducts(filteredProductsArr);
+
+        return filteredProductsArr;
+    }
+
+    
+    
+    const value = { allProducts, loading, error, setAllProducts, fetchProducts, getProductsByCategory, filterByCategories, setFilteredProducts, filteredProducts}
     return (
         <ProductContext.Provider value = { value } >
             { children }
         </ProductContext.Provider>
     )
 }
+
 export const useProductContext = () => {
     const context = useContext(ProductContext);
     if(!context){

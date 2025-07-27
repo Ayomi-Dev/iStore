@@ -4,7 +4,8 @@ import { useProductContext } from '../../contexts/ProductsContext'
 
 export const RandomProducts = () => {
     const { allProducts } = useProductContext()
-    const [randomProducts, setRandomProducts] = useState(allProducts)
+    const [randomProducts, setRandomProducts] = useState(allProducts);
+    
     const getRandomProducts = () => {
         const categoryMap: Record<string, any[]> = {}
 

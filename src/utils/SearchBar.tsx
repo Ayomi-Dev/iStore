@@ -32,8 +32,8 @@ export const SearchBar: React.FC<SearchBarProp> = ({toggleSearchBar, displaySear
             } }
         />
         <FaSearch className="mr-3" onClick={() => {
-          handleInputField()
-          displaySearchBar()
+          handleInputField();
+          displaySearchBar();
           }} />
     </div>
   )
