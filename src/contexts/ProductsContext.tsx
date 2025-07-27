@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import axios from 'axios';
 
+
 export interface Review {
     userName: string
     review: string;
@@ -25,9 +26,10 @@ interface ProductContextType {
     setAllProducts: React.Dispatch<React.SetStateAction<Products[]>>;
     fetchProducts: () => Promise<void>;
     getProductsByCategory: (category: string) => Products[];
-    filterByCategories: (category: string) => Products[];
+    
     filteredProducts: Products[];
     setFilteredProducts: React.Dispatch<React.SetStateAction<Products[]>>
+    filterProducts: (filters: {name?:string, category?:string, sortBy?:string, page?:number, limit?:number}) => {}
 }
 
 const ProductContext = createContext<ProductContextType | null>(null) 
@@ -72,25 +74,33 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
         return selectedProducts
     }
     
-    const filterByCategories = (category: string) => { //returns products with specific category slected by a user
-        
-        const filteredProductsArr = allProducts.filter(product => {
-            if(category === "all"){
-                return product
-            }
-            if(product.category.trim().toLowerCase() === category.trim().toLowerCase()){
-                return product.category === category
-            }
-        })
-        
-        setFilteredProducts(filteredProductsArr);
+    
 
-        return filteredProductsArr;
+    const filterProducts = async (filters: {name?:string, category?:string, sortBy?:string, page?:number, limit?:number}) => {
+        setLoading(true);
+
+        try {
+            const searchParams = new URLSearchParams();
+            for(const key in filters){
+                const value = filters[key as keyof typeof filters];
+                if(value !== undefined && value !== '' ) searchParams.append(key, value.toString());
+            }
+            console.log(searchParams.toString())
+            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/products?${searchParams.toString()}`);
+            setFilteredProducts( data )
+        } 
+        catch (error) {
+            console.error(error);
+            setError("Can't filter products, try again!")
+        }
+        finally{
+            setLoading(false)
+        }
     }
 
     
     
-    const value = { allProducts, loading, error, setAllProducts, fetchProducts, getProductsByCategory, filterByCategories, setFilteredProducts, filteredProducts}
+    const value = { allProducts, loading, error, setAllProducts, fetchProducts, getProductsByCategory, setFilteredProducts, filteredProducts, filterProducts}
     return (
         <ProductContext.Provider value = { value } >
             { children }
