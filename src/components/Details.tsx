@@ -32,6 +32,7 @@ export const Details = () => {
             const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/products/${id}`);
             setCurrentProduct(data);
             setMainImg(data.images[0])
+            console.log(data.brand)
             setError("")
         }
         catch(error){
@@ -146,6 +147,7 @@ export const Details = () => {
 
                         <div className="flex-col w-2/5 gap-4 justify-center md:justify-start">
                             <h1 className='mb-4 font-bold md:text-2xl'>{currentProduct?.name}</h1>
+                            <h3 className='mb-4 font-semibold md:text-2xl'>{currentProduct?.brand}</h3>
                             <div className="flex items-center gap-2 mb-3">
                                 <FaStar className="text-orange-300" />
                                 <FaStar className="text-orange-300" />

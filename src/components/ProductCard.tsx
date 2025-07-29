@@ -61,7 +61,9 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
                 {user?.isAdmin ? 
                     (
                         <div className="flex w-full gap-4 items-center justify-center text-white bg-[#f31b87] py-2 font-semibold rounded-b-md">
-                            <FaEdit className='cursor-pointer hover:scale-105' />
+                            <Link to={`/admin/products/edit/${product._id}`}>
+                                <FaEdit className='cursor-pointer hover:scale-105' />
+                            </Link>
                             <FaTrash onClick={() => deleteProduct(product._id)} className='cursor-pointer hover:scale-105' />
                         </div>
                     ) :

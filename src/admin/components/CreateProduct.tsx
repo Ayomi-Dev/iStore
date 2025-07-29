@@ -60,7 +60,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError("")
 
         try{
-            const   uploadedImageUrls = await uploadImages(imageFiles)  //assigns the list of urls to the imageUrl variable
+            const  uploadedImageUrls = await uploadImages(imageFiles)  //assigns the list of urls to the imageUrl variable
             
             const productToSend = {...product, images: uploadedImageUrls} //spreads out the product object and assigns the imageUrls as the value of its images property
             
@@ -91,7 +91,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
    }
   return (
     <div className="w-full flex justify-center flex-col md:flex-row md:w-4/5 mx-auto bg-white admin">
-        <form onSubmit={addNewProduct} className="flex flex-1 flex-col gap-4 mx-auto p-4">
+        <form onSubmit={addNewProduct} className="flex w-full md:flex-1 flex-col gap-4 mx-auto p-4">
           <div className="form-group">
             <FaProductHunt className="fa"/>
             <input name="name"  onChange={handleChange} required />
@@ -114,9 +114,12 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             <label htmlFor="">Category</label>
           </div>
           <div className="form-group">
-            {/* <FaArtstation className="fa"/> */}
+            <FaCalendarTimes className="fa"/>
+            <input name="brand" onChange={handleChange} />
+            <label htmlFor="">Brand</label>
+          </div>
+          <div className="form-group">
             <textarea name="description" placeholder='Description...' className='border' onChange={handleChange} />
-            {/* <label htmlFor="">Description</label> */}
           </div>
           <div className="form-group">
             <FaImage className="fa"/>

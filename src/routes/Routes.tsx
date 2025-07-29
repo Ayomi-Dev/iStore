@@ -13,6 +13,7 @@ import { AdminRoute } from './AdminRoute'
 import { AdminDashboard } from '../admin/pages/AdminDashboard'
 import { CreateProduct } from '../admin/components/CreateProduct'
 import { AdminProducts } from '../admin/pages/AdminProducts'
+import { EditProduct } from '../admin/pages/EditProduct'
 
 
 export const PageRoutes = () => {
@@ -41,6 +42,7 @@ export const PageRoutes = () => {
             <Route path={`/admin/dashboard`} element={ <AdminDashboard />} />
             <Route path={`/admin/add-new-product`} element={ <CreateProduct />} />
             <Route path={`/admin/products`} element={ <AdminProducts />} />
+            <Route path={`/admin/products/edit/:id`} element={ <EditProduct />} />
           </Route>
             
         </Routes>
