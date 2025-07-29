@@ -136,7 +136,7 @@ export const Details = () => {
                                 {currentProduct?.images.map((image, index) => 
                                     {
                                         return(
-                                            <img src={image} key={index} onClick={() => changeImg(image)} className="cursor-pointer hover:transform hover:scale-[1.2] transition-[0.6s] ease-in-out  rounded-sm shadow-lg w-20 inline-block mx-2"></img>
+                                            <img src={image} key={index} onClick={() => changeImg(image)} className="cursor-pointer hover:transform hover:scale-[1.1] transition-[0.6s] ease-in-out h-full rounded-sm shadow-lg w-20 inline-block mx-2"></img>
                                         )
                                     })
                             

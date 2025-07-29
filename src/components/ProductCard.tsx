@@ -28,7 +28,8 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
-          })  
+          })
+            window.location.reload()
         } 
         catch (error) {
             console.log(error)
@@ -36,10 +37,10 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
     }
 
   return (
-        <div className="flex flex-col overflow-hidden gap-4 bg-white shadow-lg rounded-md items-center">
+        <div className="flex flex-col overflow-hidden gap-4 bg-white hover:scale-105 ease-in-out transition-all duration-300 shadow-lg rounded-md items-center">
             <Link to={`/product/${product._id}/details`}>
 
-                <div className="w-full mx-auto min-h-[150px]">
+                <div className="w-full py-3 h-[150px]">
                     <img src={product.images[0]} alt="" className='w-full h-full rounded-md object-cover' />
                 </div>
                 <div className="text-center p-2">
@@ -60,8 +61,8 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
                 {user?.isAdmin ? 
                     (
                         <div className="flex w-full gap-4 items-center justify-center text-white bg-[#f31b87] py-2 font-semibold rounded-b-md">
-                            <FaEdit />
-                            <FaTrash onClick={() => deleteProduct(product._id)} />
+                            <FaEdit className='cursor-pointer hover:scale-105' />
+                            <FaTrash onClick={() => deleteProduct(product._id)} className='cursor-pointer hover:scale-105' />
                         </div>
                     ) :
                     (

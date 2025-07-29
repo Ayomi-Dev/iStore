@@ -1,12 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { SearchBar } from '../utils/SearchBar'
-import { FaArrowLeft, FaBars, FaHome, FaPlusCircle, FaPowerOff, FaSearch, FaShopify, FaSignInAlt, FaUser } from 'react-icons/fa'
+import { FaArrowLeft, FaBars, FaHome, FaPlusCircle, FaPowerOff, FaShopify, FaSignInAlt, FaUser } from 'react-icons/fa'
 import { FaCartShopping } from 'react-icons/fa6'
 import { Username } from '../utils/Username'
 import { useUserContext } from '../contexts/UserContext'
-import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { RootState } from '../redux/store'
+import { FilterNav } from '../utils/FilterNav'
 
 
 
@@ -14,21 +13,18 @@ import type { RootState } from '../redux/store'
 export const TopNavBar = () => {
   const {user, logout, openSidePanel, sidePanel} = useUserContext()
   const navigate = useNavigate()
-  const [toggleSearchBar, setToggleSearchBar] = useState<boolean>(false)
   const {cartItems} = useSelector((state: RootState) => state.cart)
 
-  const displaySearchBar = () => {
-    setToggleSearchBar(!toggleSearchBar)
-  }
+  
 
   const handleLogout = () => {
     logout()
     navigate('/login')
   }
   return (
-    <section className='w-full sticky px-1 md:px-4 z-30 top-0 left-0 h-[60px] bg-gray-50'> 
-      <nav className='mx-3 h-full w-full flex justify-between relative items-center'>
-
+    <section className='w-full flex-col flex items-center justify-center sticky px-1 md:px-4 z-90 top-0 left-0 h-[120px] bg-gray-50'> 
+      <nav className='mx-3 py-3 w-full flex justify-between relativeitems-center'>
+    {/* <a href="">Reload</a> */}
         <div className="flex h-full items-center gap-4">
           {user?.isAdmin 
           ?
@@ -59,10 +55,10 @@ export const TopNavBar = () => {
 
         <Username  />
         
-        <SearchBar toggleSearchBar={toggleSearchBar} displaySearchBar={displaySearchBar} />
+        {/* <SearchBar toggleSearchBar={toggleSearchBar} displaySearchBar={displaySearchBar} /> */}
         
         <div className="h-full relative flex gap-2 items-center">
-          <FaSearch className="block md:hidden mx-1 text-xs md:text-lg" onClick={displaySearchBar} />
+          {/* <FaSearch className="block md:hidden mx-1 text-xs md:text-lg" onClick={displaySearchBar} /> */}
           <div className="relative">
             {user?.isAdmin ? 
               ( <div className="flex">
@@ -111,6 +107,7 @@ export const TopNavBar = () => {
 
         </div>
       </nav>
+      <FilterNav />
     </section>
   )
 }

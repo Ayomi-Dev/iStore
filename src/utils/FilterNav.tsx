@@ -1,60 +1,165 @@
 import { useEffect, useState } from "react";
-import { useProductContext} from "../contexts/ProductsContext"
+import { useProductContext } from "../contexts/ProductsContext";
+import { FaFilter, FaTimes } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-import { FaSearch } from "react-icons/fa";
+export const FilterNav = () => {
+  const { allProducts, filterProducts, fetchProducts } = useProductContext();
+  const [filterValue, setFilterValue] = useState<string>("");
+  const [showFilters, setShowFilters] = useState<boolean>(false);
+  const [price, setPrice] = useState({ min: "", max: "" });
+  const [selectedRating, setSelectedRating] = useState<number | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all")
 
-export const FilterNav = ()  =>  {
-    const { allProducts, filterProducts, fetchProducts } = useProductContext();
-    const [filterValue, setFilterValue] = useState<string>("");
-    const categories = Array.from(new Set(allProducts.map(product => product.category )))
+  const categories = Array.from(new Set(allProducts.map((product) => product.category)));
+  const brands = Array.from(new Set(allProducts.map((p) => p.brand))).filter(Boolean);
 
-    useEffect(() => {
-        const delayDebounce = setTimeout(() => {
-          const trimmed = filterValue.trim();
+  const navigate = useNavigate();
 
-          if (trimmed.length > 0) {
-            filterProducts({ name: trimmed });
-          } else {
-            fetchProducts(); // fallback to all products
-          }
-        }, 400); // debounce time
-        
-        return () => clearTimeout(delayDebounce);
-    }, [filterValue]);
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      const trimmed = filterValue.trim();
+      if (trimmed.length > 0) {
+        filterProducts({ name: trimmed });
+      } else {
+        fetchProducts(); // fallback
+      }
+    }, 400);
+    return () => clearTimeout(delayDebounce);
+  }, [filterValue]);
 
+  const handleCategory = (category: string) => {
+    const selected = category === "all" ? undefined : category;
+    filterProducts({ category: selected });
+    console.log(selectedCategory)
+    setSelectedCategory(selected || 'all')
+    navigate("/products");
+    // setShowFilters(false);
+  };
 
-    const handleCategory = (category: string) => {
-        const selectedCategory = category === "all" ? undefined : category;
-        filterProducts({category: selectedCategory})
-    }
-   
-    
-  return (  
-    <div className="bg-white flex justify-between mb-2 items-center h-[80px] w-full fixed top-[60px] left-0 z-[70]">
-        <div className="w-[40%] ">
-            <input type="text" className="outline-none rounded-md border w-full" value={filterValue}
-                onChange = {(e) => setFilterValue(e.target.value)}
-            />
-            <FaSearch />
+  const applyFilters = () => {
+    filterProducts({
+      name: filterValue.trim(),
+      category: selectedCategory,
+      min: price.min, 
+      max: price.max,
+      rating: selectedRating?.toString(),
+    });
+    setShowFilters(false);
+  };
+
+  const clearFilters = () => {
+    setFilterValue("");
+    setPrice({ min: "", max: "" });
+    setSelectedRating(null);
+    setSelectedCategory("all");
+    fetchProducts();
+    setShowFilters(false);
+  };
+
+  return (
+    <div className={`w-full relative px-1 py-3 bg-inherit ${showFilters ? 'md:top-[80px] top-[200px]' : 'top-0'}`}>
+      <div className="flex items-center rounded-md shadow-md w-full px-1 gap-2">
+        <input
+          type="text"
+          className="w-full px-3 py-2 outline-none"
+          placeholder="Search products..."
+          value={filterValue}
+          onChange={(e) => setFilterValue(e.target.value)}
+        />
+        <button onClick={() => setShowFilters(!showFilters)}>
+          <FaFilter className="text-pink-500 cursor-pointer"  />
+        </button>
+      </div>
+     
+
+      {showFilters && (
+        <div className="top-4 rounded-md p-4 grid place-content-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Category */}
+          <div>
+            <label className="font-semibold text-sm">Category</label>
+            <ul className="mt-2 space-y-1">
+              <li onClick={() => handleCategory("all")} className={` cursor-pointer text-sm hover:text-pink-600`}>All Products</li>
+              {categories.map((category, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleCategory(category)}
+                  className={`${selectedCategory === category ? 'font-bold text-pink-600' : ''} cursor-pointer text-sm hover:text-pink-600`}
+                >
+                  {category}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Price */}
+          <div>
+            <label className="font-semibold text-sm">Price Range</label>
+            <div className="flex items-center gap-2 mt-2">
+              <input
+                type="number"
+                placeholder="Min"
+                value={price.min}
+                onChange={(e) => setPrice({ ...price, min: e.target.value })}
+                className="w-[80px] px-2 py-1 border rounded"
+              />
+              <span>—</span>
+              <input
+                type="number"
+                placeholder="Max"
+                value={price.max}
+                onChange={(e) => setPrice({ ...price, max: e.target.value })}
+                className="w-[80px] px-2 py-1 border rounded"
+              />
+            </div>
+          </div>
+
+          {/* Ratings */}
+          <div>
+            <label className="font-semibold text-sm">Rating</label>
+            <ul className="mt-2 space-y-1 text-sm">
+              {[4, 3, 2, 1].map((r) => (
+                <li
+                  key={r}
+                  onClick={() => setSelectedRating(r)}
+                  className={`cursor-pointer flex items-center gap-1 ${selectedRating === r ? "text-pink-600 font-semibold" : "hover:text-pink-600"}`}
+                >
+                  {"★".repeat(r)} & up
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Brand (optional) */}
+          {brands.length > 0 && (
+            <div>
+              <label className="font-semibold text-sm">Brand</label>
+              <ul className="mt-2 space-y-1 text-sm">
+                {brands.map((brand, i) => (
+                  <li key={i} className="cursor-pointer hover:text-pink-600">{brand}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
-        <ul className="flex gap-4 w-[50%] h-full overflow-x-auto">
-            <li className="bg-white active:text-pink-500 hover:text-pink-500 transition-[.7s] ease-in-out  w-[20%] h-full  text-sm cursor-pointer  inline-block rounded-[20px]"
-                onClick={() => handleCategory("all")}
-            >
-                <div className="flex justify-center h-full items-center">All Categories</div>
-            </li>
-            {categories.map((category, index) => {
-                return(
-                    <li key={index} className="bg-white w-[20%] h-full text-center text-sm transition-[0.7s] ease-in-out  cursor-pointer inline-block rounded-[20px]"
-                        onClick={() => handleCategory(category)}
-                    >
-                        <div className="flex h-full justify-center items-center">
-                            <span className="hover:text-pink-500">{category}</span>
-                        </div>
-                    </li>
-                )
-            })}
-        </ul>
+      )}
+
+      {showFilters && (
+        <div className="flex gap-4 mt-4 justify-end">
+          <button
+            onClick={clearFilters}
+            className="text-sm px-4 py-2 border rounded-md hover:bg-red-100"
+          >
+            <FaTimes className="inline mr-1" /> Clear
+          </button>
+          <button
+            onClick={applyFilters}
+            className="text-sm px-4 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600"
+          >
+            Apply Filters
+          </button>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};

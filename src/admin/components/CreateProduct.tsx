@@ -125,7 +125,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded" disabled={loading}>{loading? 'Adding new product...' :'Create Product'}</button>
         </form>
         {imagePreviewUrls.length > 0 && (
-          <div className="flex gap-2 flex-wrap h-[200px] mt-2">
+          <div className="flex gap-2 flex-col h-[200px] mt-2">
             {imagePreviewUrls.map((url, index) => (
             <img key={index} src={url} alt="preview" className="w-24 h-24 object-cover rounded" />
             ))}

@@ -5,16 +5,8 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../redux/store";
 import { FaArrowCircleLeft, FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 import { increaseQty, decreaseQty, removeItem, type CartItem, clearCart } from '../redux/cartSlice'
-
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-
-
-const serverURL = import.meta.env.VITE_API_URL;
-if(!serverURL){
-    throw new Error('backend url is not defined')
-}
-
 
 
 
@@ -38,13 +30,11 @@ export const Cart : FC = () => {
 
     
     const createPaymentIntent = async () => {//Asks Stripe to create a payment intent through which the client secret key is return
-        const total = totalAmount / 100
+        
         //sends a request to the backend server to create a payment intent i.e a clientSecret key
-        const { data } = await axios.post(`${serverURL}/orders/create-payment-intent`,  
+        const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/orders/create-payment-intent`,  
             {
-                total,
-                totalQuantity
-
+              totalAmount
             },
             {
                 headers: {
@@ -76,7 +66,7 @@ export const Cart : FC = () => {
 
         if(result.paymentIntent.status === "succeeded"){
             //creates the order and its details in the database
-            await axios.post(`${serverURL}/orders/`, 
+            await axios.post(`${import.meta.env.VITE_API_URL}/orders/`, 
                 {
                     orderItems: formatedItems,
                     totalAmount: result.paymentIntent.amount,
@@ -102,7 +92,6 @@ export const Cart : FC = () => {
 
     const handleIncrease = (product: CartItem ) => {
         dispatch(increaseQty(product))
-        // dispatch(upDateQuantity(product))
     }
     const handleDecrease = (product: CartItem) => {
         dispatch(decreaseQty(product))

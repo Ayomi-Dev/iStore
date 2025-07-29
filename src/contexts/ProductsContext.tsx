@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 export interface Review {
@@ -7,6 +8,17 @@ export interface Review {
     review: string;
     date: string
 }
+type FilterOptions = {
+  name?: string;
+  category?: string;
+  sortBy?: string;
+  page?: number;
+  limit?: number;
+  min?: string;
+  max?: string;
+  rating?: string;
+};
+
 export interface Products {
   name: string;
   price: number;
@@ -17,6 +29,7 @@ export interface Products {
   total: number;
   reviews: Review[];
   numReviews: number;
+  brand: string
 }
 
 interface ProductContextType {
@@ -29,7 +42,7 @@ interface ProductContextType {
     
     filteredProducts: Products[];
     setFilteredProducts: React.Dispatch<React.SetStateAction<Products[]>>
-    filterProducts: (filters: {name?:string, category?:string, sortBy?:string, page?:number, limit?:number}) => {}
+    filterProducts: (filters: FilterOptions) => {}
 }
 
 const ProductContext = createContext<ProductContextType | null>(null) 
@@ -75,19 +88,26 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
     }
     
     
-
-    const filterProducts = async (filters: {name?:string, category?:string, sortBy?:string, page?:number, limit?:number}) => {
+    const navigate = useNavigate()
+    const filterProducts = async (filters: FilterOptions) => {
         setLoading(true);
 
         try {
-            const searchParams = new URLSearchParams();
-            for(const key in filters){
-                const value = filters[key as keyof typeof filters];
+            const searchParams = new URLSearchParams();  //
+            for(const key in filters){ //
+                const value = filters[key as keyof typeof filters];  
                 if(value !== undefined && value !== '' ) searchParams.append(key, value.toString());
             }
-            console.log(searchParams.toString())
             const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/products?${searchParams.toString()}`);
-            setFilteredProducts( data )
+
+            if(!data || data.length === 0){
+                setFilteredProducts([]);
+                setError('Mo matching products found')
+            }
+            else{
+                setFilteredProducts( data )
+                setError('')
+            }
         } 
         catch (error) {
             console.error(error);
@@ -96,6 +116,7 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
         finally{
             setLoading(false)
         }
+        navigate('/products')
     }
 
     
