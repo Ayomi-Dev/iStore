@@ -3,6 +3,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
 import { FaEnvelope, FaLock } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 
 
@@ -19,6 +20,7 @@ export const LoginForm = () => {
         e.preventDefault();
 
         setLoading(true);
+        toast.loading(`loggin in...`)
         setError('');
 
         try{
@@ -40,12 +42,12 @@ export const LoginForm = () => {
             const userProfile = profileInfo.data
             
             login(token, userProfile)
-
+            toast.dismiss()
             if(userProfile.isAdmin){ //navigates profile page if user is an admin or not
                 navigate('/admin/dashboard')
             }
             else{
-                navigate('/profile')
+                navigate('/')
             } 
             
         }

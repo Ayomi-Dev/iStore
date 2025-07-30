@@ -3,6 +3,7 @@ import axios from "axios";
 import { FaCheck, FaCircle, FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import { useUserContext } from "../contexts/UserContext";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const SignupForm = () => {
     const [name, setName] = useState<string>("")
@@ -52,7 +53,7 @@ export const SignupForm = () => {
         e.preventDefault();
         setLoading(true);
         setErrorMessage("")
-        console.log(password)
+        toast.loading(`Signing up...`)
 
         const { length, number, uppercase, lowercase, specialCase} = passwordConditions;
         const allValid = length && number && uppercase && lowercase && specialCase;
@@ -86,8 +87,12 @@ export const SignupForm = () => {
                 }
             });
             const userProfile = profileInfo.data
-            login(token, userProfile)
-            navigate('/profile')
+            login(token, userProfile);
+            toast.success(`Welcome, ${userProfile.name}`)
+            setTimeout(() => {
+                toast.dismiss()  
+            }, 3000);
+            navigate('/')
         } 
         catch (error:any) {
            console.log(error.response.data.message) 

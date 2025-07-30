@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useProductContext } from '../../contexts/ProductsContext';
 import { FaCalendarTimes, FaImage, FaMoneyBill, FaProductHunt, FaStackExchange } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 export const EditProductForm = () => {
   const navigate = useNavigate();
@@ -92,7 +93,7 @@ export const EditProductForm = () => {
       });
 
       await fetchProducts();
-      alert('Product updated');
+      toast.success(`Product successfully updated`);
 
       setTimeout(() => {
         navigate('/admin/products');

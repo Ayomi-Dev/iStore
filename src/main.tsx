@@ -7,6 +7,7 @@ import App from './App.tsx'
 import { BrowserRouter } from 'react-router-dom'
 import { UserProvider } from './contexts/UserContext.tsx'
 import { ProductListProvider } from './contexts/ProductsContext.tsx'
+import {ToastContainer, Bounce} from 'react-toastify'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -14,6 +15,19 @@ createRoot(document.getElementById('root')!).render(
       <UserProvider>
         <ProductListProvider>
           <StripeProvider>
+            <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+            transition={Bounce}
+          />
             <App />
           </StripeProvider>
         </ProductListProvider>

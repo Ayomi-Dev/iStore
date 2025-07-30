@@ -7,6 +7,7 @@ import { FaArrowCircleLeft, FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 import { increaseQty, decreaseQty, removeItem, type CartItem, clearCart } from '../redux/cartSlice'
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 
@@ -25,10 +26,10 @@ export const Cart : FC = () => {
         name: item.name,
         price: item.price,
         quantity: item.quantity,
-        total: item.total
+        total: item.total,
+        image: item.images[0]
     }))
-
-    
+   
     const createPaymentIntent = async () => {//Asks Stripe to create a payment intent through which the client secret key is return
         
         //sends a request to the backend server to create a payment intent i.e a clientSecret key
@@ -79,13 +80,11 @@ export const Cart : FC = () => {
                 }
             )
             setLoading(false)
-            alert('order successfull');
-
-            // const getOrders = await axios.get(`${import.meta.env.VITE_API_URL}/my-orders`, {
-            //     headers: {
-            //         Authorization: `Bearer ${localStorage.getItem('token')}`
-            //     }
-            // })
+            toast.success('Your order was successfully placed!');
+            dispatch(clearCart())
+            setTimeout(() => {
+              window.location.href = '/orders/history';
+            }, 1000)
 
         }
     }

@@ -1,4 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 export interface CartItem {
     _id: string;
@@ -41,10 +42,10 @@ const cartSlice = createSlice({
 
                 //calculating total price of all items in the cart
                 state.totalAmount = Math.round(state.cartItems.reduce((sum, item) => sum + item.total, 0) * 100) / 100 ;
-
+                toast.success(`${cartItem.name} added to cart`)
             }
             else{
-                console.log('item already in cart');
+                toast.error(`You already added this item to your cart`);
                 return;
             }
 
@@ -58,7 +59,7 @@ const cartSlice = createSlice({
 
             //recalculates the total amount of prices of all items in the cart
             state.totalAmount = Math.round(state.cartItems.reduce((sum, item) => sum + item.total, 0) * 100) / 100 ;
-
+            toast.warning(`Item removed from cart`)
         },
 
         increaseQty: (state, action:PayloadAction<CartItem>) => { //increases the quantity of an item as user desires
@@ -105,6 +106,8 @@ const cartSlice = createSlice({
        
         clearCart: (state) => { //empties the cart
             state.cartItems = []
+            toast.info(`Cart cleared`)
+            state.totalAmount = 0;
         },
     }
 })

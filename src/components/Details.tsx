@@ -32,7 +32,6 @@ export const Details = () => {
             const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/products/${id}`);
             setCurrentProduct(data);
             setMainImg(data.images[0])
-            console.log(data.brand)
             setError("")
         }
         catch(error){

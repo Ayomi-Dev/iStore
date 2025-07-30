@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useProductContext } from '../../contexts/ProductsContext';
 import { FaCalendarTimes, FaImage, FaMoneyBill, FaProductHunt, FaStackExchange } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 
 export const CreateProduct = () => {
@@ -73,7 +74,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             )
             await fetchProducts()
             
-            alert('product created');
+            toast.success(`Product successfully added`);
 
             setTimeout(() => {
               navigate('/admin/products')

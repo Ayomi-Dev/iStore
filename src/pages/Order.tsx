@@ -1,8 +1,12 @@
+import { PageWrapper } from "../utils/PageWrapper"
+import {OrdersHistory} from "../components/OrderHistory"
 
 
 export const Order = () => {
     
   return (
-    <div>Order</div>
+    <PageWrapper>
+      <OrdersHistory />
+    </PageWrapper> 
   )
 }

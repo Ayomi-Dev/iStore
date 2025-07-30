@@ -22,7 +22,7 @@ export const RandomProductsByCategory = () => {
             
         {electronics?.map((product, index )=> {
             return (
-                <div className="block py-3 w-[90%] mx-auto">
+                <div className="block py-3 w-[90%] mx-auto" key={index}>
                     <h1 className="text-center md:text-2xl py-6 font-bold">{product.category}</h1>
                     <div key={index} className="grid grid-cols-1 md:grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4 w-full">
                         <div className="block w-full text-center shadow-md py-3 bg-white" >
@@ -42,8 +42,8 @@ export const RandomProductsByCategory = () => {
 
         {computers?.map((product, index )=> {
             return (
-                <div className="block py-3 w-[90%] mx-auto">
-                    <a href="">refresh</a>
+                <div className="block py-3 w-[90%] mx-auto" key={index}>
+                    
                     <h1 className="text-center md:text-2xl py-6 font-bold">{product.category}</h1>
                     <div key={index} className="grid grid-cols-1 md:grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4 w-full">
                         <div className="block w-full text-center shadow-md py-3 bg-white" >
@@ -63,7 +63,7 @@ export const RandomProductsByCategory = () => {
 
         {automotive?.map(( product, index )=> {
             return (
-                <div className="block py-3 w-[90%] mx-auto">
+                <div className="block py-3 w-[90%] mx-auto" key={index}>
                     <h1 className="text-center md:text-2xl py-6 font-bold">{product.category}</h1>
                     <div key={index} className="grid grid-cols-1 md:grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4 w-full">
                         <div className="block w-full text-center shadow-md py-3 bg-white" >

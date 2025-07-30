@@ -68,16 +68,15 @@ export const FilterNav = () => {
           onChange={(e) => setFilterValue(e.target.value)}
         />
         <button onClick={() => setShowFilters(!showFilters)}>
-          <FaFilter className="text-pink-500 cursor-pointer"  />
+          <FaFilter className={`${!showFilters ? 'text-black' : "text-pink-500"} cursor-pointer`}  />
         </button>
-      </div>
+      </div> 
      
 
       {showFilters && (
-        <div className="top-4 rounded-md p-4 grid place-content-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* Category */}
+        <div className="top-4 rounded-md p-4 grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))]  gap-4">
           <div>
-            <label className="font-semibold text-sm">Category</label>
+            <label className="font-bold text-pink-500 text-sm">Category</label>
             <ul className="mt-2 space-y-1">
               <li onClick={() => handleCategory("all")} className={` cursor-pointer text-sm hover:text-pink-600`}>All Products</li>
               {categories.map((category, index) => (
@@ -92,9 +91,8 @@ export const FilterNav = () => {
             </ul>
           </div>
 
-          {/* Price */}
           <div>
-            <label className="font-semibold text-sm">Price Range</label>
+            <label className="font-bold text-pink-500 text-sm">Price Range</label>
             <div className="flex items-center gap-2 mt-2">
               <input
                 type="number"
@@ -114,9 +112,9 @@ export const FilterNav = () => {
             </div>
           </div>
 
-          {/* Ratings */}
+         
           <div>
-            <label className="font-semibold text-sm">Rating</label>
+            <label className="font-bold text-pink-500 text-sm">Rating</label>
             <ul className="mt-2 space-y-1 text-sm">
               {[4, 3, 2, 1].map((r) => (
                 <li
@@ -130,10 +128,9 @@ export const FilterNav = () => {
             </ul>
           </div>
 
-          {/* Brand (optional) */}
           {brands.length > 0 && (
             <div>
-              <label className="font-semibold text-sm">Brand</label>
+              <label className="font-bold text-pink-500 text-sm">Brand</label>
               <ul className="mt-2 space-y-1 text-sm">
                 {brands.map((brand, i) => (
                   <li key={i} className="cursor-pointer hover:text-pink-600">{brand}</li>
@@ -145,7 +142,7 @@ export const FilterNav = () => {
       )}
 
       {showFilters && (
-        <div className="flex gap-4 mt-4 justify-end">
+        <div className="flex gap-4 mt-4 justify-center">
           <button
             onClick={clearFilters}
             className="text-sm px-4 py-2 border rounded-md hover:bg-red-100"

@@ -14,6 +14,8 @@ import { AdminDashboard } from '../admin/pages/AdminDashboard'
 import { CreateProduct } from '../admin/components/CreateProduct'
 import { AdminProducts } from '../admin/pages/AdminProducts'
 import { EditProduct } from '../admin/pages/EditProduct'
+import { OrderSummary } from '../pages/OrderSummary'
+
 
 
 export const PageRoutes = () => {
@@ -23,20 +25,21 @@ export const PageRoutes = () => {
 
       <AnimatePresence mode='wait' initial={false}>
     
-        <Routes location={location} key={location.pathname}>
+        <Routes location={location} key={location.pathname}> 
     
           <Route path='/' element = { <Home />}></Route>
           <Route path='/product/:id/details' element = { <ProductDetails />}></Route>
     
           <Route  element = { <ProtectedRoute />}>
-            <Route path='/profile' element = { <UserProfile />} />
+            <Route path='/profile' element = { <UserProfile />} />  
             <Route path='/cart' element = { <CartPage />} />
-            <Route path='/order' element = { <Order />} />
+            <Route path='/orders/history' element = { <Order />} />
+            <Route path='/order/summary/:id' element = { <OrderSummary />} />
           </Route>
-          
+           
           <Route path='/login' element = {<Login />}> </Route>
           <Route path= '/sign-up' element = { <SignUp />}></Route>
-          <Route path='/products' element = { <ProductsList />}></Route>
+          <Route path='/products' element = { <ProductsList />}></Route> 
     
           <Route element={ <AdminRoute />}>
             <Route path={`/admin/dashboard`} element={ <AdminDashboard />} />

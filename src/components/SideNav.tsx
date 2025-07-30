@@ -74,11 +74,11 @@ export const SideNav = ( ) => {
                 </div>
               </Link>
             </li>
-            <li className={`${activePage('/history')} w-full items-center p-2 shadow-lg rounded-sm my-2 flex justify-center`}>
-              <Link to={`/orders`} >
+            <li className={`${activePage('/orders/history')} w-full items-center p-2 shadow-lg rounded-sm my-2 flex justify-center`}>
+              <Link to={`/orders/history`} >
                 <div className="flex gap-2 ">
                   <FaClock className=" px-1 text-2xl" />
-                  <span>History</span>
+                  <span>Orders</span>
                 </div>
               </Link>
             </li>
