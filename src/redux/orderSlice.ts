@@ -15,6 +15,7 @@ export interface Order{
     _id: string;
     orderItems: OrderItem[];
     totalAmount: number;
+    totalQuantity: number;
     paidAt: string;
     paymentIntentId: string
 }
@@ -45,12 +46,36 @@ export const fetchUserOrders = createAsyncThunk(
             return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to fetch orders')
         }
     }
-) 
+)
+
+export const deleteOrder = createAsyncThunk(
+    `orders/deleteOrder`,
+    async (orderId: string, thunkAPI) => {
+        try {
+            await axios.delete(`${import.meta.env.VITE_API_URL}/orders/${orderId}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            })
+            
+        } 
+        catch (error:any) {
+            return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to delete order')
+        }
+    }
+
+)
 
 const orderSlice = createSlice({
     name: 'order',
     initialState,
-    reducers: {},
+    reducers: {
+        clearOrders: (state) => {
+            state.orders = [];
+            state.loading = false;
+            state.error = null;
+        }
+    },
 
     extraReducers: (builder) => {
         builder
@@ -66,6 +91,20 @@ const orderSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload as string
             });
+            
+        builder
+            .addCase(deleteOrder.pending, (state) => {
+                state.loading = true;
+                state.error = null
+            })
+            .addCase(deleteOrder.fulfilled, (state, action) => {
+                state.loading = false;
+                state.orders = state.orders.filter(order => order._id !== action.payload)
+            })
+            .addCase(deleteOrder.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string
+            })
     },
 })
 

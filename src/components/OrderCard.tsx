@@ -10,20 +10,22 @@ export const OrderCard = () => {
     const dispatch = useDispatch<AppDispatch>()
     useEffect(() => {
         dispatch(fetchUserOrders())
-        console.log(orders, 'orders here')
   }, [dispatch])
   
-
     
   return (
     <ul className="block"> 
-        {orders.map((order, index) => {
+        {orders
+        .slice()
+        .sort((a, b) => new Date(b.paidAt).getTime() - new Date(a.paidAt).getTime())
+        .map((order, index) => {
             return (
-                <li  key={index}>
-                    <Link to={`/order/summary/${order._id}`} className="flex justify-between gap-4 items-center my-3 border">
+                <li  key={index} className='shadow-md rounded-md px-4'>
+                         <span className="font-bold">{new Date(order.paidAt).toLocaleString()}</span>
+                    <Link to={`/order/summary/${order._id}`} className="flex justify-between gap-4 items-center my-3">
+                        <span>{order.totalQuantity} items</span>
                          <img src={order.orderItems[0].image} className='h-[40px] w-40px] rounded-[50%]' alt="" /> 
-                         <span className="font-bold">{order.totalAmount}</span>
-                         <span className="font-bold text-pink-500">{order.paidAt}</span>
+                         <span className="font-bold text-pink-600">${order.totalAmount}</span>
                     </Link>
                 </li>
                 )

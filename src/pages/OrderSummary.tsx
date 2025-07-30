@@ -13,19 +13,17 @@ export const OrderSummary = () => {
     <PageWrapper >
         {currentOrder && (
 
-        <div className="w-full bg-white flex flex-col items-center justify-center">
+        <div className="w-full md:w-[60%] mx-auto px-3 rounded-md bg-white h-[500px] flex flex-col items-center justify-center">
             <div className="mb-4 rounded">
-                <p><strong>Total:</strong> ${currentOrder?.totalAmount}</p>
-                <p><strong>Payment ID:</strong> {currentOrder?.paymentIntentId}</p>
-                <p><strong>Date:</strong> {new Date(currentOrder?.paidAt).toLocaleString()}</p>
+                <p className="my-4 block"><strong>Total Price:</strong> ${currentOrder?.totalAmount}</p>
+                <p className="my-4 block"><strong>Total Items:</strong> {currentOrder?.totalQuantity}</p>
+                <p className="my-4 block"><strong>Payment ID:</strong> {currentOrder?.paymentIntentId}</p>
+                <p className="my-4 block"><strong>Date:</strong> {new Date(currentOrder?.paidAt).toLocaleString()}</p>
                 <ul className="mt-2">
                     {currentOrder?.orderItems.map((item, index) => (
-                        <li className="flex justify-between itemss-center my-3" key={index}>
-                    
-                         <img src={item.image} className='h-[40px] w-40px] rounded-[50%]' alt="" /> 
-                         <span className="font-bold">{item.name}</span>
-                         <span className="font-bold text-pink-500">{item.price}</span>
-                   
+                        <li className="flex justify-between items-center my-3" key={index}>
+                            <span className="font-bold">{item.name} x {item.quantity}</span>
+                            <span className="font-bold text-pink-500">{item.price}</span>
                         </li>
                     ))}
                 </ul>
