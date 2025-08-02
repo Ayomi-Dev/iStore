@@ -1,4 +1,5 @@
 import { useContext, createContext, type ReactNode, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 interface User {
     _id: string;
@@ -59,6 +60,13 @@ export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
         }
         setIsLoading(false)
     }, [])
+
+    const location = useLocation()
+    useEffect(() => { //resets side panel whenever url pathname changes
+        setSidePanel(false)
+    }, [location.pathname])
+
+
 
     const parseJwt = (token: string): User | null => { //a helper function to help decode a JWT i.e extract the info attached to the token
         try {

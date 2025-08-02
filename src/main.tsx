@@ -8,6 +8,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { UserProvider } from './contexts/UserContext.tsx'
 import { ProductListProvider } from './contexts/ProductsContext.tsx'
 import {ToastContainer, Bounce} from 'react-toastify'
+import { WishListContextProvider } from './contexts/WishListContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -15,6 +16,8 @@ createRoot(document.getElementById('root')!).render(
       <UserProvider>
         <ProductListProvider>
           <StripeProvider>
+            <WishListContextProvider>
+
             <ToastContainer
             position="top-right"
             autoClose={5000}
@@ -27,8 +30,9 @@ createRoot(document.getElementById('root')!).render(
             pauseOnHover
             theme="dark"
             transition={Bounce}
-          />
+            />
             <App />
+            </WishListContextProvider>
           </StripeProvider>
         </ProductListProvider>
       </UserProvider>

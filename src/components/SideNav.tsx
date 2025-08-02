@@ -3,6 +3,8 @@ import { FaCartPlus, FaClock, FaCompass, FaHeart, FaHome } from 'react-icons/fa'
 import { FaGears, FaMessage, FaUser } from 'react-icons/fa6';
 import { Link, useLocation } from 'react-router-dom';
 import { useUserContext } from '../contexts/UserContext';
+import { useWishListContext } from '../contexts/WishListContext';
+
 
 
 
@@ -11,11 +13,12 @@ import { useUserContext } from '../contexts/UserContext';
 export const SideNav = ( ) => {
   const location = useLocation()
   const { sidePanel } = useUserContext()
-  
+  const { wishItems } = useWishListContext()
   const activePage = (path: string) => {
     window.scrollTo(0,0)
     return location.pathname === path ? 'active' : '';
   }
+ 
 
   return (
     <>
@@ -48,12 +51,12 @@ export const SideNav = ( ) => {
                 </div>
               </Link>
             </li>
-            <li className={`${activePage('/wishlist')} w-full items-center p-2  shadow-lg rounded-sm my-2 flex justify-center`}>
-              <Link to={`/wishlist`} >
+            <li className={`${activePage('/my-wishlist')} w-full items-center p-2  shadow-lg rounded-sm my-2 flex justify-center`}>
+              <Link to={`/my-wishlist`} >
                 <div className="gap-2  relative flex">
                   <FaHeart className=" px-1 text-2xl" />
                   <span>Wishlist</span>
-                  {/* <span className='count'>{wishlist.length}</span>  */}
+                  <span className='count'>{wishItems.length}</span> 
                 </div>
               </Link>
             </li>

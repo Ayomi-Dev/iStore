@@ -40,7 +40,7 @@ export const Header = () => {
   useEffect(() => {
     const loop = setInterval(() => {
       setIndex((prev) => (prev + 1) % slides.length);
-    }, 4000); // 4 seconds for each slide
+    }, 5000); // 4 seconds for each slide
     return () => clearInterval(loop);
   }, []);
   return (
@@ -51,11 +51,11 @@ export const Header = () => {
           initial={{ x: 300, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ y: -300, opacity: 0 }}
-          transition={{ duration: 2 }}
+          transition={{ duration: 1 }}
           className=" w-[90%] mx-auto h-full flex flex-col md:flex-row items-center justify-center gap-6"
         >
-          {/* Image Section */}
-          <div className="w-[200px] md:w-1/2 h-[500px]">
+          
+          <div className="w-full md:w-1/2 h-[500px]">
             <img
               src={slides[index].image}
               alt={`Slide ${index}`}
@@ -63,7 +63,7 @@ export const Header = () => {
             />
           </div>
 
-          {/* Text Section */}
+       
           <div className="flex-1 text-center md:text-left">
             <h1 className="text-3xl md:text-5xl font-bold mb-4 text-gray-800">
               {slides[index].title}

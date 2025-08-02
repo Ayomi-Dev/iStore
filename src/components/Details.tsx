@@ -5,14 +5,17 @@ import  { type CartItem, addItems } from "../redux/cartSlice";
 import { useDispatch } from "react-redux";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 import { ConvertToCartItem } from "../utils/ConvertToCartItem";
-import { FaStar, FaStarHalf } from "react-icons/fa";
+import { FaHeart, FaStar, FaStarHalf } from "react-icons/fa";
 import { useUserContext } from "../contexts/UserContext";
 import axios from "axios";
+import { useWishListContext } from "../contexts/WishListContext";
+import { ConvertToWishItem } from "../utils/ConvertToWishItem";
 
 
 
 export const Details = () => { 
     const { fetchProducts } = useProductContext();
+    const { addToWishItems} = useWishListContext()
     const { user } = useUserContext()
     const { id } = useParams()
     const [currentProduct, setCurrentProduct] = useState<Products>()
@@ -102,15 +105,15 @@ export const Details = () => {
                 }
             });
 
-            await fetchProducts();
+            fetchProducts();
             setReview("")
+            window.location.reload(); //reloads the page to display the new review
+
         } 
         catch (err: any) {
             console.error('Review update error:', err.response || err);
             
-        }
-
-        
+        }  
     }
 
   return (
@@ -121,9 +124,9 @@ export const Details = () => {
 
                     <div className="flex flex-col md:flex-row py-3 gap-2 items-center mx-auto shadow-lg rounded-sm bg-white mt-4 w-11/12">
                         <div className="flex-1 h-full">
-                            <div className="w-[500px] mx-auto h-[500px]">
+                            <div className="flex items-center justify-center">
                                 {mainImg ? (
-                                    <img src={mainImg} className='rounded-md w-full object-cover h-full' alt="" />
+                                    <img src={mainImg} className='rounded-md object-cover h-[350px]' alt="" />
 
                                 ) :
                                 (
@@ -132,11 +135,11 @@ export const Details = () => {
                                 }
                             </div>
 
-                            <div className="w-[500px] items-center justify-center flex mx-auto my-5 h-20">
+                            <div className="w-[500px] items-center justify-center flex mx-auto my-5">
                                 {currentProduct?.images.map((image, index) => 
                                     {
                                         return(
-                                            <img src={image} key={index} onClick={() => changeImg(image)} className="cursor-pointer hover:transform hover:scale-[1.1] transition-[0.6s] ease-in-out h-full rounded-sm shadow-lg w-20 inline-block mx-2"></img>
+                                            <img src={image} key={index} onClick={() => changeImg(image)} className="cursor-pointer hover:transform hover:scale-[1.1] transition-[0.6s] ease-in-out h-20 object-center rounded-sm shadow-lg w-20 inline-block mx-2"></img>
                                         )
                                     })
                             
@@ -174,13 +177,9 @@ export const Details = () => {
                                 <FaCirclePlus className="cursor-pointer md:text-2xl" onClick={() => handleIncrease()} />
                             </div>
                 
-                            <div className="flex  h-9 w-4/5 mt-5">
-
-                                {/* <button className='hover:bg-black m-0 shadow-md'
-                                    onClick={() => addItemToWishList(product)}>
-                                    <i className="fa fa-heart"></i>
-                                </button> */}
-
+                            <div className="flex items-center gap-4 h-9 w-4/5 mt-5">
+                                <FaHeart className="hover:text-[#f31b87] text-xl cursor-pointer" onClick={() => addToWishItems(ConvertToWishItem(currentProduct))} />
+            
                                 <button
                                     className='hover:bg-pink-600 cursor-pointer transition-[0.7s] ease-in-out font-bold bg-pink-500 text-white py-2 px-4 rounded-md shadow-md'
                                     onClick={() => {

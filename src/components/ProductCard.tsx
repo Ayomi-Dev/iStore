@@ -1,4 +1,4 @@
-import { FaEdit, FaStar, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaHeart, FaStar, FaTrash } from 'react-icons/fa'
 // import Img from '../assets/product.jpg'
 import { FaCartPlus } from 'react-icons/fa'
 import { useDispatch } from 'react-redux'
@@ -8,6 +8,8 @@ import type{ Products } from '../contexts/ProductsContext'
 import { useUserContext } from '../contexts/UserContext'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { useWishListContext } from '../contexts/WishListContext'
+import { ConvertToWishItem } from '../utils/ConvertToWishItem'
 
 
 interface ProductProp{
@@ -16,6 +18,7 @@ interface ProductProp{
 
 export const ProductCard: React.FC<ProductProp> = ({product}) => {
     const { user } = useUserContext()
+    const {addToWishItems, isAdded, removeFromWishItems} = useWishListContext()
     const dispatch = useDispatch()
     
      const handleAddItem = (product: CartItem) => {
@@ -36,12 +39,22 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
         }
     }
 
+    const handleWishItem = () => {
+        if(isAdded(product._id)){
+            removeFromWishItems(product._id) // This function should be defined in the context to remove the item from the wish list
+        }
+        else{
+            addToWishItems(ConvertToWishItem(product))
+            // setAdded(true) // This line is not needed as we are using context to manage the state
+        }
+    }
+
   return (
         <div className="flex flex-col overflow-hidden gap-4 bg-white hover:scale-105 ease-in-out transition-all duration-300 shadow-lg rounded-md items-center">
             <Link to={`/product/${product._id}/details`}>
 
-                <div className="w-full py-3 h-[150px]">
-                    <img src={product.images[0]} alt="" className='w-full h-full rounded-md object-cover' />
+                <div className="py-3 px-2 flex items-center justify-center">
+                    <img src={product.images[0]} alt="" className='h-48 w-48 rounded-md object-cover' />
                 </div>
                 <div className="text-center p-2">
                     <h1 className='font-bold'>{product.name}</h1>
@@ -68,9 +81,12 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
                         </div>
                     ) :
                     (
-                        <div className="flex gap-4 items-center justify-center text-white bg-[#f31b87] py-2 font-semibold rounded-b-md" onClick={() =>handleAddItem(ConvertToCartItem(product))}>
-                            <h2>Add To Cart</h2>
-                            <FaCartPlus />
+                        <div className="flex gap-4 items-center justify-between px-2 py-2 font-semibold">
+                            <div className="flex bg-[#f31b87] text-white items-center px-2 rounded-md" onClick={() =>handleAddItem(ConvertToCartItem(product))}>
+                                <h2>Add To Cart</h2>
+                                <FaCartPlus />
+                            </div>
+                            <FaHeart className={`${isAdded(product._id) ? 'text-[#f31b87]' : 'text-gray-300'} cursor-pointer hover:text-[#f31b87]`} onClick={handleWishItem} />
                         </div>
                     )
             }

@@ -15,6 +15,7 @@ import { CreateProduct } from '../admin/components/CreateProduct'
 import { AdminProducts } from '../admin/pages/AdminProducts'
 import { EditProduct } from '../admin/pages/EditProduct'
 import { OrderSummary } from '../pages/OrderSummary'
+import { WishList } from '../pages/WishList'
 
 
 
@@ -35,6 +36,7 @@ export const PageRoutes = () => {
             <Route path='/cart' element = { <CartPage />} />
             <Route path='/orders/history' element = { <Order />} />
             <Route path='/order/summary/:id' element = { <OrderSummary />} />
+            <Route path='/my-wishlist' element = { <WishList />} />
           </Route>
            
           <Route path='/login' element = {<Login />}> </Route>

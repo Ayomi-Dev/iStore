@@ -53,6 +53,7 @@ export const LoginForm = () => {
         }
         catch(err: any) {
             console.log(err);
+            toast.error("Login failed. Please check your network")
             setError(err.response.data.message || 'Login failed!')
         }
         finally{

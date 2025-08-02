@@ -14,7 +14,8 @@ export const OrderCard = () => {
   
     
   return (
-    <ul className="block"> 
+    <ul className="block w-[25%]"> 
+        <h1 className='text-center font-bold'>Recent Orders</h1>
         {orders
         .slice()
         .sort((a, b) => new Date(b.paidAt).getTime() - new Date(a.paidAt).getTime())

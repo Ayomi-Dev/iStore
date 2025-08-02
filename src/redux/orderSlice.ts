@@ -17,7 +17,8 @@ export interface Order{
     totalAmount: number;
     totalQuantity: number;
     paidAt: string;
-    paymentIntentId: string
+    paymentIntentId: string;
+    isPaid: boolean;
 }
 
 interface OrderState {
