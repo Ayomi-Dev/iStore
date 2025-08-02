@@ -47,7 +47,7 @@ export const TopNavBar = () => {
                 <FaBars  />
               )}
             </div>
-            <h1 className='md:ml-4 ml-1 font-bold italic hidden md:block text-sm md:text-xl text-pink-600'>E-Store</h1>
+            <h1 className='md:ml-4 ml-1 font-bold italic hidden md:block text-sm md:text-xl text-pink-600'>iStore</h1>
           </>)
           
         }

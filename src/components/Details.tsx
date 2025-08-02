@@ -15,7 +15,7 @@ import { ConvertToWishItem } from "../utils/ConvertToWishItem";
 
 export const Details = () => { 
     const { fetchProducts } = useProductContext();
-    const { addToWishItems} = useWishListContext()
+    const { addToWishItems, isAdded, removeFromWishItems} = useWishListContext()
     const { user } = useUserContext()
     const { id } = useParams()
     const [currentProduct, setCurrentProduct] = useState<Products>()
@@ -81,6 +81,16 @@ export const Details = () => {
         }
         
     }, [quantity, currentProduct]);
+
+    const handleWish = (product: Products) => {
+        if(isAdded(product._id)){
+            removeFromWishItems(product._id)
+        }
+        else{
+            addToWishItems(ConvertToWishItem(product))
+        }
+        
+    }
     
     const [review, setReview] = useState<string>('');
 
@@ -178,7 +188,7 @@ export const Details = () => {
                             </div>
                 
                             <div className="flex items-center gap-4 h-9 w-4/5 mt-5">
-                                <FaHeart className="hover:text-[#f31b87] text-xl cursor-pointer" onClick={() => addToWishItems(ConvertToWishItem(currentProduct))} />
+                                <FaHeart className={`${isAdded(currentProduct._id) ? 'text-[#f31b87]' : "text-black"} hover:text-[#f31b87] text-xl cursor-pointer`} onClick={() => handleWish(currentProduct)} />
             
                                 <button
                                     className='hover:bg-pink-600 cursor-pointer transition-[0.7s] ease-in-out font-bold bg-pink-500 text-white py-2 px-4 rounded-md shadow-md'

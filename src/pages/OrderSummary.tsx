@@ -1,16 +1,44 @@
 import { PageWrapper } from "../utils/PageWrapper";
-import { useSelector } from "react-redux";
-import type { RootState } from "../redux/store";
 import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {type Order } from "../redux/orderSlice";
+import axios from "axios";
 
 
 export const OrderSummary = () => {
-    const { orders } = useSelector((state: RootState) => state.order)
     const { id } = useParams()
-    const currentOrder = orders.find(order => order._id === id)
-    
+    const [currentOrder, setCurrentOrder] = useState<Order>()
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string>("");
+
+    const getOrder = async () => { 
+        setLoading(true)
+        setError("");
+
+        try {
+            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/orders/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            setLoading(false);
+            setError('');
+            setCurrentOrder(data)
+        } catch (error) {
+            console.log(error);
+            setError("Unable to fetch order at this time!")
+        }
+        finally{
+            setError("")
+            setLoading(false)
+        }
+    }
+    useEffect(() => {
+        getOrder()
+    }, [])
   return (
     <PageWrapper >
+        {loading && <div className="w-[500px] h-[500px] mx-auto flex items-center justify-center">Loading...</div> }
         {currentOrder && (
 
         <div className="w-full md:w-[60%] mx-auto px-3 rounded-md bg-white h-[500px] flex flex-col items-center justify-center">
@@ -35,10 +63,8 @@ export const OrderSummary = () => {
             </div>
         </div>
         )
-        
-        
         }
-       
+       {error && <div className="w-[500px] h-[500px] mx-auto flex items-center justify-center">Error: {error}</div> }
     </PageWrapper>
   )
 }

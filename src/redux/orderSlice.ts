@@ -109,4 +109,5 @@ const orderSlice = createSlice({
     },
 })
 
+export const {clearOrders} = orderSlice.actions
 export default orderSlice.reducer
