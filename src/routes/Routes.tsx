@@ -16,6 +16,7 @@ import { AdminProducts } from '../admin/pages/AdminProducts'
 import { EditProduct } from '../admin/pages/EditProduct'
 import { OrderSummary } from '../pages/OrderSummary'
 import { WishList } from '../pages/WishList'
+import { AdminUsersList } from '../admin/pages/AdminUsersList'
 
 
 
@@ -45,6 +46,7 @@ export const PageRoutes = () => {
     
           <Route element={ <AdminRoute />}>
             <Route path={`/admin/dashboard`} element={ <AdminDashboard />} />
+            <Route path={`/admin/users`} element={ <AdminUsersList />} />
             <Route path={`/admin/add-new-product`} element={ <CreateProduct />} />
             <Route path={`/admin/products`} element={ <AdminProducts />} />
             <Route path={`/admin/products/edit/:id`} element={ <EditProduct />} />

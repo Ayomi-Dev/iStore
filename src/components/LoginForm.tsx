@@ -42,7 +42,9 @@ export const LoginForm = () => {
             const userProfile = profileInfo.data
             
             login(token, userProfile)
-            toast.dismiss()
+            setTimeout(() => {
+                toast.dismiss()
+            }, 1500);
             if(userProfile.isAdmin){ //navigates profile page if user is an admin or not
                 navigate('/admin/dashboard')
             }
@@ -57,7 +59,10 @@ export const LoginForm = () => {
             setError(err.response.data.message || 'Login failed!')
         }
         finally{
-            setLoading(false)
+            setTimeout(() => {
+                setLoading(false)
+                toast.dismiss()
+            }, 1500)
         }
        setEmail("")
         setPassword("")

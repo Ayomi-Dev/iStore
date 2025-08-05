@@ -31,7 +31,7 @@ export const Username = () => {
         user?.isAdmin ? 
           
           ( 
-            <h1 className="text-xs md:text-lg font-bold px-2">Hello, <span className="text-blue-600">Admin</span></h1>
+            <h1 className="text-xs md:text-lg font-bold px-2">Welcome, <span className="text-blue-600">Admin</span></h1>
           )
           : 
               (

@@ -59,7 +59,7 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
                 <div className="text-center p-2">
                     <h1 className='font-bold'>{product.name}</h1>
                     <p className='text-[0.7rem] font-light'>{product.description.slice(0, 20)}...<span className='font-bold italic'>see more</span></p>
-                    <span className='font-semibold'>${product.price}</span>
+                    <span className='font-bold'>${product.price}.00</span>
                     <div className="flex justify-center text-sm text-gray-300">
                         <FaStar className='text-yellow-300' />
                         <FaStar className='text-yellow-300' />
@@ -82,7 +82,7 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
                     ) :
                     (
                         <div className="flex gap-4 items-center justify-between px-2 py-2 font-semibold">
-                            <div className="flex bg-[#f31b87] text-white items-center px-2 rounded-md" onClick={() =>handleAddItem(ConvertToCartItem(product))}>
+                            <div className="flex bg-[#f31b87] text-white items-center cursor-pointer px-2 rounded-md" onClick={() =>handleAddItem(ConvertToCartItem(product))}>
                                 <h2>Add To Cart</h2>
                                 <FaCartPlus />
                             </div>

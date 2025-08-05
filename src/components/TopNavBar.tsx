@@ -32,14 +32,11 @@ export const TopNavBar = () => {
             <Link to={`admin/dashboard`} className='flex gap-2 items-center justify-center font-bold' title='home'>
                 <FaHome />
                 <span>Dashboard</span>
-            </Link>
-              
+            </Link>  
           )
-          
-          
           : 
           (<>
-          
+
             <div className="block z-10 cursor-pointer" onClick={openSidePanel}>
               {sidePanel ? (
                 <FaArrowLeft />
@@ -54,9 +51,7 @@ export const TopNavBar = () => {
         </div>
 
         <Username  />
-        
-        {/* <SearchBar toggleSearchBar={toggleSearchBar} displaySearchBar={displaySearchBar} /> */}
-        
+                
         <div className="h-full relative flex gap-2 items-center">
           {/* <FaSearch className="block md:hidden mx-1 text-xs md:text-lg" onClick={displaySearchBar} /> */}
           <div className="relative">
@@ -75,9 +70,12 @@ export const TopNavBar = () => {
                  <Link to={'/products'}>
                   <FaShopify className="mx-1 text-xs md:text-lg " title='see all products'/>
                 </Link>
-                <Link to='/cart'>
+                <Link to='/cart' className='relative'>
                   <FaCartShopping className="mx-1 text-xs md:text-lg " title='go to cart'/>
-                  <span className="top-[-20px] right-[0] text-2xl font-bold text-pink-600 absolute">{cartItems.length == 0 ? '' : cartItems.length}</span>
+                  <span className="top-[-15px] right-[0]  font-bold text-pink-600 absolute">{cartItems.length == 0 ? '' : cartItems.length}</span>
+                </Link>
+                <Link to={`/profile`} >
+                  <FaUser className="mx-1 text-xs md:text-lg" title='profile' />
                 </Link>
               </div>
               )
@@ -85,9 +83,6 @@ export const TopNavBar = () => {
           </div>
           
 
-          <Link to={`/profile`} >
-            <FaUser className="mx-1 text-xs md:text-lg" title='profile' />
-          </Link>
           
           {user ? (
             

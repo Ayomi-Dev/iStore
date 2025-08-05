@@ -1,7 +1,7 @@
 import I2 from '../../assets/images (24).jpeg'
 import I3 from '../../assets/images (26).jpeg'
 import I5 from '../../assets/s21front.jpeg'
-import I4 from '../../assets/gettyimages-2150200129-612x612.jpg'
+import I4 from '../../assets/home.png'
 import { useEffect, useState } from 'react';
 import {motion} from 'framer-motion';
 import { AnimatePresence } from 'framer-motion';

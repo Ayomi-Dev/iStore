@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useContext, createContext, type ReactNode, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -16,24 +17,49 @@ interface UserContextType {
     token: string | null;
     sidePanel: boolean;
     openSidePanel: () => void
-    isLoading: boolean
+    isLoading: boolean;
+    adminUsers: User[];
+    getAdminUsers: () => Promise<void>
+    deleteUser: (id: string) => Promise<void>
 }
 
-const UserContext = createContext<UserContextType>({
-    user: null,
-    login: () => {},
-    logout: () => {},
-    token: null,
-    sidePanel: false,
-    openSidePanel: () => {},
-    isLoading: true
-});
+const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null)
     const [sidePanel, setSidePanel] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState(true)
+    const [adminUsers, setAdminUsers] = useState<User[]>([]);
+
+
+    const getAdminUsers = async () => {
+        try {
+           const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/user/admin/all-users`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+           })
+           setAdminUsers( data )
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+
+    const deleteUser = async(id: string) => {
+        try{
+            await axios.delete(`${import.meta.env.VITE_API_URL}/user/deactivate/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+            window.location.reload()
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
 
     useEffect(() => {
         const userToken = localStorage.getItem('token')
@@ -76,13 +102,12 @@ export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
             return null
         }
     }
+
     const login = (newToken: string, newUser: User) => {
         localStorage.setItem('token', newToken);
         localStorage.setItem("userProfile", JSON.stringify(newUser));
         setToken(newToken);
-        setUser(newUser);
-        
-        
+        setUser(newUser);  
     }
 
     const logout = () => {
@@ -96,7 +121,7 @@ export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
     }
 
 
-    const value = {user, token, login, logout, sidePanel, openSidePanel, isLoading}
+    const value = {user, token, login, logout, sidePanel, openSidePanel, isLoading, adminUsers, getAdminUsers, deleteUser}
     return(
         <UserContext.Provider value = { value }>
             { children }

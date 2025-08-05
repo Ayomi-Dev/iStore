@@ -10,9 +10,10 @@ export const FilterNav = () => {
   const [price, setPrice] = useState({ min: "", max: "" });
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
+  const [selectedBrand, setSelectedBrand] = useState<string>('all')
 
   const categories = Array.from(new Set(allProducts.map((product) => product.category)));
-  const brands = Array.from(new Set(allProducts.map((p) => p.brand))).filter(Boolean);
+  const brands = Array.from(new Set(allProducts.map((product) => product.brand))).filter(Boolean); // Filter out any undefined or empty brands
 
   const navigate = useNavigate();
 
@@ -31,11 +32,16 @@ export const FilterNav = () => {
   const handleCategory = (category: string) => {
     const selected = category === "all" ? undefined : category;
     filterProducts({ category: selected });
-    console.log(selectedCategory)
     setSelectedCategory(selected || 'all')
     navigate("/products");
-    // setShowFilters(false);
   };
+  
+  const handleBrand = (brand: string) => {
+    const selected = brand === "all" ? undefined : brand;
+    filterProducts({brand: selected});
+    setSelectedBrand(selected || 'all');
+    navigate(`/products?brand=${selected || 'all'}`)
+  }
 
   const applyFilters = () => {
     filterProducts({
@@ -44,6 +50,7 @@ export const FilterNav = () => {
       min: price.min, 
       max: price.max,
       rating: selectedRating?.toString(),
+      brand: selectedBrand,
     });
     setShowFilters(false);
   };
@@ -132,8 +139,10 @@ export const FilterNav = () => {
             <div>
               <label className="font-bold text-pink-500 text-sm">Brand</label>
               <ul className="mt-2 space-y-1 text-sm">
-                {brands.map((brand, i) => (
-                  <li key={i} className="cursor-pointer hover:text-pink-600">{brand}</li>
+                <li onClick={() => handleBrand("all")} className={` cursor-pointer text-sm hover:text-pink-600`}>All brands</li>
+
+                {brands.map((brand, index) => (
+                  <li key={index} onClick={() => handleBrand(brand)} className={`${selectedBrand === brand ? "font-bold text-pink-600" : ""} cursor-pointer hover:text-pink-600`}>{brand}</li>
                 ))}
               </ul>
             </div>

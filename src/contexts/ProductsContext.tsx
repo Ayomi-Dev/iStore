@@ -17,6 +17,7 @@ type FilterOptions = {
   min?: string;
   max?: string;
   rating?: string;
+  brand?: string;
 };
 
 export interface Products {
@@ -95,14 +96,14 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
         try {
             const searchParams = new URLSearchParams();  //
             for(const key in filters){ //
-                const value = filters[key as keyof typeof filters];  
+                const value = filters[key as keyof typeof filters];   
                 if(value !== undefined && value !== '' ) searchParams.append(key, value.toString());
             }
             const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/products?${searchParams.toString()}`);
 
             if(!data || data.length === 0){
                 setFilteredProducts([]);
-                setError('Mo matching products found')
+                setError('No matching products found')
             }
             else{
                 setFilteredProducts( data )

@@ -59,18 +59,22 @@ export const SignupForm = () => {
         const allValid = length && number && uppercase && lowercase && specialCase;
 
         if(!allValid){
-            setErrorMessage("Password does not fully match conditions");
-            setLoading(false);
+            setTimeout(() => {
+                setErrorMessage("Password does not fully match conditions");
+                setLoading(false);
+                toast.dismiss()
+            }, 1500);
             return;
         }
         if(password !== confirmPassword){
-            setErrorMessage("Passwords does not match");
-            setLoading(false);
+            setTimeout(() => {
+                setErrorMessage("Passwords does not match");
+                toast.dismiss()
+                setLoading(false);
+            }, 1500);
             return;
         }
 
-
-         
         try {
             const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/user/sign-up`,
                 {
@@ -97,6 +101,10 @@ export const SignupForm = () => {
         catch (error:any) {
            console.log(error.response.data.message) 
            setLoading(false)
+           setTimeout(() => {
+                toast.error('login failed');
+                console.log("error")
+            }, 1500);
         }
         finally{
             setLoading(false)
@@ -134,6 +142,8 @@ export const SignupForm = () => {
                 <input required type="password" name="confirmPassword" onChange={(e) => {setConfirmPassword(e.target.value)}}    />
                 <label htmlFor="">Confirm Password</label>
             </div>
+            {errorMessage && <p className="ml-4 text-red-500">{errorMessage}</p>}
+
             <div className="block ml-5 mb-4">
                 <h1 className='text-sm text-gray-500'>Password should contain at least:</h1>
                 <ul className='checks'>
@@ -202,7 +212,7 @@ export const SignupForm = () => {
 
         </form>
 
-        {errorMessage && <p>{errorMessage}</p>}
+        
     </div>
 
     
