@@ -21,7 +21,7 @@ export const Cart : FC = () => {
     const [clientSecret, setClientSecret] = useState<string>(""); //stores a unique key returned by Stripe to allow payment confirmation
     const [loading, setLoading] = useState<boolean>(false)
     const dispatch = useDispatch()
-    const formatedItems = cartItems.map((item) => ({
+    const formatedItems = cartItems?.map((item) => ({
         product: item._id,
         name: item.name,
         price: item.price,

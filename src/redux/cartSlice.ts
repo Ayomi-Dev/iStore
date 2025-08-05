@@ -42,9 +42,16 @@ const cartSlice = createSlice({
 
                 //calculating total price of all items in the cart
                 state.totalAmount = Math.round(state.cartItems.reduce((sum, item) => sum + item.total, 0) * 100) / 100 ;
-                toast.success(`${cartItem.name} added to cart`)
+                toast.success(`${cartItem.name} added to cart`);
+
+                localStorage.setItem('cartItems', JSON.stringify(state.cartItems)) //saves the cart items in the local storage
+                localStorage.setItem('totalAmount', JSON.stringify(state.totalAmount)) //saves the total amount in the local storage
+                localStorage.setItem('totalQuantity', JSON.stringify(state.totalQuantity)) //saves the
+            
+
             }
             else{
+
                 toast.error(`You already added this item to your cart`);
                 return;
             }
@@ -59,7 +66,12 @@ const cartSlice = createSlice({
 
             //recalculates the total amount of prices of all items in the cart
             state.totalAmount = Math.round(state.cartItems.reduce((sum, item) => sum + item.total, 0) * 100) / 100 ;
-            toast.warning(`Item removed from cart`)
+            toast.warning(`Item removed from cart`);
+
+            
+            localStorage.setItem('cartItems', JSON.stringify(state.cartItems)) //saves the cart items in the local storage
+            localStorage.setItem('totalAmount', JSON.stringify(state.totalAmount)) //saves the total amount in the local storage
+            localStorage.setItem('totalQuantity', JSON.stringify(state.totalQuantity)) //saves the
         },
 
         increaseQty: (state, action:PayloadAction<CartItem>) => { //increases the quantity of an item as user desires
@@ -78,7 +90,11 @@ const cartSlice = createSlice({
             //recalculates the total price of all items in the cart whenever user increases the quantity of an item
             state.totalAmount = Math.round((state.cartItems.reduce((sum, item) => sum + item.total, 0))* 100) / 100 ;
 
-           
+            const updatedCartItem = [...state.cartItems]
+
+            localStorage.setItem('cartItems', JSON.stringify(updatedCartItem)) //saves the cart items in the local storage
+            localStorage.setItem('totalAmount', JSON.stringify(state.totalAmount)) //saves the total amount in the local storage
+            localStorage.setItem('totalQuantity', JSON.stringify(state.totalQuantity)) //saves the
         },
 
         decreaseQty: (state, action:PayloadAction<CartItem>) => { //lets user decrease the quantity of an item as often times
@@ -100,7 +116,11 @@ const cartSlice = createSlice({
             //recalculating the total price of all items in the cart whenever user increases the quantity of an item
             state.totalAmount = Math.round((state.cartItems.reduce((sum, item) => sum + item.total, 0))* 100) / 100;
 
-           
+            const updatedCartItem = [...state.cartItems]
+
+            localStorage.setItem('cartItems', JSON.stringify(updatedCartItem)) //saves the cart items in the local storage
+            localStorage.setItem('totalAmount', JSON.stringify(state.totalAmount)) //saves the total amount in the local storage
+            localStorage.setItem('totalQuantity', JSON.stringify(state.totalQuantity)) //saves the
         },
 
        
@@ -109,9 +129,26 @@ const cartSlice = createSlice({
             toast.info(`Cart cleared`)
             state.totalAmount = 0;
         },
+
+        initializeFromLocalStorage: (state) => { //initializes the cart from local storage
+        // checks if there are items in the local storage
+            const cartItems = localStorage.getItem('cartItems');
+            const totalAmount = localStorage.getItem('totalAmount');
+            const totalQuantity = localStorage.getItem('totalQuantity');
+
+            if(cartItems){
+                state.cartItems = JSON.parse(cartItems) as CartItem[];
+            }
+            if(totalAmount) {
+                state.totalAmount = JSON.parse(totalAmount) as number
+            }
+            if(totalQuantity){
+                state.totalQuantity = JSON.parse(totalQuantity) as number
+            }
+        }
     }
 })
 
-export const {addItems, removeItem, increaseQty, decreaseQty, clearCart} = cartSlice.actions
+export const {addItems, removeItem, increaseQty, decreaseQty, clearCart, initializeFromLocalStorage} = cartSlice.actions
 export default cartSlice.reducer
 

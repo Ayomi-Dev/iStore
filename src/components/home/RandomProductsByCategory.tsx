@@ -4,7 +4,7 @@ import {type Products } from '../../contexts/ProductsContext'
 
 
 export const RandomProductsByCategory = () => {
-    const {getProductsByCategory} = useProductContext()
+    const {getProductsByCategory, allProducts} = useProductContext()
     const [electronics, setElectronics] = useState<Products[]>([])
     const [computers, setComputers] = useState<Products[]>([])
     const [automotive, setAutomotive] = useState<Products[]>([])  
@@ -13,7 +13,7 @@ export const RandomProductsByCategory = () => {
         setElectronics(getProductsByCategory("electronics"))
         setComputers(getProductsByCategory("computers & office"))
         setAutomotive(getProductsByCategory("mobile accessories"))
-    },[])
+    },[allProducts])
 
 
   return (
@@ -31,7 +31,7 @@ export const RandomProductsByCategory = () => {
                             <div className="flex items-center justify-between px-2 w-full">
                                 <button className="bg-pink-500 py-2 px-4 rounded-sm font-bold text-white">Add To Cart</button>
                                 <p className="text-black font-bold text-sm">{product.name}</p>
-                                <p className="text-pink-600 font-bold">${product.price}</p>
+                                <p className="text-pink-600 font-bold">${product.price}.00</p>
                             </div>
                         </div>
                     </div>
@@ -52,7 +52,7 @@ export const RandomProductsByCategory = () => {
                             <div className="flex items-center justify-between px-2 w-full">
                                 <button className="bg-pink-500 py-2 px-4 rounded-sm font-bold text-white">Add To Cart</button>
                                 <p className="text-black font-bold text-sm">{product.name}</p>
-                                <p className="text-pink-600 font-bold">${product.price}</p>
+                                <p className="text-pink-600 font-bold">${product.price}.00</p>
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@ export const RandomProductsByCategory = () => {
                             <div className="flex items-center justify-between px-2 w-full">
                                 <button className="bg-pink-500 py-2 px-4 rounded-sm font-bold text-white">Add To Cart</button>
                                 <p className="text-black font-bold text-sm">{product.name}</p>
-                                <p className="text-pink-600 font-bold">${product.price}</p>
+                                <p className="text-pink-600 font-bold">${product.price}.00</p>
                             </div>
                         </div>
                     </div>

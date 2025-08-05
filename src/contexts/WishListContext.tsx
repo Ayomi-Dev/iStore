@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type FC, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type FC, type ReactNode } from "react";
 import { toast } from "react-toastify";
 // import { Products } from "./ProductsContext";
 
@@ -21,6 +21,13 @@ const WishListContext = createContext<WishContextType | undefined>(undefined)
 
 export const WishListContextProvider: FC<{children : ReactNode}> = ({ children }) => {
     const [wishItems, setWishItems] = useState<WishItem[]>([]);
+
+    useEffect(() => {
+        const storedWishItems = localStorage.getItem("wishItems");
+        if(storedWishItems){
+            setWishItems(JSON.parse(storedWishItems))
+        }
+    }, [])
     
 
     const addToWishItems = (product: WishItem) => {
@@ -29,6 +36,8 @@ export const WishListContextProvider: FC<{children : ReactNode}> = ({ children }
         if(!existingItem){
             setWishItems(prevItems => [...prevItems, product])
             toast.success("Item added to wish list");
+
+            localStorage.setItem("wishItems", JSON.stringify([...wishItems, product]))
             return
         }
         toast.error("Item already in wishlist");

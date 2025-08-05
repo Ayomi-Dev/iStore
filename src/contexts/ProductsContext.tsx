@@ -78,10 +78,19 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
       fetchProducts();
     },[]);
 
-    const getProductsByCategory = (category: string) => {
-        const filteredProducts = allProducts.filter(product => product.category.trim().toLowerCase() === category.trim().toLowerCase());
+    const usedCategories = new Set<string>();
 
-        const shuffleProducts = [...filteredProducts].sort(() => Math.random() - 0.5);
+    const getProductsByCategory = (category: string) => {
+        const normalized = category.trim().toLowerCase();
+
+        if (usedCategories.has(normalized)) {
+            return []; // Already used, prevent duplicates
+        }
+        usedCategories.add(normalized);
+
+        const filteredProducts = allProducts.filter(product => product.category.trim().toLowerCase() === category.trim().toLowerCase())
+
+        const shuffleProducts = filteredProducts.sort(() => Math.random() - 0.5);
 
         const selectedProducts = shuffleProducts.slice(0,3);
 

@@ -43,15 +43,18 @@ export const OrderSummary = () => {
 
         <div className="w-full md:w-[60%] mx-auto px-3 rounded-md bg-white h-[500px] flex flex-col items-center justify-center">
             <div className="mb-4 rounded">
-                <p className="my-4 block"><strong>Total Price:</strong> ${currentOrder?.totalAmount}</p>
+                <p className="my-4 block"><strong>Total Price:</strong> ${currentOrder?.totalAmount}.00</p>
                 <p className="my-4 block"><strong>Total Items:</strong> {currentOrder?.totalQuantity}</p>
                 <p className="my-4 block"><strong>Payment ID:</strong> {currentOrder?.paymentIntentId}</p>
                 <p className="my-4 block"><strong>Date:</strong> {new Date(currentOrder?.paidAt).toLocaleString()}</p>
                 <ul className="mt-2">
                     {currentOrder?.orderItems.map((item, index) => (
-                        <li className="flex justify-between items-center my-3" key={index}>
-                            <span className="font-bold">{item.name} x {item.quantity}</span>
-                            <span className="font-bold text-pink-500">{item.price}</span>
+                        <li className=" my-3" key={index}>
+                            <Link to={`/product/${item.product}/details`} className="hover:underline flex justify-between items-center">
+                                <img className="h-10 w-10 rounded-[50%] object-cover" src={item.image} alt={item.name} />
+                                <span className="font-bold">{item.name} x {item.quantity}</span>
+                                <span className="font-bold text-pink-500">${item.total}.00</span>
+                            </Link>
                         </li>
                     ))}
                 </ul>

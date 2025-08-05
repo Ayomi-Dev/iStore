@@ -9,10 +9,14 @@ import { UserProvider } from './contexts/UserContext.tsx'
 import { ProductListProvider } from './contexts/ProductsContext.tsx'
 import {ToastContainer, Bounce} from 'react-toastify'
 import { WishListContextProvider } from './contexts/WishListContext.tsx'
+import { store } from './redux/store.ts'
+import { Provider } from 'react-redux'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
+    <Provider store={store}>
+
       <UserProvider>
         <ProductListProvider>
           <StripeProvider>
@@ -36,6 +40,7 @@ createRoot(document.getElementById('root')!).render(
           </StripeProvider>
         </ProductListProvider>
       </UserProvider>
+    </Provider>
     </BrowserRouter>
   </StrictMode>
 )

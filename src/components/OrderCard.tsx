@@ -25,7 +25,7 @@ export const OrderCard = () => {
                     <span className="font-bold">{new Date(order.paidAt).toLocaleString()}</span>
                     <Link to={`/order/summary/${order._id}`} className="flex justify-between gap-4 items-center my-3">
                         <span>{order.totalQuantity} items</span>
-                         <img src={order.orderItems[0].image} className='h-[40px] w-40px] rounded-[50%]' alt="" /> 
+                         <img src={order.orderItems[0].image} className='h-[40px] w-40px] rounded-[50%]' alt={order.orderItems[0].name} /> 
                          <span className="font-bold text-pink-600">${order.totalAmount}</span>
                     </Link>
                 </li>

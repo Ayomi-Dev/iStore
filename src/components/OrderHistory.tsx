@@ -3,22 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserOrders, deleteOrder, clearOrders } from '../redux/orderSlice';
 import type { RootState, AppDispatch } from '../redux/store';
 import { FaTrash } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 export const OrdersHistory = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { orders, loading, error } = useSelector((state: RootState) => state.order);
-  const navigate = useNavigate()
+ 
   useEffect(() => {
     dispatch(fetchUserOrders());
   }, [dispatch]);
  
   const handleDeleteOrder = (orderId: string) => {
     dispatch(deleteOrder(orderId));
-    setTimeout(() => {
-      navigate(`/profile`)
-    }, 1000);
   }
 
   if (loading) return <p className='w-[500px] h-[500px] mx-auto'>Loading orders...</p>;
@@ -49,13 +46,13 @@ export const OrdersHistory = () => {
                   
             </div>
           ))}
-            <button onClick={() => dispatch(clearOrders())} className="bg-pink rounded-md px-3 py-2">Clear all</button>
+            <button onClick={() => dispatch(clearOrders())} className="bg-pink-700 cursor-pointer hover:bg-red-600 text-white rounded-md px-3 py-2">Clear all</button>
           </div>
         )
         :
         (
           <div className="w-full md:w-[500px] h-[500px] flex items-center justify-center flex-col gap-4 mx-auto">
-            <h1 className='font-bold md:text-2xl text-md'>No orders yet</h1>
+            <h1 className='font-bold md:text-2xl text-md'>No orders</h1>
             <Link to={`/products`} className='py-2 text-white text-md px-4 bg-pink-600 rounded-md'> 
               Shop
             </Link>
