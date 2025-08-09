@@ -18,12 +18,13 @@ export const OrdersHistory = () => {
     dispatch(deleteOrder(orderId));
   }
 
-  if (loading) return <p className='w-[500px] h-[500px] mx-auto'>Loading orders...</p>;
-  if (error) return <p className='w-[500px] h-[500px] mx-auto'>Error: {error}</p>;
+  
 
   return (
     <div className='md:w-[60%] w-full mx-auto '>
-        {orders.length > 0 ? 
+      {loading && <div className='w-[500px] h-[500px] mx-auto flex items-center justify-center md:text-2xl text-sm'>Loading orders...</div>}
+      {error &&  <div className='w-[500px] h-[500px]  mx-auto flex items-center justify-center text-red-700 md:text-2xl text-sm'>Error: {error}</div>}        
+      {orders.length > 0 ? 
         (
           <div className="py-2">
             {orders.map(order => (
@@ -51,12 +52,14 @@ export const OrdersHistory = () => {
         )
         :
         (
-          <div className="w-full md:w-[500px] h-[500px] flex items-center justify-center flex-col gap-4 mx-auto">
+          !error ? (<div className="w-full md:w-[500px] h-[500px] flex items-center justify-center flex-col gap-4 mx-auto">
             <h1 className='font-bold md:text-2xl text-md'>No orders</h1>
             <Link to={`/products`} className='py-2 text-white text-md px-4 bg-pink-600 rounded-md'> 
               Shop
             </Link>
-          </div>
+          </div>)
+          :
+          ("")
         )
     }
     </div>

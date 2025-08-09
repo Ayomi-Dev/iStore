@@ -74,8 +74,14 @@ export const TopNavBar = () => {
                   <FaCartShopping className="mx-1 text-xs md:text-lg " title='go to cart'/>
                   <span className="top-[-15px] right-[0]  font-bold text-pink-600 absolute">{cartItems.length == 0 ? '' : cartItems.length}</span>
                 </Link>
-                <Link to={`/profile`} >
-                  <FaUser className="mx-1 text-xs md:text-lg" title='profile' />
+                <Link to={`/profile`} className='h-6 flex items-center justify-center w-6 rounded-[50%]' >
+                  {user?.image ?
+                    (<img src={user.image} alt="" className="w-full h-full rounded-[50%] object-cover" />)
+                  :
+                    (
+                      <FaUser className="mx-1 text-xs md:text-lg" title='profile' />
+                    )
+                  }
                 </Link>
               </div>
               )

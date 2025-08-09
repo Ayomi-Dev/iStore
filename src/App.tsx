@@ -13,7 +13,7 @@ function App() {
     dispatch(initializeFromLocalStorage())
   },[]) 
   return (
-      <div className='w-full'>
+      <div className='w-full overflow-hidden'>
         <TopNavBar />
         <div className="flex gap-2 relative">
           <SideNav />

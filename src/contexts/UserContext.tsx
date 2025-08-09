@@ -7,7 +7,10 @@ interface User {
     name: string;
     email: string;
     message: string;
-    isAdmin: boolean
+    isAdmin: boolean;
+    image: string;
+    address: string;
+    phone: number
 }
 
 interface UserContextType {
@@ -19,6 +22,7 @@ interface UserContextType {
     openSidePanel: () => void
     isLoading: boolean;
     adminUsers: User[];
+    setUser: React.Dispatch<React.SetStateAction<User | null>>;
     getAdminUsers: () => Promise<void>
     deleteUser: (id: string) => Promise<void>
 }
@@ -46,6 +50,7 @@ export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
             console.log(error)
         }
     }
+ 
 
     const deleteUser = async(id: string) => {
         try{
@@ -60,6 +65,9 @@ export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
             console.log(err)
         }
     }
+    // const getUserById = async() => {
+
+    // }
 
     useEffect(() => {
         const userToken = localStorage.getItem('token')
@@ -80,6 +88,9 @@ export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
                         email: jwtUser.email,
                         message: "",
                         isAdmin: jwtUser.isAdmin,
+                        image: jwtUser.image,
+                        address: jwtUser.address,
+                        phone: jwtUser.phone
                     });
                 }
             }
@@ -121,7 +132,7 @@ export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
     }
 
 
-    const value = {user, token, login, logout, sidePanel, openSidePanel, isLoading, adminUsers, getAdminUsers, deleteUser}
+    const value = {user, setUser, token, login, logout, sidePanel, openSidePanel, isLoading, adminUsers, getAdminUsers, deleteUser}
     return(
         <UserContext.Provider value = { value }>
             { children }

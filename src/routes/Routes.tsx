@@ -17,6 +17,7 @@ import { EditProduct } from '../admin/pages/EditProduct'
 import { OrderSummary } from '../pages/OrderSummary'
 import { WishList } from '../pages/WishList'
 import { AdminUsersList } from '../admin/pages/AdminUsersList'
+import { UserEditPage } from '../pages/UserEditPage'
 
 
 
@@ -38,6 +39,7 @@ export const PageRoutes = () => {
             <Route path='/orders/history' element = { <Order />} />
             <Route path='/order/summary/:id' element = { <OrderSummary />} />
             <Route path='/my-wishlist' element = { <WishList />} />
+            <Route path='/profile/edit/:id' element = { <UserEditPage /> } />
           </Route>
            
           <Route path='/login' element = {<Login />}> </Route>

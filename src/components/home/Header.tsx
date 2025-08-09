@@ -10,26 +10,22 @@ const slides = [
   {
     image: I4,
     title: "Shop Premium Devices",
-    subtitle: "Tech that elevates your lifestyle.",
-    bg: "bg-red-100",
+    subtitle: "Tech that elevates your lifestyle."
   },
   {
     image: I2,
     title: "Style Meets Innovation",
-    subtitle: "Smart meets sleek in every device.",
-    bg: "bg-blue-100",
+    subtitle: "Smart meets sleek in every device."
   },
   {
     image: I3,
     title: "All-in-One Store",
-    subtitle: "One-stop shop for gadgets and gear.",
-    bg: "bg-green-100",
+    subtitle: "One-stop shop for gadgets and gear."
   },
   {
     image: I5,
     title: "Next-Gen Smartphones",
-    subtitle: "Future in your hands today.",
-    bg: "bg-yellow-100",
+    subtitle: "Future in your hands today."
   },
 ];
 
@@ -40,7 +36,7 @@ export const Header = () => {
   useEffect(() => {
     const loop = setInterval(() => {
       setIndex((prev) => (prev + 1) % slides.length);
-    }, 5000); // 4 seconds for each slide
+    }, 5000); // 5 seconds for each slide
     return () => clearInterval(loop);
   }, []);
   return (
@@ -52,7 +48,7 @@ export const Header = () => {
           animate={{ x: 0, opacity: 1 }}
           exit={{ y: -300, opacity: 0 }}
           transition={{ duration: 1 }}
-          className=" w-[90%] mx-auto h-full flex flex-col md:flex-row items-center justify-center gap-6"
+          className=" w-full mx-auto h-full flex flex-col md:flex-row items-center justify-center gap-6"
         >
           
           <div className="w-full md:w-1/2 h-[500px]">
@@ -68,7 +64,7 @@ export const Header = () => {
             <h1 className="text-3xl md:text-5xl font-bold mb-4 text-gray-800">
               {slides[index].title}
             </h1>
-            <p className="text-lg text-gray-600">{slides[index].subtitle}</p>
+            <p className="text-lg italic font-semibold text-[#f31b87]">{slides[index].subtitle}</p>
           </div>
         </motion.div>
       </AnimatePresence>

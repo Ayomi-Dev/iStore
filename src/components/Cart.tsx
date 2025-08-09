@@ -19,7 +19,8 @@ export const Cart : FC = () => {
     const {cartItems, totalAmount, totalQuantity } = useSelector((state: RootState) => state.cart)
 
     const [clientSecret, setClientSecret] = useState<string>(""); //stores a unique key returned by Stripe to allow payment confirmation
-    const [loading, setLoading] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string>("")
     const dispatch = useDispatch()
     const formatedItems = cartItems?.map((item) => ({
         product: item._id,
@@ -31,8 +32,9 @@ export const Cart : FC = () => {
     }))
    
     const createPaymentIntent = async () => {//Asks Stripe to create a payment intent through which the client secret key is return
-        
+        setLoading(true)
         //sends a request to the backend server to create a payment intent i.e a clientSecret key
+      try{
         const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/orders/create-payment-intent`,  
             { 
               totalQuantity,
@@ -45,6 +47,18 @@ export const Cart : FC = () => {
             }
         )
         setClientSecret(data.clientSecret)
+        setLoading(false)
+      }
+      catch(error)  {
+        console.log(error)
+        setError("Cannot process order! Kindly try again.")
+      }
+      finally{
+        setLoading(false);
+        setTimeout(() => {
+          setError("")
+        }, 2500);
+      }
     }
 
 
@@ -52,8 +66,9 @@ export const Cart : FC = () => {
         if(!stripe || !elements) return
 
         setLoading(true)
+      try{
 
-        const result =  await stripe.confirmCardPayment(clientSecret, {  //confrims payment with the clientSecret created and card information collected by CardElement
+        const result =  await stripe.confirmCardPayment(clientSecret, {  //confirms payment with the clientSecret created and card information collected by CardElement
             payment_method: {
                 card: elements.getElement(CardElement)!
             }
@@ -86,9 +101,20 @@ export const Cart : FC = () => {
             dispatch(clearCart())
             setTimeout(() => {
               window.location.href = '/orders/history';
-            }, 1000)
+            }, 2000)
 
         }
+      }
+
+      catch(error){
+        console.log(error)
+        setError("Order failed")
+      }
+      finally{
+        setTimeout(() => {
+          setError("")
+        }, 1500);
+      }
     }
 
     const handleIncrease = (product: CartItem ) => {
@@ -202,17 +228,23 @@ export const Cart : FC = () => {
                 <div className="w-full flex items-center justify-center py-3">
                   <button className="text-white font-bold mx-auto px-3 py-2 cursor-pointer rounded-md bg-red-300 hover:bg-red-600 transition-[0.7s] ease-in-out" onClick={() => dispatch(clearCart())}>Clear Cart</button>
                 </div>
-                <div className="w-full flex items-center justify-center  ">
+                <div className="w-full h-[100px] flex items-center justify-center  ">
                   {!clientSecret ? (
-                      <button onClick={createPaymentIntent} className="py-2 px-4 mx-auto cursor-pointer bg-green-400 hover:bg-green-600 rounded-md text-white">Proceed with order</button>
-                    ) : 
+                    <div className="block">
+                      <button onClick={createPaymentIntent} className={`${loading ? "cursor-no-drop opacity-[0.3]" : "cursor-pointer"} py-2 px-4 mx-auto bg-green-400 hover:bg-green-600 rounded-md text-white`} disabled={loading}>{loading ? "Processing..." : "Process Order"}</button>
+                      {error ? (<p  className="text-red-600 text-sm">{error}</p>) : ("")}
+                    </div>
 
+                    )
+                    : 
                     (
                     <div className="w-[75%] mx-auto">
                       <CardElement className="p-4" />
-                      <button onClick={handlePayment} className="py-2 px-4text-sm cursor-pointer bg-green-400 hover:bg-green-600 rounded-md text-white" disabled={loading}>
+                      <button onClick={handlePayment} className={`${loading ? "opacity-[0.3] cursor-not-allowed" : "opacity-[1] cursor-pointer"} py-2 px-4text-sm bg-green-400 hover:bg-green-600 rounded-md text-white"`} disabled={loading}>
                         {loading ? "Processing..." : "Pay"}
                       </button>
+                      error ? (<p className="text-red-600 text-sm">{error}</p>) : ("")
+
                     </div>
                     )
                   }
