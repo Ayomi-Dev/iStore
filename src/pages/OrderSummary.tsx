@@ -52,8 +52,8 @@ export const OrderSummary = () => {
                         <li className=" my-3" key={index}>
                             <Link to={`/product/${item.product}/details`} className="hover:underline flex justify-between items-center">
                                 <img className="h-10 w-10 rounded-[50%] object-cover" src={item.image} alt={item.name} />
-                                <span className="font-bold">{item.name} x {item.quantity}</span>
-                                <span className="font-bold text-pink-500">${item.total}.00</span>
+                                <span className="font-bold text-sm md:text-xl">{item.name} - {item.quantity} x ${item.price}.00</span>
+                                <span className="font-bold text-[10px] md:text-xl ml-1 text-pink-500">${item.total}.00</span>
                             </Link>
                         </li>
                     ))}

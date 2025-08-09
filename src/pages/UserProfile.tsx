@@ -5,28 +5,29 @@ import { Info } from '../components/profile/Info';
 import { UserOrders } from '../components/profile/UserOrders';
 import { Settings } from '../components/profile/Settings';
 import { OrderCard } from '../components/OrderCard';
+import { useUserContext } from '../contexts/UserContext';
 
 
 export const UserProfile: React.FC = () => {
 
-
+  const {user} = useUserContext()
 
   
 
   return (
     <PageWrapper>
-      <div className="md:flex block h-[500px] ">
+      <h1 className="text-lg text-center py-3 font-bold">{user?.message}</h1>
+      <div className="flex flex-col md:flex-row ">
+        <div className="md:flex-1 w-full text-white flex flex-wrap border gap-4 mx-auto px-4">
+          <Info />
 
-      <div className="flex-1 bg-white text-white grid grid-cols-1 md:grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] gap-4 mx-auto py-6 px-4">
-        <Info />
+          <WishCard />
 
-        <WishCard />
+          <UserOrders />
 
-        <UserOrders />
-
-        <Settings />
-      </div>
-      <OrderCard />
+          <Settings />
+        </div>
+        <OrderCard />
       </div>
     </PageWrapper>
   );

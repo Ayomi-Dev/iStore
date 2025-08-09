@@ -24,7 +24,7 @@ export const TopNavBar = () => {
   return (
     <section className='w-full flex-col flex items-center justify-center sticky px-1 md:px-4 z-90 top-0 left-0 h-[120px] bg-gray-50'> 
       <nav className='mx-3 py-3 w-full flex justify-between relativeitems-center'>
-    {/* <a href="">Reload</a> */}
+  
         <div className="flex h-full items-center gap-4">
           {user?.isAdmin 
           ?
@@ -44,7 +44,7 @@ export const TopNavBar = () => {
                 <FaBars  />
               )}
             </div>
-            <h1 className='md:ml-4 ml-1 font-bold italic hidden md:block text-sm md:text-xl text-pink-600'>iStore</h1>
+            <Link to={`/home`} className='md:ml-4 ml-1 font-bold italic hidden md:block text-sm md:text-xl text-pink-600'>iStore</Link>
           </>)
           
         }
@@ -53,7 +53,7 @@ export const TopNavBar = () => {
         <Username  />
                 
         <div className="h-full relative flex gap-2 items-center">
-          {/* <FaSearch className="block md:hidden mx-1 text-xs md:text-lg" onClick={displaySearchBar} /> */}
+          
           <div className="relative">
             {user?.isAdmin ? 
               ( <div className="flex">
@@ -74,7 +74,7 @@ export const TopNavBar = () => {
                   <FaCartShopping className="mx-1 text-xs md:text-lg " title='go to cart'/>
                   <span className="top-[-15px] right-[0]  font-bold text-pink-600 absolute">{cartItems.length == 0 ? '' : cartItems.length}</span>
                 </Link>
-                <Link to={`/profile`} className='h-6 flex items-center justify-center w-6 rounded-[50%]' >
+                <Link to={`/profile`} className='h-4 flex items-center justify-center w-4 rounded-[50%]' >
                   {user?.image ?
                     (<img src={user.image} alt="" className="w-full h-full rounded-[50%] object-cover" />)
                   :

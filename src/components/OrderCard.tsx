@@ -14,7 +14,7 @@ export const OrderCard = () => {
   
     
   return (
-    <ul className="block w-[25%]"> 
+    <ul className="block w-full md:w-[25%]"> 
         <h1 className='text-center font-bold'>Recent Orders</h1>
         {orders
         .slice()
