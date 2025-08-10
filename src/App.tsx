@@ -8,7 +8,7 @@ import { initializeFromLocalStorage } from './redux/cartSlice';
 
 
 function App() {
-  console.log("API URL:", import.meta.env.VITE_API_URL);
+
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(initializeFromLocalStorage())
