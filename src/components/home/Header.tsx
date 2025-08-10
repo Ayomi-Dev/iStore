@@ -32,7 +32,7 @@ const slides = [
 
 export const Header = () => {
   const [index, setIndex] = useState<number>(0);
-
+  
   useEffect(() => {
     const loop = setInterval(() => {
       setIndex((prev) => (prev + 1) % slides.length);
