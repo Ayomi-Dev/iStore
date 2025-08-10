@@ -232,7 +232,7 @@ export const Cart : FC = () => {
                   {!clientSecret ? (
                     <div className="block">
                       <button onClick={createPaymentIntent} className={`${loading ? "cursor-no-drop opacity-[0.3]" : "cursor-pointer"} py-2 px-4 mx-auto bg-green-400 hover:bg-green-600 rounded-md text-white`} disabled={loading}>{loading ? "Processing..." : "Process Order"}</button>
-                      {error ? (<p  className="text-red-600 text-sm">{error}</p>) : ("")}
+                      
                     </div>
 
                     )
