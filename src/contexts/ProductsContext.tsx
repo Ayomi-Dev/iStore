@@ -60,7 +60,7 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
         setLoading(true)
 
         try {
-           const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/products`) 
+           const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`) 
            setLoading(false)
            setAllProducts( data )
             
@@ -108,7 +108,7 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
                 const value = filters[key as keyof typeof filters];   
                 if(value !== undefined && value !== '' ) searchParams.append(key, value.toString());
             }
-            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/products?${searchParams.toString()}`);
+            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products?${searchParams.toString()}`);
 
             if(!data || data.length === 0){
                 setFilteredProducts([]);

@@ -44,7 +44,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             formData.append('images', file)
         }
 
-        const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/products/upload/images`,
+        const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/api/products/upload/images`,
             formData,
             {
                 headers: {
@@ -65,7 +65,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             
             const productToSend = {...product, images: uploadedImageUrls} //spreads out the product object and assigns the imageUrls as the value of its images property
             
-            await axios.post(`${import.meta.env.VITE_API_URL}/products/admin/create`, productToSend, 
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/products/admin/create`, productToSend, 
               {                 
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`

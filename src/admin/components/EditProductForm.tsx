@@ -28,7 +28,7 @@ export const EditProductForm = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/products/${id}`);
+        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/${id}`);
         setProduct(data);
         setImagePreviewUrls(data.images || []);
       } catch (err) {
@@ -60,7 +60,7 @@ export const EditProductForm = () => {
     }
 
     const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/products/upload/images`,
+      `${import.meta.env.VITE_API_URL}/api/products/upload/images`,
       formData,
       {
         headers: {
@@ -86,7 +86,7 @@ export const EditProductForm = () => {
 
       const updatedProduct = { ...product, images: uploadedImageUrls };
 
-      await axios.put(`${import.meta.env.VITE_API_URL}/products/admin/edit/${id}`, updatedProduct, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/products/admin/edit/${id}`, updatedProduct, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }

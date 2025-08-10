@@ -39,7 +39,7 @@ export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
 
     const getAdminUsers = async () => {
         try {
-           const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/user/admin/all-users`, {
+           const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/admin/all-users`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -54,7 +54,7 @@ export const UserProvider: React.FC<{children : ReactNode}> = ({children}) => {
 
     const deleteUser = async(id: string) => {
         try{
-            await axios.delete(`${import.meta.env.VITE_API_URL}/user/deactivate/${id}`, {
+            await axios.delete(`${import.meta.env.VITE_API_URL}/api/user/deactivate/${id}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }

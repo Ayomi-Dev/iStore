@@ -24,14 +24,14 @@ export const LoginForm = () => {
         setError('');
 
         try{
-            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/user/login`, //calls api  and then verify user info
+            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/user/login`, //calls api  and then verify user info
                 {
                     email, password
                 },
             )
 
             const token = data.token; //extracts jwt assigned to user info
-            const profileInfo = await axios.get(`${import.meta.env.VITE_API_URL}/user/profile`, //calls the api with endpoint to extract info of the user
+            const profileInfo = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/profile`, //calls the api with endpoint to extract info of the user
                 {
                     headers: {
                         Authorization: `Bearer ${token}`

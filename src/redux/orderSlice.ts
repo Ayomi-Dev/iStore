@@ -37,7 +37,7 @@ export const fetchUserOrders = createAsyncThunk(
     `orders/fetchUserOrders`,
     async (_, thunkAPI) => {
         try {
-            const { data }= await axios.get(    `${import.meta.env.VITE_API_URL}/orders/my-orders`, {
+            const { data }= await axios.get(    `${import.meta.env.VITE_API_URL}/api/orders/my-orders`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -53,7 +53,7 @@ export const deleteOrder = createAsyncThunk(
     `orders/deleteOrder`,
     async (orderId: string, thunkAPI) => {
         try {
-            await axios.delete(`${import.meta.env.VITE_API_URL}/orders/${orderId}`, {
+            await axios.delete(`${import.meta.env.VITE_API_URL}/api/orders/${orderId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }

@@ -24,7 +24,7 @@ export const EditUser = () => {
     useEffect(() => {
         const getCurrentUser = async() => {
             try {
-                const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/user/profile/edit/${id}`, {
+                const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/profile/edit/${id}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
                     }

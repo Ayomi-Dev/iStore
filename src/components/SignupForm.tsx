@@ -76,7 +76,7 @@ export const SignupForm = () => {
         }
 
         try {
-            const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/user/sign-up`,
+            const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/api/user/sign-up`,
                 {
                     email,
                     name, 
@@ -85,7 +85,7 @@ export const SignupForm = () => {
                 }
             )
             const token = data.token
-            const profileInfo = await axios.get(`${import.meta.env.VITE_API_URL}/user/profile`, {
+            const profileInfo = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/profile`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

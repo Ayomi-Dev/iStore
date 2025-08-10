@@ -35,7 +35,7 @@ export const Cart : FC = () => {
         setLoading(true)
         //sends a request to the backend server to create a payment intent i.e a clientSecret key
       try{
-        const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/orders/create-payment-intent`,  
+        const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/orders/create-payment-intent`,  
             { 
               totalQuantity,
               totalAmount
@@ -83,7 +83,7 @@ export const Cart : FC = () => {
 
         if(result.paymentIntent.status === "succeeded"){
             //creates the order and its details in the database
-            await axios.post(`${import.meta.env.VITE_API_URL}/orders/`, 
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/orders/`, 
                 {
                     orderItems: formatedItems,
                     totalQuantity,

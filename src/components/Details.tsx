@@ -32,7 +32,7 @@ export const Details = () => {
     const getProduct = async () => { 
         setError("");
         try{
-            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/products/${id}`);
+            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/${id}`);
             setCurrentProduct(data);
             setMainImg(data.images[0])
             setError("")
@@ -109,7 +109,7 @@ export const Details = () => {
         }
 
         try {
-            await axios.put(`${import.meta.env.VITE_API_URL}/products/${id}/review`, {review: newReview}, { //sends the review contents to the server
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/products/${id}/review`, {review: newReview}, { //sends the review contents to the server
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
