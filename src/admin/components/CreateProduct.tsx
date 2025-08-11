@@ -7,15 +7,15 @@ import { toast } from 'react-toastify';
 
 
 export const CreateProduct = () => {
-    const navigate = useNavigate()
-    const { fetchProducts } = useProductContext();
-    const [product, setProduct] = useState({
-        name: '',
-        description: '',
-        price: '',
-        category: '',
-        stock: '',
-        images: []   
+  const navigate = useNavigate()
+  const { fetchProducts } = useProductContext();
+  const [product, setProduct] = useState({
+      name: '',
+      description: '',
+      price: '',
+      category: '',
+      stock: '',
+      images: []   
    });
    const [imageFiles, setImageFiles] = useState<File[]>([]);
 
@@ -39,12 +39,15 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 };
    
    const uploadImages =  async (files: File[]): Promise<string[]> => { //extract selected image files and sends to the backend for storage
-        const formData = new FormData();
-        for(let file of files) {
-            formData.append('images', file)
-        }
+    const uploadedUrls: string[] = []
 
-        const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/api/products/upload/images`,
+    for(let file of files) {
+      const formData = new FormData();
+        formData.append('file', file);
+        formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET)
+        formData.append("folder", "products")
+
+        const {data} = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`,
             formData,
             {
                 headers: {
@@ -52,8 +55,10 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                 }
             }
         );
+        uploadedUrls.push(data.secure_url)
+    }
         
-        return data.images  //returns the image urls saved in the backend storage
+        return uploadedUrls  //returns the image urls saved in the backend storage
    }
    const addNewProduct = async(e:React.FormEvent) => {
         e.preventDefault();
@@ -79,12 +84,10 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             setTimeout(() => {
               navigate('/admin/products')
             }, 2000);
-            setLoading(false)
         }
         catch(error){
           console.log(error);
           setError("Could not add product");
-          setLoading(false);
         }
         finally{
             setLoading(false);

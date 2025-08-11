@@ -72,7 +72,7 @@ export const EditUser = () => {
                 formData.append("image", selectedImage)
             }
            
-            const {data} = await axios.put(`${import.meta.env.VITE_API_URL}/user/profile/edit/${id}`, formData, {
+            const {data} = await axios.put(`${import.meta.env.VITE_API_URL}/api/user/profile/edit/${id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`, 
                     "Content-Type": 'multipart/form-data',
@@ -81,8 +81,8 @@ export const EditUser = () => {
             
             setUser(data.user)
             setPreviewImg(null)
+
             setTimeout(() => {
-                setLoading(false);
                 navigate(`/profile`)
             }, 1000);
             
@@ -93,7 +93,6 @@ export const EditUser = () => {
         } catch (error: any) {
            console.log("edit user error",error.message) ;
            setErrorMessage("Could not update at this time, try again");
-           setLoading(false)
         }
         finally{
             setLoading(false)

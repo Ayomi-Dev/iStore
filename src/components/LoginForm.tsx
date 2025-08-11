@@ -54,9 +54,9 @@ export const LoginForm = () => {
             
         }
         catch(err: any) {
-            console.log(err);
-            toast.error("Login failed. Please check your network")
-            setError(err.response.data.message || 'Login failed!')
+            console.log(err.response.data.message);
+            toast.error(err.response.data.message)
+            setError(err.response.data.message)
         }
         finally{
             setTimeout(() => {
@@ -64,7 +64,7 @@ export const LoginForm = () => {
                 toast.dismiss()
             }, 1500)
         }
-       setEmail("")
+        setEmail("")
         setPassword("")
     }
   return (
@@ -94,7 +94,7 @@ export const LoginForm = () => {
         </form>
         
         {error && (
-            <p className="text-red-500">Login Failed. Please check your network</p>
+            <p className="text-red-500">{error}</p>
         )}
     </div>
   )

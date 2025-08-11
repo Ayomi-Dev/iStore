@@ -14,9 +14,9 @@ function App() {
     dispatch(initializeFromLocalStorage())
   },[]) 
   return (
-      <div className='w-full overflow-hidden'>
+      <div className='w-full'>
         <TopNavBar />
-        <div className="flex gap-2 relative">
+        <div className="flex top-[100px] gap-2 relative overflow-hidden">
           <SideNav />
           < PageRoutes />
         </div>

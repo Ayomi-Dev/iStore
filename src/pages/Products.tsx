@@ -20,7 +20,7 @@ export const ProductsList = () => {
       ) :
       (
 
-        <div className="grid grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))] w-full gap-4 p-2 ">
+        <div className="grid grid-cols-2 md:grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))] w-full gap-4 p-2 ">
           {productsOnDisplay?.map((product, index) => {
             return( 
               <ProductCard key={index} product={product} />

@@ -58,16 +58,13 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
 
     const fetchProducts = async () => {
         setLoading(true)
-
         try {
            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`) 
            setLoading(false)
-           setAllProducts( data )
-            
+           setAllProducts( data ) 
         } 
         catch (error) {
             console.log(error)
-            setLoading(false)
             setError('Error loading products');
         }
         finally{

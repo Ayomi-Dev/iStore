@@ -22,7 +22,7 @@ export const TopNavBar = () => {
     navigate('/login')
   }
   return (
-    <section className='w-full flex-col flex items-center justify-center sticky px-1 md:px-4 z-90 top-0 left-0 h-[120px] bg-gray-50'> 
+    <section className='w-full flex-col flex items-center justify-center fixed px-1 md:px-4 z-90 top-0 left-0 h-[120px] bg-gray-50'> 
       <nav className='mx-3 py-3 w-full flex justify-between relativeitems-center'>
   
         <div className="flex h-full items-center gap-4">
