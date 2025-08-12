@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { type Products, useProductContext } from "../contexts/ProductsContext"
 import { useEffect, useState } from "react";
 import  { type CartItem, addItems } from "../redux/cartSlice";
@@ -10,6 +10,7 @@ import { useUserContext } from "../contexts/UserContext";
 import axios from "axios";
 import { useWishListContext } from "../contexts/WishListContext";
 import { ConvertToWishItem } from "../utils/ConvertToWishItem";
+import { toast } from "react-toastify";
 
 
 
@@ -20,8 +21,10 @@ export const Details = () => {
     const { id } = useParams()
     const [currentProduct, setCurrentProduct] = useState<Products>()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     
-    const [error, setError] = useState<string>("")
+    const [error, setError] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false)
     const [quantity, setQuantity] = useState(1);
 
     const [mainImg, setMainImg] = useState<string>("")
@@ -31,6 +34,7 @@ export const Details = () => {
 
     const getProduct = async () => { 
         setError("");
+        setLoading(true)
         try{
             const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/${id}`);
             setCurrentProduct(data);
@@ -40,6 +44,9 @@ export const Details = () => {
         catch(error){
             console.log(error)
             setError('Sorry, product cannot be found. Kindly refresh page.')
+        }
+        finally{
+            setLoading(false)
         }
     }
 
@@ -71,7 +78,16 @@ export const Details = () => {
 
     //adding selected item by userName to the cart list
     const addItemToCart = (product: CartItem) => {
-        dispatch(addItems({ ...product, quantity, total }))        
+        if(user){
+            dispatch(addItems({ ...product, quantity, total }))        
+        }
+        else{
+            toast.warning("Please login to add item to cart");
+            setTimeout(() => {
+                navigate('/login')
+                
+            }, 1500);
+        }
     }
 
     //displaying individual image on the main image view
@@ -96,8 +112,13 @@ export const Details = () => {
 
     const handleReview = async (e:React.FormEvent) => {
         e.preventDefault();
+        setLoading(true)
 
-        if(!review || !user)return
+        if( !user){
+            toast.warning("Please kindly login");
+            setLoading(false)
+            return
+        }
         const day = new Date().getDate()
         const month = new Date().getMonth() + 1
         const year = new Date().getFullYear()
@@ -121,35 +142,36 @@ export const Details = () => {
 
         } 
         catch (err: any) {
-            console.error('Review update error:', err.response || err);
-            
+            console.error('Review update error:', err.response || err); 
         }  
+        finally{
+            setLoading(false)
+        }
     }
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col items-center justify-center">
         {currentProduct && 
             (
                 <div className="w-full">
 
-                    <div className="flex flex-col md:flex-row py-3 gap-2 items-center mx-auto shadow-lg rounded-sm bg-white mt-4 w-11/12">
-                        <div className="flex-1 h-full">
+                    <div className="flex flex-col md:flex-row justify-center py-3 gap-2 items-center shadow-lg rounded-sm bg-white mt-4 w-full">
+                        <div className="md:flex-1 w-full h-full">
                             <div className="flex items-center justify-center">
                                 {mainImg ? (
                                     <img src={mainImg} className='rounded-md object-cover h-[350px]' alt="" />
-
                                 ) :
                                 (
-                                    <div className="h-64 w-64 bg-gray-100 animate-pulse" />
+                                    ""
                                 )
                                 }
                             </div>
 
-                            <div className="w-[500px] items-center justify-center flex mx-auto my-5">
+                            <div className="w-full md:w-[300px] items-center justify-center mx-auto flex my-5">
                                 {currentProduct?.images.map((image, index) => 
                                     {
                                         return(
-                                            <img src={image} key={index} onClick={() => changeImg(image)} className="cursor-pointer hover:transform hover:scale-[1.1] transition-[0.6s] ease-in-out h-20 object-center rounded-sm shadow-lg w-20 inline-block mx-2"></img>
+                                            <img src={image} key={index} onClick={() => changeImg(image)} className="cursor-pointer hover:transform hover:scale-[1.1] transition-[0.6s] ease-in-out h-20 object-center rounded-sm shadow-lg w-20 inline-block mx-2 "></img>
                                         )
                                     })
                             
@@ -157,7 +179,7 @@ export const Details = () => {
                             </div>
                         </div>
 
-                        <div className="flex-col w-2/5 gap-4 justify-center md:justify-start">
+                        <div className="flex-col md:w-2/5 w-[80%] mx-auto items-center gap-4 justify-center">
                             <h1 className='mb-4 font-bold md:text-2xl'>{currentProduct?.name}</h1>
                             <h3 className='mb-4 font-semibold md:text-2xl'>{currentProduct?.brand}</h3>
                             <div className="flex items-center gap-2 mb-3">
@@ -187,7 +209,7 @@ export const Details = () => {
                                 <FaCirclePlus className="cursor-pointer md:text-2xl" onClick={() => handleIncrease()} />
                             </div>
                 
-                            <div className="flex items-center gap-4 h-9 w-4/5 mt-5">
+                            <div className="flex items-center gap-4 h-9 w-full justify-between md:w-4/5 mt-5">
                                 <FaHeart className={`${isAdded(currentProduct._id) ? 'text-[#f31b87]' : "text-black"} hover:text-[#f31b87] text-xl cursor-pointer`} onClick={() => handleWish(currentProduct)} />
             
                                 <button
@@ -236,14 +258,16 @@ export const Details = () => {
                             </ul>)
                         }
                     </div>
-                    <div className="block mt-8 w-11/12 mx-auto">
+                    <div className="block mt-8 w-11/12 py-3 mx-auto">
                     <h1 className='font-bold text-lg mb-4 text-center md:text-left'>Let's hear from you</h1>
                     <form action="" className='mx-auto md:m-0' onSubmit={ handleReview }>
                         <div className="form-group">
                             <textarea required id="" value={review} placeholder="Share your experience here" onChange={(e) => setReview(e.target.value)}></textarea>
                         </div>
 
-                        <button type="submit" className="cursor-pointer py-2 px-4 font-semibold bg-pink-500 rounded-md text-white hover:bg-pink-700 transition-[0.6s] ease-in-out">Send Review</button>
+                        <button type="submit" className={`${loading ? "opacity-[0.5] cursor-not-allowed" : ""} cursor-pointer py-2 px-4 font-semibold bg-pink-500 rounded-md text-white hover:bg-pink-700 transition-[0.6s] ease-in-out`} disabled={loading}>
+                           {loading ? "Sending review" : "Send Review"}
+                        </button>
                     </form>
                     </div>
                 </div>
