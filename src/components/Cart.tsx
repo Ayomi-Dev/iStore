@@ -151,7 +151,7 @@ export const Cart : FC = () => {
 
         <div className="w-full block">
           <div className="flex w-full items-center justify-center bg-white shadow-md">
-            <h2 className=' text-pink-600 text-center my-5 text-[12px] md:text-xl'>Your items are here</h2>
+            <h2 className=' text-gray-600 text-center font-bold my-5 text-[12px] md:text-xl'>Your Cart:</h2>
             <div className="flex items-center justify-center gap-2 md:mx-2  h-full">
               <h2 className='font-bold text-sm md:text-xl mx-3 text-gray-600'>Total items: <span className='font-bold text-pink-600'>{ totalQuantity }</span></h2>
               <h2 className='font-bold mx-3 text-sm md:text-xl text-gray-600'>Total Price: <span className='font-bold text-pink-600'>${ totalAmount }</span> </h2>
@@ -224,31 +224,35 @@ export const Cart : FC = () => {
 
 
             {cartItems.length !==0 && (
-              <div className="flex gap-3 justify-center">
-                <div className="w-full flex items-center justify-center py-3">
-                  <button className="text-white font-bold mx-auto px-3 py-2 cursor-pointer rounded-md bg-red-300 hover:bg-red-600 transition-[0.7s] ease-in-out" onClick={() => dispatch(clearCart())}>Clear Cart</button>
-                </div>
-                <div className="w-full h-[100px] flex items-center justify-center  ">
+              <div className="flex flex-col gap-3 justify-between mt-3">
+                
+                <div className="w-full py-2">
                   {!clientSecret ? (
-                    <div className="block">
-                      <button onClick={createPaymentIntent} className={`${loading ? "cursor-no-drop opacity-[0.3]" : "cursor-pointer"} py-2 px-4 mx-auto bg-green-400 hover:bg-green-600 rounded-md text-white`} disabled={loading}>{loading ? "Processing..." : "Process Order"}</button>
-                      
+                    <div className="flex justify-between w-full">
+                      <button onClick={createPaymentIntent} className={`${loading ? "cursor-no-drop opacity-[0.3]" : "cursor-pointer"} py-2 px-4 bg-green-400 hover:bg-green-600 rounded-md text-white`} disabled={loading}>{loading ? "Processing..." : "Process Order"}</button>
+
+                      <div className="flex items-center justify-center">
+                        <button className="text-white font-bold mx-auto px-3 py-2 cursor-pointer rounded-md bg-red-300 hover:bg-red-600 transition-[0.7s] ease-in-out" onClick={() => dispatch(clearCart())}>Clear Cart</button>
+                      </div>
                     </div>
 
                     )
                     : 
                     (
-                    <div className="w-[75%] mx-auto">
-                      <CardElement className="p-4" />
-                      <button onClick={handlePayment} className={`${loading ? "opacity-[0.3] cursor-not-allowed" : "opacity-[1] cursor-pointer"} py-2 px-4text-sm bg-green-400 hover:bg-green-600 rounded-md text-white"`} disabled={loading}>
+                    <div className="w-full rounded-md shadow-lg gap-3 flex justify-between mx-auto">
+                      <CardElement className="p-4 w-full" />
+                      <button onClick={handlePayment} className={`${loading ? "opacity-[0.3] cursor-not-allowed" : "opacity-[1] cursor-pointer"} py-2 px-4 text-sm text-white bg-green-400 hover:bg-green-600 rounded-md text-white"`} disabled={loading}>
                         {loading ? "Processing..." : "Pay"}
                       </button>
-                      error ? (<p className="text-red-600 text-sm">{error}</p>) : ("")
-
                     </div>
                     )
                   }
+
+                  {error && (
+                    <div className="flex justify-center items-center text-red-600">{error}</div>
+                  )}
                 </div>
+                
               </div>
             )}
           </div>
