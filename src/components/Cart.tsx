@@ -47,7 +47,6 @@ export const Cart : FC = () => {
             }
         )
         setClientSecret(data.clientSecret)
-        setLoading(false)
       }
       catch(error)  {
         console.log(error)
@@ -64,7 +63,6 @@ export const Cart : FC = () => {
 
     const handlePayment = async () => { //defines the function to confirm payment wuth Stripe
         if(!stripe || !elements) return
-
         setLoading(true)
       try{
 
@@ -96,7 +94,7 @@ export const Cart : FC = () => {
                     }
                 }
             )
-            setLoading(false)
+           
             toast.success('Your order was successfully placed!');
             dispatch(clearCart())
             setTimeout(() => {
@@ -111,6 +109,7 @@ export const Cart : FC = () => {
         setError("Order failed")
       }
       finally{
+        setLoading(false)
         setTimeout(() => {
           setError("")
         }, 1500);

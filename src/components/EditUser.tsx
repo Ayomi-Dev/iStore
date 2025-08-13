@@ -81,13 +81,9 @@ export const EditUser = () => {
             
             setUser(data.user)
             setPreviewImg(null)
-
+            toast.success("Info successfully updated");
             setTimeout(() => {
                 navigate(`/profile`)
-            }, 1000);
-            
-            setTimeout(() => {
-                toast.success("Info successfully updated")
             }, 1500);
 
         } catch (error: any) {
