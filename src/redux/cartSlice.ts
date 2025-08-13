@@ -128,6 +128,7 @@ const cartSlice = createSlice({
             state.cartItems = []
             toast.info(`Cart cleared`)
             state.totalAmount = 0;
+            localStorage.removeItem("cartItems")
         },
 
         initializeFromLocalStorage: (state) => { //initializes the cart from local storage

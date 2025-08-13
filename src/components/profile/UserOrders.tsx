@@ -10,7 +10,7 @@ export const UserOrders = () => {
       <FaMoneyBillTransfer className='text-2xl' />
       <h1 className="text-white font-bold">Your Orders</h1>
       <p className="text-white">You have made {orders.length} orders so far</p>
-      <Link to={`/orders`} className='font-bold underline'> Go to orders</Link>
+      <Link to={`/orders/history`} className='font-bold underline'> Go to orders</Link>
     </div>
   )
 }

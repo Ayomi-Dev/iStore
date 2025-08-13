@@ -21,10 +21,10 @@ export const OrdersHistory = () => {
   
 
   return (
-    <div className='md:w-[60%] w-full mx-auto '>
-      {loading && <div className='w-[500px] h-[500px] mx-auto flex items-center justify-center md:text-2xl text-sm'>Loading orders...</div>}
-      {error &&  <div className='w-[500px] h-[500px]  mx-auto flex items-center justify-center text-red-700 md:text-2xl text-sm'>Error: {error}</div>}        
-      {orders.length > 0 ? 
+    <div className='md:w-[60%] w-full mx-auto'>
+      {loading ? (<div className='w-[500px] h-[500px] mx-auto flex items-center justify-center text-green-500 md:text-2xl text-sm'>Loading orders...</div>)
+      : 
+      (orders.length > 0 ? 
         (
           <div className="py-2">
             {orders.map(order => (
@@ -35,11 +35,11 @@ export const OrdersHistory = () => {
                 <p><strong>Date:</strong> {new Date(order.paidAt).toLocaleString()}</p>
                 <ul className="mt-2">
                   {order.orderItems.map((item, idx) => (
-                    <li key={idx} className="text-sm py-2 flex gap-3">
+                    <Link to={`/product/${item.product}/details`} key={idx} className="text-sm py-2 flex gap-3">
                       <img src={item.image} alt={item.name} className='h-12 w-12 rounded-[50%]' />
                       <span className="font-bold">{item.name}</span>
                       <span className="font-bold">{item.quantity} * ${item.price}</span> 
-                    </li>
+                    </Link>
                   ))}
                 </ul>
 
@@ -61,7 +61,11 @@ export const OrdersHistory = () => {
           :
           ("")
         )
-    }
+      )
+      }
+
+      {error &&  <div className='w-[500px] h-[500px]  mx-auto flex items-center justify-center text-red-700 md:text-2xl text-sm'>Error: {error}</div>}        
+
     </div>
     
   );
