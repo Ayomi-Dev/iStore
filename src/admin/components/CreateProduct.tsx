@@ -130,7 +130,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             <FaImage className="fa"/>
             <input name="images" multiple type='file' onChange={handleImageChange } />
           </div>
-          <button type="submit" className={`${loading ? "opacity-[0.5] cursor-not-allowed" : ""} bg-blue-600 text-white px-4 py-2 rounded`} disabled={loading}>{loading? 'Adding new product...' :'Create Product'}</button>
+          <button type="submit" className={`${loading ? "opacity-[0.5] cursor-not-allowed" : ""} bg-blue-600 cursor-pointer text-white px-4 py-2 rounded`} disabled={loading}>{loading? 'Adding new product...' :'Create Product'}</button>
         </form>
         {imagePreviewUrls.length > 0 && (
           <div className="flex gap-2 flex-col h-[200px] mt-2">
