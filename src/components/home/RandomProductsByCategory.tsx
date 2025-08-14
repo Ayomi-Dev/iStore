@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useProductContext } from '../../contexts/ProductsContext'
 import {type Products } from '../../contexts/ProductsContext'
+import { useDispatch } from 'react-redux'
+import { addItems } from '../../redux/cartSlice'
+import { ConvertToCartItem } from '../../utils/ConvertToCartItem'
 
 
 export const RandomProductsByCategory = () => {
@@ -8,6 +11,7 @@ export const RandomProductsByCategory = () => {
     const [electronics, setElectronics] = useState<Products[]>([])
     const [computers, setComputers] = useState<Products[]>([])
     const [automotive, setAutomotive] = useState<Products[]>([])  
+    const dispatch = useDispatch()
     
     useEffect(()=> {
         setElectronics(getProductsByCategory("Electronics"))
@@ -29,7 +33,7 @@ export const RandomProductsByCategory = () => {
                             <h1 className="text-black font-bold">{product.name}</h1>
                             <img src={product.images[0]} alt="" className='w-full h-[300px] py-2 object-cover' />
                             <div className="flex items-center flex-wrap justify-between px-2 w-full">
-                                <button className="bg-pink-500 py-2 px-4 text-[10px] rounded-sm font-bold text-white">Add To Cart</button>
+                                <button className="bg-pink-500 py-2 px-4 text-[10px] rounded-sm font-bold text-white cursor-pointer" onClick={() => dispatch(addItems(ConvertToCartItem(product)))}>Add To Cart</button>
                                 <p className="text-black font-bold text-sm">{product.name}</p>
                                 <p className="text-pink-600 font-bold">${product.price}.00</p>
                             </div>
@@ -50,7 +54,7 @@ export const RandomProductsByCategory = () => {
                             <h1 className="text-black font-bold">{product.name}</h1>
                             <img src={product.images[0]} alt="" className='w-full h-[300px] py-2 object-cover' />
                             <div className="flex items-center flex-wrap justify-between px-2 w-full">
-                                <button className="bg-pink-500 py-2 px-4 text-[12px] rounded-sm font-bold text-white">Add To Cart</button>
+                                <button className="bg-pink-500 py-2 px-4 text-[12px] rounded-sm font-bold text-white cursor-pointer" onClick={() => dispatch(addItems(ConvertToCartItem(product)))}>Add To Cart</button>
                                 <p className="text-black font-bold text-sm">{product.name}</p>
                                 <p className="text-pink-600 font-bold">${product.price}.00</p>
                             </div>
@@ -70,7 +74,7 @@ export const RandomProductsByCategory = () => {
                             <h1 className="text-black font-bold">{product.name}</h1>
                             <img src={product.images[0]} alt="" className='w-full h-[300px] py-2 object-cover' />
                             <div className="flex items-center flex-wrap justify-between px-2 w-full">
-                                <button className="bg-pink-500 py-2 px-4 text-[12px] rounded-sm font-bold text-white">Add To Cart</button>
+                                <button className="bg-pink-500 py-2 px-4 text-[12px] rounded-sm font-bold text-white cursor-pointer" onClick={() => dispatch(addItems(ConvertToCartItem(product)))}>Add To Cart</button>
                                 <p className="text-black font-bold text-sm">{product.name}</p>
                                 <p className="text-pink-600 font-bold">${product.price}.00</p>
                             </div>
