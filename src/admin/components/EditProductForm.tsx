@@ -53,24 +53,28 @@ export const EditProductForm = () => {
     }
   };
 
-  const uploadImages = async (files: File[]): Promise<string[]> => {
-    const formData = new FormData();
-    for (let file of files) {
-      formData.append('images', file);
+   const uploadImages =  async (files: File[]): Promise<string[]> => { //extract selected image files and sends to the backend for storage
+    const uploadedUrls: string[] = []
+    
+    for(let file of files) {
+      const formData = new FormData();
+        formData.append('file', file);
+        formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET)
+        formData.append("folder", "products")
+
+        const {data} = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`,
+            formData,
+            {
+                headers: {
+                    'Content-Type': "multipart/form-data"
+                }
+            }
+        );
+        uploadedUrls.push(data.secure_url)
     }
-
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/products/upload/images`,
-      formData,
-      {
-        headers: {
-          'Content-Type': "multipart/form-data"
-        }
-      }
-    );
-
-    return data.images;
-  };
+        
+        return uploadedUrls  //returns the image urls saved in the backend storage
+   }
 
   const updateProduct = async (e: React.FormEvent) => {
     e.preventDefault();
