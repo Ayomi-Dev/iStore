@@ -83,7 +83,7 @@ export const LoginForm = () => {
             </div>
 
             <div className="flex flex-col items-center gap-4">
-                <button className={`${loading ? "opacity-[0.5] cursor-not-allowed" : "opacity-[1] cursor-pointer"} w-[95%] mx-auto cursor-pointer text-white px-4 py-2 rounded-md sm:w-1/2 bg-[#f31b87] hover:bg-green-500 transition duration-500 ease-in-out font-bold`} disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
+                <button className={`${loading ? "opacity-[0.5] cursor-not-allowed bg-green-600" : ""} w-[95%] mx-auto cursor-pointer text-white px-4 py-2 rounded-md sm:w-1/2 bg-[#f31b87] hover:bg-green-500 transition duration-500 ease-in-out font-bold`} disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
                 <p className='text-sm cursor-pointer'>
                     Don't have an account yet? 
                     <Link to={`/sign-up`} className="text-green-400 pl-2 hover:text-green-500 font-bold duration-75 cursor-pointer">

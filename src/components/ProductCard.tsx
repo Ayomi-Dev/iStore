@@ -82,8 +82,8 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
                         </div>
                     ) :
                     (
-                        <div className="flex gap-4 items-center justify-between px-2 py-2 font-semibold">
-                            <div className="flex bg-[#f31b87] text-white text-[10px] md:text-xl items-center cursor-pointer px-2 rounded-md" onClick={() =>handleAddItem(ConvertToCartItem(product))}>
+                        <div className="flex w-full gap-4 items-center justify-between px-2 py-2 font-semibold">
+                            <div className="flex bg-black text-white text-[10px] md:text-[1rem] items-center cursor-pointer px-2 rounded-md" onClick={() =>handleAddItem(ConvertToCartItem(product))}>
                                 <h2>Add To Cart</h2>
                                 <FaCartPlus />
                             </div>
