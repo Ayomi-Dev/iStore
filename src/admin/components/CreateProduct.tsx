@@ -87,6 +87,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         }
         catch(error){
           console.log(error);
+          toast.error("Couln't add product at this time")
           setError("Could not add product");
         }
         finally{
