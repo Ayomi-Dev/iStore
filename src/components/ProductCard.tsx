@@ -50,7 +50,7 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
     }
 
   return (
-        <div className="flex flex-col overflow-hidden gap-4 bg-white hover:scale-105 ease-in-out transition-all duration-300 relative shadow-lg rounded-md items-center">
+        <div className="flex flex-col overflow-hidden gap-4 bg-white hover:scale-105 ease-in-out transition-all duration-300 relative shadow-lg rounded-md pt-2 items-center">
             <Link to={`/product/${product._id}/details`}>
 
                 <div className=" px-2 flex h-40 w-40 items-center rounded-md justify-center">
