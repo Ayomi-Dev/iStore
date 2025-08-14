@@ -33,7 +33,7 @@ export const RandomProducts = () => {
     }
     useEffect(()=> {
         getRandomProducts()
-    },[])
+    },[allProducts])
   return (
     <div className="w-full py-3">
         <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4 w-[90%] mx-auto">
@@ -43,8 +43,8 @@ export const RandomProducts = () => {
                     <div className="block w-full text-center shadow-md py-3 bg-white" key={index}>
                         <h1 className="text-black font-bold">{product.category}</h1>
                         <img src={product.images[0]} alt="" className='w-full h-[300px] py-2 object-cover' />
-                        <div className="flex items-center justify-between px-2 w-full">
-                            <button className="bg-pink-500 py-2 px-4 rounded-sm font-bold text-white">Add To Cart</button>
+                        <div className="flex items-center flex-wrap justify-between px-2 w-full">
+                            <button className="bg-pink-500 py-2 px-4 text-[12px] rounded-sm font-bold text-white">Add To Cart</button>
                             <p className="text-black font-bold text-sm">{product.name}</p>
                             <p className="text-pink-600 font-bold">${product.price}.00</p>
                         </div>

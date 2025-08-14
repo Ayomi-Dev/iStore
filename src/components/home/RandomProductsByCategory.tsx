@@ -10,9 +10,9 @@ export const RandomProductsByCategory = () => {
     const [automotive, setAutomotive] = useState<Products[]>([])  
     
     useEffect(()=> {
-        setElectronics(getProductsByCategory("electronics"))
-        setComputers(getProductsByCategory("computers & office"))
-        setAutomotive(getProductsByCategory("mobile accessories"))
+        setElectronics(getProductsByCategory("Electronics"))
+        setComputers(getProductsByCategory("Computers & Office"))
+        setAutomotive(getProductsByCategory("Mobile Accessories"))
     },[allProducts])
 
 
@@ -28,8 +28,8 @@ export const RandomProductsByCategory = () => {
                         <div className="block w-full text-center shadow-md py-3 bg-white" >
                             <h1 className="text-black font-bold">{product.name}</h1>
                             <img src={product.images[0]} alt="" className='w-full h-[300px] py-2 object-cover' />
-                            <div className="flex items-center justify-between px-2 w-full">
-                                <button className="bg-pink-500 py-2 px-4 rounded-sm font-bold text-white">Add To Cart</button>
+                            <div className="flex items-center flex-wrap justify-between px-2 w-full">
+                                <button className="bg-pink-500 py-2 px-4 text-[10px] rounded-sm font-bold text-white">Add To Cart</button>
                                 <p className="text-black font-bold text-sm">{product.name}</p>
                                 <p className="text-pink-600 font-bold">${product.price}.00</p>
                             </div>
@@ -49,8 +49,8 @@ export const RandomProductsByCategory = () => {
                         <div className="block w-full text-center shadow-md py-3 bg-white" >
                             <h1 className="text-black font-bold">{product.name}</h1>
                             <img src={product.images[0]} alt="" className='w-full h-[300px] py-2 object-cover' />
-                            <div className="flex items-center justify-between px-2 w-full">
-                                <button className="bg-pink-500 py-2 px-4 rounded-sm font-bold text-white">Add To Cart</button>
+                            <div className="flex items-center flex-wrap justify-between px-2 w-full">
+                                <button className="bg-pink-500 py-2 px-4 text-[12px] rounded-sm font-bold text-white">Add To Cart</button>
                                 <p className="text-black font-bold text-sm">{product.name}</p>
                                 <p className="text-pink-600 font-bold">${product.price}.00</p>
                             </div>
@@ -69,8 +69,8 @@ export const RandomProductsByCategory = () => {
                         <div className="block w-full text-center shadow-md py-3 bg-white" >
                             <h1 className="text-black font-bold">{product.name}</h1>
                             <img src={product.images[0]} alt="" className='w-full h-[300px] py-2 object-cover' />
-                            <div className="flex items-center justify-between px-2 w-full">
-                                <button className="bg-pink-500 py-2 px-4 rounded-sm font-bold text-white">Add To Cart</button>
+                            <div className="flex items-center flex-wrap justify-between px-2 w-full">
+                                <button className="bg-pink-500 py-2 px-4 text-[12px] rounded-sm font-bold text-white">Add To Cart</button>
                                 <p className="text-black font-bold text-sm">{product.name}</p>
                                 <p className="text-pink-600 font-bold">${product.price}.00</p>
                             </div>
