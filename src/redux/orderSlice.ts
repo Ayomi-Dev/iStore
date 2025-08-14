@@ -23,12 +23,14 @@ export interface Order{
 
 interface OrderState {
     orders: Order[];
+    orderList: Order[];
     loading: boolean;
     error: string | null
 }
 
 const initialState: OrderState = {
     orders: [],
+    orderList: [],
     loading: false,
     error: null
 }
@@ -37,7 +39,7 @@ export const fetchUserOrders = createAsyncThunk(
     `orders/fetchUserOrders`,
     async (_, thunkAPI) => {
         try {
-            const { data }= await axios.get(    `${import.meta.env.VITE_API_URL}/api/orders/my-orders`, {
+            const { data }= await axios.get(`${import.meta.env.VITE_API_URL}/api/orders/my-orders`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -65,6 +67,22 @@ export const deleteOrder = createAsyncThunk(
         }
     }
 
+)
+
+export const getAllOrders = createAsyncThunk(
+    `orders/getAllOrders`, 
+    async(_, thunkAPI) => {
+        try {
+            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/orders/admin/orders`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            })
+            return data
+        } catch (error: any) {
+           return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to get orders')
+        }
+    }
 )
 
 const orderSlice = createSlice({
@@ -105,6 +123,20 @@ const orderSlice = createSlice({
             .addCase(deleteOrder.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string
+            })
+
+        builder
+            .addCase(getAllOrders.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getAllOrders.fulfilled, (state, action) => {
+                state.loading = false;
+                state.orderList =  action.payload;
+            })
+            .addCase(getAllOrders.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
             })
     },
 })

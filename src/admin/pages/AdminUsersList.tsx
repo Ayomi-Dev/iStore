@@ -1,13 +1,11 @@
-import { useEffect } from "react"
+
 import { useUserContext } from "../../contexts/UserContext"
 import { PageWrapper } from "../../utils/PageWrapper"
 import { FaTrash } from "react-icons/fa6"
 
 export const AdminUsersList = () => {
-    const { adminUsers, getAdminUsers, deleteUser } = useUserContext()
-    useEffect(() => {
-        getAdminUsers();
-    }, [])
+    const { adminUsers, deleteUser } = useUserContext()
+    
   return (
     <PageWrapper>
         {adminUsers.length > 0 ? (
