@@ -40,7 +40,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
    
    const uploadImages =  async (files: File[]): Promise<string[]> => { //extract selected image files and sends to the backend for storage
     const uploadedUrls: string[] = []
-
+    
     for(let file of files) {
       const formData = new FormData();
         formData.append('file', file);
@@ -87,7 +87,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         }
         catch(error){
           console.log(error);
-          toast.error("Couln't add product at this time")
+          toast.error("Couldn't add product at this time")
           setError("Could not add product");
         }
         finally{

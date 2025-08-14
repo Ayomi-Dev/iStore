@@ -27,7 +27,7 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
     
     const deleteProduct = async (id: string) => {
         try {
-          await axios.delete(`${import.meta.env.VITE_API_URL}/products/${id}`, {
+          await axios.delete(`${import.meta.env.VITE_API_URL}/api/products/${id}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
