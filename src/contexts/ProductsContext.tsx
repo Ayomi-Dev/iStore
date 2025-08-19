@@ -40,10 +40,11 @@ interface ProductContextType {
     setAllProducts: React.Dispatch<React.SetStateAction<Products[]>>;
     fetchProducts: () => Promise<void>;
     getProductsByCategory: (category: string) => Products[];
-    
     filteredProducts: Products[];
     setFilteredProducts: React.Dispatch<React.SetStateAction<Products[]>>
-    filterProducts: (filters: FilterOptions) => {}
+    filterProducts: (filters: FilterOptions) => {};
+    selectedCategoryProducts: (category: string) => void;
+    categoryProducts: Products[];
 }
 
 const ProductContext = createContext<ProductContextType | null>(null) 
@@ -52,7 +53,8 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
     const [allProducts, setAllProducts] = useState<Products[]>([])
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<string>('');
-    const [filteredProducts, setFilteredProducts] = useState<Products[]>([])
+    const [filteredProducts, setFilteredProducts] = useState<Products[]>([]);
+    const [categoryProducts, setCategoryProducts] = useState<Products[]>([]);
     
     
 
@@ -126,9 +128,27 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
         navigate('/products')
     }
 
+
+    const selectedCategoryProducts = (category: string) => {
+        const matchedProducts = allProducts.filter(product => product.category.trim().toLowerCase() === category.trim().toLowerCase() );
+
+        setCategoryProducts(matchedProducts);
+    }
+
     
-    
-    const value = { allProducts, loading, error, setAllProducts, fetchProducts, getProductsByCategory, setFilteredProducts, filteredProducts, filterProducts}
+    const value = { 
+        allProducts, 
+        loading, 
+        error, 
+        setAllProducts, 
+        fetchProducts, 
+        getProductsByCategory, 
+        setFilteredProducts, 
+        filteredProducts, 
+        filterProducts,
+        selectedCategoryProducts,
+        categoryProducts
+    }
     return (
         <ProductContext.Provider value = { value } >
             { children }

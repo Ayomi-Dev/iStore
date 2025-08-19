@@ -4,14 +4,16 @@ import {type Products } from '../../contexts/ProductsContext'
 import { useDispatch } from 'react-redux'
 import { addItems } from '../../redux/cartSlice'
 import { ConvertToCartItem } from '../../utils/ConvertToCartItem'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 export const RandomProductsByCategory = () => {
-    const {getProductsByCategory, allProducts} = useProductContext()
-    const [electronics, setElectronics] = useState<Products[]>([])
-    const [computers, setComputers] = useState<Products[]>([])
-    const [automotive, setAutomotive] = useState<Products[]>([])  
-    const dispatch = useDispatch()
+    const {getProductsByCategory, allProducts, selectedCategoryProducts} = useProductContext()
+    const [electronics, setElectronics] = useState<Products[]>([]);
+    const [computers, setComputers] = useState<Products[]>([]);
+    const [automotive, setAutomotive] = useState<Products[]>([]);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     
     useEffect(()=> {
         setElectronics(getProductsByCategory("Electronics"))
@@ -19,71 +21,72 @@ export const RandomProductsByCategory = () => {
         setAutomotive(getProductsByCategory("Mobile Accessories"))
     },[allProducts])
 
+    const handleCategory = (category: string) => {
+        selectedCategoryProducts(category);
+        navigate(`/products/${category}`)
+    }
+
 
   return (
     <div className="w-full py-3">
-        
-            
-        {electronics?.map((product, index )=> {
-            return (
-                <div className="block py-3 w-[90%] mx-auto" key={index}>
-                    <h1 className="text-center md:text-2xl py-6 font-bold">{product.category}</h1>
-                    <div key={index} className="grid grid-cols-1 md:grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4 w-full">
-                        <div className="block w-full text-center shadow-md py-3 bg-white" >
-                            <h1 className="text-black font-bold">{product.name}</h1>
-                            <img src={product.images[0]} alt="" className='w-full h-[300px] py-2 object-cover' />
-                            <div className="flex items-center flex-wrap justify-between px-2 w-full">
-                                <button className="bg-pink-500 py-2 px-4 text-[10px] rounded-sm font-bold text-white cursor-pointer" onClick={() => dispatch(addItems(ConvertToCartItem(product)))}>Add To Cart</button>
-                                <p className="text-black font-bold text-sm">{product.name}</p>
-                                <p className="text-pink-600 font-bold">${product.price}.00</p>
-                            </div>
+        <h1 className="text-center text-2xl font-semibold pt-3" onClick={()=> handleCategory("electronics")}>Electronics</h1>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 my-3">
+            {electronics?.map((product, index )=> {
+                return (
+                    <div key={index} className="flex flex-col justify-between items-center text-center shadow-md py-3 bg-white" >
+                        <Link to={`/product/${product._id}/details`}>
+                            <img src={product.images[0]} alt="" className='w-full px-2 min-h-[100px] py-2 object-cover' />
+                        </Link>
+                        <div className="flex items-center flex-wrap justify-between px-2 w-full">
+                            <button className="bg-pink-500 py-2 px-4 text-[10px] rounded-sm font-bold text-white cursor-pointer" onClick={() => dispatch(addItems(ConvertToCartItem(product)))}>Add To Cart</button>
+                            <p className="text-black font-bold text-sm">{product.name}</p>
+                            <p className="text-pink-600 font-bold">${product.price}.00</p>
                         </div>
                     </div>
+                )
+            })}
+        </div>  
 
-                </div>
-            )
-        })}
+        <h1 className="text-center text-2xl font-semibold pt-3" onClick={()=> handleCategory("automotive")}>Automotive</h1>
+        <div className="grid grid-cols-2  md:grid-cols-3 gap-3 my-3">
+            {automotive?.map((product, index )=> {
+                return (
+                    <div key={index} className="flex flex-col justify-between items-center text-center shadow-md py-3 bg-white" >
+                        <Link to={`/product/${product._id}/details`}>
+                            <img src={product.images[0]} alt="" className='w-full px-2 min-h-[100px] py-2 object-cover' />
+                        </Link>
+                        <div className="flex items-center flex-wrap justify-between px-2 w-full">
+                            <button className="bg-pink-500 py-2 px-4 text-[10px] rounded-sm font-bold text-white cursor-pointer" onClick={() => dispatch(addItems(ConvertToCartItem(product)))}>Add To Cart</button>
+                            <p className="text-black font-bold text-sm">{product.name}</p>
+                            <p className="text-pink-600 font-bold">${product.price}.00</p>
+                        </div>
+                    </div>   
+                )
+            })}
+        </div>
 
-        {computers?.map((product, index )=> {
-            return (
-                <div className="block py-3 w-[90%] mx-auto" key={index}>
+
+        <h1 className="text-center text-2xl font-semibold pt-3" onClick={() => handleCategory("computers & office")}>Computers & Office</h1>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 my-3">
+            {computers?.map((product, index )=> {
+                return ( 
+
+                    <div key={index} className="flex flex-col items-center justify-center  text-center shadow-md py-3 bg-white" >
+                        <Link to={`/product/${product._id}/details`}>
+                            <img src={product.images[0]} alt="" className='w-full px-2 min-h-[100px] py-2 object-cover' />
+                        </Link>
+                        <div className="flex items-center flex-wrap justify-between px-2 w-full">
+                            <button className="bg-pink-500 py-2 px-4 text-[10px] rounded-sm font-bold text-white cursor-pointer" onClick={() => dispatch(addItems(ConvertToCartItem(product)))}>Add To Cart</button>
+                            <p className="text-black font-bold text-sm">{product.name}</p>
+                            <p className="text-pink-600 font-bold">${product.price}.00</p>
+                        </div>
+                    </div>
                     
-                    <h1 className="text-center md:text-2xl py-6 font-bold">{product.category}</h1>
-                    <div key={index} className="grid grid-cols-1 md:grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4 w-full">
-                        <div className="block w-full text-center shadow-md py-3 bg-white" >
-                            <h1 className="text-black font-bold">{product.name}</h1>
-                            <img src={product.images[0]} alt="" className='w-full h-[300px] py-2 object-cover' />
-                            <div className="flex items-center flex-wrap justify-between px-2 w-full">
-                                <button className="bg-pink-500 py-2 px-4 text-[12px] rounded-sm font-bold text-white cursor-pointer" onClick={() => dispatch(addItems(ConvertToCartItem(product)))}>Add To Cart</button>
-                                <p className="text-black font-bold text-sm">{product.name}</p>
-                                <p className="text-pink-600 font-bold">${product.price}.00</p>
-                            </div>
-                        </div>
-                    </div>
+                )
+            })}
+        </div>
 
-                </div>
-            )
-        })}
-
-        {automotive?.map(( product, index )=> {
-            return (
-                <div className="block py-3 w-[90%] mx-auto" key={index}>
-                    <h1 className="text-center md:text-2xl py-6 font-bold">{product.category}</h1>
-                    <div key={index} className="grid grid-cols-1 md:grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4 w-full">
-                        <div className="block w-full text-center shadow-md py-3 bg-white" >
-                            <h1 className="text-black font-bold">{product.name}</h1>
-                            <img src={product.images[0]} alt="" className='w-full h-[300px] py-2 object-cover' />
-                            <div className="flex items-center flex-wrap justify-between px-2 w-full">
-                                <button className="bg-pink-500 py-2 px-4 text-[12px] rounded-sm font-bold text-white cursor-pointer" onClick={() => dispatch(addItems(ConvertToCartItem(product)))}>Add To Cart</button>
-                                <p className="text-black font-bold text-sm">{product.name}</p>
-                                <p className="text-pink-600 font-bold">${product.price}.00</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            )
-        })}
+       
         
     </div>
   )

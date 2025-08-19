@@ -18,6 +18,7 @@ import { OrderSummary } from '../pages/OrderSummary'
 import { WishList } from '../pages/WishList'
 import { AdminUsersList } from '../admin/pages/AdminUsersList'
 import { UserEditPage } from '../pages/UserEditPage'
+import { CategoryProducts } from '../pages/CategoryProducts'
 
 
 
@@ -32,6 +33,7 @@ export const PageRoutes = () => {
     
           <Route path='/' element = { <Home />}></Route>
           <Route path='/product/:id/details' element = { <ProductDetails />}></Route>
+          <Route path='/products/:category' element = { <CategoryProducts />}></Route>
     
           <Route  element = { <ProtectedRoute />}>
             <Route path='/profile' element = { <UserProfile />} />  

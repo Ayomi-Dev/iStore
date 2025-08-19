@@ -151,6 +151,7 @@ export const Details = () => {
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
+        {loading && (<div className="w-[500px] h-[500px] flex items-center justify-center bg-white mx-auto">Loading Product...</div>)}
         {currentProduct && 
             (
                 <div className="w-full">
