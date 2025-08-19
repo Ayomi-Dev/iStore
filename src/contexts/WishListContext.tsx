@@ -50,6 +50,7 @@ export const WishListContextProvider: FC<{children : ReactNode}> = ({ children }
 
     const removeFromWishItems = (id: string) => {
         setWishItems(prevItems => prevItems.filter(item => item._id !== id));
+        localStorage.removeItem("wishItems")
         toast.success("Item removed from wish list")
     }
     const value = {wishItems, addToWishItems, removeFromWishItems, isAdded}

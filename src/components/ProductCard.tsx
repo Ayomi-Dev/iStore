@@ -45,18 +45,17 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
         }
         else{
             addToWishItems(ConvertToWishItem(product))
-            // setAdded(true) // This line is not needed as we are using context to manage the state
         }
     }
 
   return (
-        <div className="flex flex-col overflow-hidden gap-4 bg-white hover:scale-105 ease-in-out transition-all duration-300 relative shadow-lg rounded-md pt-2 items-center">
-            <Link to={`/product/${product._id}/details`}>
+        <div className="overflow-hidden gap-4 bg-white hover:scale-105 ease-in-out transition-all duration-300 relative shadow-lg rounded-md pt-2 items-center">
+            <Link to={`/product/${product._id}/details`} className='relative w-full px-2 py-3 flex flex-col items-center justify-center'>
 
-                <div className=" px-2 flex h-40 w-40 items-center rounded-md justify-center">
+                <div className="flex w-30 h-30 md:h-40 md:w-40 items-center rounded-md justify-center">
                     <img src={product.images[0]} alt="" className='h-full w-full object-cover' />
                 </div>
-                <div className="text-center px-2 my-4">
+                <div className="text-center my-2 flex flex-col justify-between items-center px-2 h-30 relative">
                     <h1 className='font-bold text-sm'>{product.name}</h1>
                     <p className='text-[0.7rem] font-light text-sm'>{product.description.slice(0, 20)}...<span className='font-bold italic'>see more</span></p>
                     <span className='font-bold text-sm'>${product.price}.00</span>
@@ -70,7 +69,7 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
                 </div>
             </Link>
             
-                
+            <div className="w-full">
                 {user?.isAdmin ? 
                     (
                         <div className="flex gap-4 items-center justify-between bg-black px-2 text-white  py-2 w-full rounded-b-md font-semibold">
@@ -83,7 +82,7 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
                     ) :
                     (
                         <div className="flex w-full gap-4 items-center justify-between px-2 py-2 font-semibold">
-                            <div className="flex bg-black text-white text-[10px] md:text-[1rem] items-center cursor-pointer px-2 rounded-md" onClick={() =>handleAddItem(ConvertToCartItem(product))}>
+                            <div className="flex bg-black text-white text-[10px] md:text-[1rem] items-center cursor-pointer py-1 md:py-0 px-2 rounded-md" onClick={() =>handleAddItem(ConvertToCartItem(product))}>
                                 <h2>Add To Cart</h2>
                                 <FaCartPlus />
                             </div>
@@ -91,6 +90,7 @@ export const ProductCard: React.FC<ProductProp> = ({product}) => {
                         </div>
                     )
                 }
+            </div>    
             
         </div>
   )

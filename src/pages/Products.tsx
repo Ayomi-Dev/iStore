@@ -8,9 +8,9 @@ export const ProductsList = () => {
   const { filteredProducts, allProducts, loading, error} = useProductContext();
   const productsOnDisplay = filteredProducts.length > 0 ? filteredProducts : allProducts
   
+  
   return (
     <PageWrapper>
-      {/* <FilterNav /> */}
       {loading ? (
         <div className="w-full h-[500px] flex items-center justify-center font-bold text-2xl text-green-500">Loading...</div>
       )

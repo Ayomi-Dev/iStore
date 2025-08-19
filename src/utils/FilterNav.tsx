@@ -4,7 +4,7 @@ import { FaFilter, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 export const FilterNav = () => {
-  const { allProducts, filterProducts, fetchProducts } = useProductContext();
+  const { allProducts, filterProducts, fetchProducts, setFilteredProducts } = useProductContext();
   const [filterValue, setFilterValue] = useState<string>("");
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [price, setPrice] = useState({ min: "", max: "" });
@@ -20,10 +20,12 @@ export const FilterNav = () => {
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       const trimmed = filterValue.trim();
-      if (trimmed.length > 0) {
-        filterProducts({ name: trimmed });
-      } else {
+      // console.log('searchvalue:', trimmed.length)
+      if (trimmed.length === 0) {
         fetchProducts(); // fallback
+        setFilteredProducts(allProducts)
+      } else {
+        filterProducts({ name: trimmed });
       }
     }, 400);
     return () => clearTimeout(delayDebounce);

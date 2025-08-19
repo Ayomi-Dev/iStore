@@ -27,9 +27,9 @@ export const SideNav = ( ) => {
       z-[10] overflow-x-auto h-full px-4 left-0 md:w-[15%] transform transition-transform 
       duration-300 ease-in-out bg-gray-50`}>
         
-        <div className="mx-auto shadow-lg rounded-[50%] my-4 w-28 h-28 mt-4">
-          <img src={user?.image} className='w-full h-full rounded-full object-cover border-white border-8 shadow-md' alt="profile-photo" />
-          <span className="text-pink-600 my-2 font-bold">{user?.name}</span>
+        <div className="mx-auto flex flex-col w-full items-center justify-center mt-4">
+          <img src={user?.image} className='w-28 h-28 rounded-full object-cover border-white border-8 shadow-md' alt="profile-photo" />
+          <span className="text-pink-600 my-2 text-center font-bold">{user?.name}</span>
         </div>
 
         <nav className="w-full py-3">

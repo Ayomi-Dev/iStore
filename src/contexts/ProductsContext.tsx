@@ -106,9 +106,9 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
                 if(value !== undefined && value !== '' ) searchParams.append(key, value.toString());
             }
             const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products?${searchParams.toString()}`);
-
+            
             if(!data || data.length === 0){
-                setFilteredProducts([]);
+                setFilteredProducts([]); 
                 setError('No matching products found')
             }
             else{
