@@ -41,14 +41,10 @@ export const TopNavBar = () => {
               {sidePanel ? (
                 <FaArrowLeft />
               ) : (
-                <div className="flex items-center gap-2">
-
                   <FaBars  />
-                  <Link to={`/`} className='md:ml-4 ml-1 font-bold italic md:block text-sm md:text-xl text-pink-600'>iStore</Link>
-                </div>
               )}
             </div>
-            {}
+              <Link to={`/`} className='md:ml-4 ml-1 font-bold italic md:block text-sm md:text-xl text-pink-600'>iStore</Link>
           </>)
           
         }

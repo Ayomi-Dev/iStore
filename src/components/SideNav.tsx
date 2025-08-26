@@ -26,11 +26,14 @@ export const SideNav = ( ) => {
       <aside className={`${sidePanel ? 'translate-x-0 ' : '-translate-x-full'} active w-[75%] fixed 
       z-[10] overflow-x-auto h-full px-4 left-0 md:w-[15%] transform transition-transform 
       duration-300 ease-in-out bg-gray-50`}>
-        
-        <div className="mx-auto flex flex-col w-full items-center justify-center mt-4">
-          <img src={user?.image} className='w-28 h-28 rounded-full object-cover border-white border-8 shadow-md' alt="profile-photo" />
-          <span className="text-pink-600 my-2 text-center font-bold">{user?.name}</span>
-        </div>
+        {user ? (
+
+        <Link to={`/profile/edit/${user._id}`} className="mx-auto relative flex flex-col w-full items-center justify-center mt-4">
+          {!user?.image ? (<div className='absolute text-gray-300'>Add image</div>) : ("")}
+            <img src={user?.image} className='w-28 h-28 rounded-full object-cover border-white border-8 shadow-md' alt="" />
+            <span className="text-pink-600 my-2 text-center font-bold">{user?.name}</span>
+        </Link>
+        ): ("")}
 
         <nav className="w-full py-3">
           <ul className="flex flex-col items-center justify-center mx-auto">
