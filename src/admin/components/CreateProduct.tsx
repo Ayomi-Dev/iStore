@@ -95,8 +95,10 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         }
    }
   return (
-    <div className="w-full flex justify-center flex-col md:flex-row md:w-4/5 mx-auto bg-white admin">
+    <div className="w-full flex justify-center items-center flex-col md:flex-row md:w-4/5 mx-auto bg-white admin">
+      
         <form onSubmit={addNewProduct} className="flex w-full md:flex-1 flex-col gap-4 mx-auto p-4">
+          <h1 className='text-center py-2 md:text-2xl font-bold'>Add New Product</h1>
           <div className="form-group">
             <FaProductHunt className="fa"/>
             <input name="name"  onChange={handleChange} required />

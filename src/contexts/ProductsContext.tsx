@@ -39,9 +39,9 @@ interface ProductContextType {
     error: string;
     setAllProducts: React.Dispatch<React.SetStateAction<Products[]>>;
     fetchProducts: () => Promise<void>;
-    getProductsByCategory: (category: string) => Products[];
+    getProductsByCategory: (category: string) => Promise<Products[]>;
     filteredProducts: Products[];
-    setFilteredProducts: React.Dispatch<React.SetStateAction<Products[]>>
+    setFilteredProducts: React.Dispatch<React.SetStateAction<Products[]>>;
     filterProducts: (filters: FilterOptions) => {};
     selectedCategoryProducts: (category: string) => void;
     categoryProducts: Products[];
@@ -79,7 +79,7 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
 
     const usedCategories = new Set<string>();
 
-    const getProductsByCategory = (category: string) => {
+    const getProductsByCategory = async(category: string) => {
         const normalized = category.trim().toLowerCase();
 
         if (usedCategories.has(normalized)) {
@@ -87,13 +87,22 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
         }
         usedCategories.add(normalized);
 
-        const filteredProducts = allProducts.filter(product => product.category.trim().toLowerCase() === category.trim().toLowerCase())
+        setLoading(true)
+        try {
+            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
+            
+            const filteredProducts = data.filter((product: Products) => product.category.trim().toLowerCase() === category.trim().toLowerCase())
 
-        const shuffleProducts = filteredProducts.sort(() => Math.random() - 0.5);
+            const shuffleProducts = filteredProducts.sort(() => Math.random() - 0.5);
 
-        const selectedProducts = shuffleProducts.slice(0,3);
+            const selectedProducts = shuffleProducts.slice(0,3);
 
-        return selectedProducts
+            return selectedProducts
+        } catch (error) {
+            console.log(error)
+        }
+
+        
     }
     
     

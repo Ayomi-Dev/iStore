@@ -8,18 +8,24 @@ import { Link, useNavigate } from 'react-router-dom'
 
 
 export const RandomProductsByCategory = () => {
-    const {getProductsByCategory, allProducts, selectedCategoryProducts} = useProductContext()
+    const {getProductsByCategory, selectedCategoryProducts} = useProductContext()
     const [electronics, setElectronics] = useState<Products[]>([]);
     const [computers, setComputers] = useState<Products[]>([]);
-    const [automotive, setAutomotive] = useState<Products[]>([]);
+    const [phones, setPhones] = useState<Products[]>([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     
-    useEffect(()=> {
-        setElectronics(getProductsByCategory("Electronics"))
-        setComputers(getProductsByCategory("Computers & Office"))
-        setAutomotive(getProductsByCategory("Mobile Accessories"))
-    },[allProducts])
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const electronicsData = await getProductsByCategory("electronics");
+            const computersData = await getProductsByCategory("computers & office");
+            const phonesData = await getProductsByCategory("mobile accessories");
+            setElectronics(electronicsData);
+            setComputers(computersData);
+            setPhones(phonesData);
+        };
+        fetchProducts();
+    }, []);
 
     const handleCategory = (category: string) => {
         selectedCategoryProducts(category);
@@ -47,9 +53,9 @@ export const RandomProductsByCategory = () => {
             })}
         </div>  
 
-        <h1 className="text-center text-2xl font-semibold pt-3" onClick={()=> handleCategory("automotive")}>Automotive</h1>
+        <h1 className="text-center text-2xl font-semibold pt-3" onClick={()=> handleCategory("Mobile Accessories")}>Phones</h1>
         <div className="grid grid-cols-2  md:grid-cols-3 gap-3 my-3">
-            {automotive?.map((product, index )=> {
+            {phones?.map((product, index )=> {
                 return (
                     <div key={index} className="flex flex-col justify-between items-center text-center shadow-md py-3 bg-white" >
                         <Link to={`/product/${product._id}/details`}>
