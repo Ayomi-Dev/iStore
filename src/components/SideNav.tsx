@@ -23,7 +23,7 @@ export const SideNav = ( ) => {
   return (
       
       <aside className={`${sidePanel ? 'translate-x-0 ' : '-translate-x-full hidden'}  w-[75%] overflow-auto 
-        z-[10] h-[100vh] px-4 md:w-[15%] transform transition-transform 
+        z-[60] h-[100vh] px-4 md:w-[15%] transform transition-transform
         duration-300 ease-in-out bg-gray-50 `}>
         {user ? (
 

@@ -11,6 +11,7 @@ import axios from "axios";
 import { useWishListContext } from "../contexts/WishListContext";
 import { ConvertToWishItem } from "../utils/ConvertToWishItem";
 import { toast } from "react-toastify";
+import LoadingOverlay from "../utils/LoadingOverlay";
 
 
 
@@ -27,6 +28,7 @@ export const Details = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [quantity, setQuantity] = useState(1);
 
+    //displaying individual image on the main image view
     const [mainImg, setMainImg] = useState<string>("")
     const changeImg = (image:string) => {
         setMainImg(image)
@@ -90,7 +92,6 @@ export const Details = () => {
         }
     }
 
-    //displaying individual image on the main image view
      useEffect(() => { //automatically updates product price whenever its quantity changes
        if(currentProduct){
            setTotal (currentProduct?.price * quantity) 
@@ -150,8 +151,8 @@ export const Details = () => {
     }
 
   return (
-    <div className="w-full flex flex-col items-center justify-center">
-        {loading && (<div className="w-[500px] h-[500px] flex items-center justify-center bg-white mx-auto">Loading Product...</div>)}
+    <section className="w-full flex flex-col items-center justify-center">
+        {loading && <LoadingOverlay show={loading} message="Please wait..." />}
         {currentProduct && 
             (
                 <div className="w-full">
@@ -276,10 +277,10 @@ export const Details = () => {
             )
         }
         {error && (
-            <div className="flex items-center mx-auto justify-center w-[500px] text-black h-[500px] text-2xl font-bold">
+            <div className="flex items-center mx-auto justify-center w-[500px] text-red-500 h-[500px]  text-2xl font-bold">
                 <h2>{error}</h2>
             </div>
         )}
-    </div>
+    </section>
   )
 }

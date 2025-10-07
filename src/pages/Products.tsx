@@ -2,17 +2,24 @@
 import { useProductContext } from '../contexts/ProductsContext'
 import { PageWrapper } from '../utils/PageWrapper'
 import { ProductCard } from '../components/ProductCard'
+import { useEffect, useState } from 'react';
+import LoadingOverlay from '../utils/LoadingOverlay';
 
 
 export const ProductsList = () => {
   const { filteredProducts, allProducts, loading, error} = useProductContext();
-  const productsOnDisplay = filteredProducts.length > 0 ? filteredProducts : allProducts
+  const [productsOnDisplay, setProductsOnDisplay] = useState(allProducts);
+
+  useEffect(() => {
+    setProductsOnDisplay(filteredProducts.length > 0 ? filteredProducts : allProducts)
+  }, [allProducts, filteredProducts])
   
   
   return (
     <PageWrapper>
       {loading ? (
-        <div className="w-full h-[500px] flex items-center justify-center font-bold text-2xl text-green-500">Loading...</div>
+        <LoadingOverlay show={loading} message='Please wait while products load' />
+        // <div className="w-full h-[500px] flex items-center justify-center font-bold text-2xl text-green-500">Loading...</div>
       )
       : error ? (
  
