@@ -8,18 +8,17 @@ import { initializeFromLocalStorage } from './redux/cartSlice';
 
 
 function App() {
-
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(initializeFromLocalStorage())
   },[]) 
   return (
-      <div className='w-full'>
-        <TopNavBar />
-        <div className="flex top-[100px] gap-2 relative overflow-hidden">
+      <div className='w-full h-[100vh]'>
+          <TopNavBar />
+        <div className={`w-full flex relative`}>
           <SideNav />
           < PageRoutes />
-        </div>
+        </div> 
       </div>
     
   )

@@ -21,14 +21,13 @@ export const SideNav = ( ) => {
   }
  
   return (
-    <>
       
-      <aside className={`${sidePanel ? 'translate-x-0 ' : '-translate-x-full'} active w-[75%] fixed 
-      z-[10] overflow-x-auto h-full px-4 left-0 md:w-[15%] transform transition-transform 
-      duration-300 ease-in-out bg-gray-50`}>
+      <aside className={`${sidePanel ? 'translate-x-0 ' : '-translate-x-full hidden'}  w-[75%] overflow-auto 
+        z-[10] h-[100vh] px-4 md:w-[15%] transform transition-transform 
+        duration-300 ease-in-out bg-gray-50 `}>
         {user ? (
 
-        <Link to={`/profile/edit/${user._id}`} className="mx-auto relative flex flex-col w-full items-center justify-center mt-4">
+        <Link to={`/profile/edit/${user?._id}`} className="mx-auto relative flex flex-col w-full items-center justify-center mt-4">
           {!user?.image ? (<div className='absolute text-gray-300'>Add image</div>) : ("")}
             <img src={user?.image} className='w-28 h-28 rounded-full object-cover border-white border-8 shadow-md' alt="" />
             <span className="text-pink-600 my-2 text-center font-bold">{user?.name}</span>
@@ -39,7 +38,7 @@ export const SideNav = ( ) => {
           <ul className="flex flex-col items-center justify-center mx-auto">
                 
             <li className={`${activePage('/')} w-full items-center p-2  shadow-lg rounded-sm my-2 flex justify-center`}>
-              <Link to={`/`}>
+              <Link to={`/`} className='w-full'>
                 <div className="flex gap-2 ">
                   <FaHome className=" px-1 text-2xl"/>
                   <span>Home</span>
@@ -48,7 +47,7 @@ export const SideNav = ( ) => {
             </li>
             
             <li className={`${activePage('/products')} w-full items-center p-2  shadow-lg rounded-sm my-2 flex justify-center`}>
-              <Link to={`/products`}>
+              <Link to={`/products`} className='w-full'>
                 <div className="flex gap-2 ">
                   <FaCompass className=" px-1 text-2xl"/>
                   <span>Shop</span>
@@ -56,7 +55,7 @@ export const SideNav = ( ) => {
               </Link>
             </li>
             <li className={`${activePage('/my-wishlist')} w-full items-center p-2  shadow-lg rounded-sm my-2 flex justify-center`}>
-              <Link to={`/my-wishlist`} >
+              <Link to={`/my-wishlist`} className='w-full' >
                 <div className="gap-2  relative flex">
                   <FaHeart className=" px-1 text-2xl" />
                   <span>Wishlist</span>
@@ -65,7 +64,7 @@ export const SideNav = ( ) => {
               </Link>
             </li>
             <li className={`${activePage('/cart')} w-full items-center p-2 shadow-lg rounded-sm my-2 flex justify-center`}>
-              <Link to={`/cart`}>
+              <Link to={`/cart`} className='w-full'>
                 <div className="flex gap-2 ">
                   <FaCartPlus className=" px-1 text-2xl" />
                   <span>Cart</span>
@@ -74,7 +73,7 @@ export const SideNav = ( ) => {
               </Link>
             </li>
             <li className={`${activePage('/profile')} w-full items-center p-2  shadow-lg rounded-sm my-2 flex justify-center`}>
-              <Link to={`/profile`} >
+              <Link to={`/profile`} className='w-full' >
                 <div className="flex gap-2 ">
                   <FaUser className=" px-1 text-2xl" />
                   <span>Profile</span>
@@ -82,7 +81,7 @@ export const SideNav = ( ) => {
               </Link>
             </li>
             <li className={`${activePage('/orders/history')} w-full items-center p-2 shadow-lg rounded-sm my-2 flex justify-center`}>
-              <Link to={`/orders/history`} >
+              <Link to={`/orders/history`} className='w-full' >
                 <div className="flex gap-2 ">
                   <FaClock className=" px-1 text-2xl" />
                   <span>Orders</span>
@@ -90,7 +89,7 @@ export const SideNav = ( ) => {
               </Link>
             </li>
             <li className={`${activePage('/contact-us')} w-full items-center p-2 shadow-lg rounded-sm my-2 flex justify-center`}>
-              <Link to={`contact-us`} >
+              <Link to={`contact-us`} className='w-full'>
                 <div className=" flex gap-2 ">
                   <FaMessage className=" px-1 text-2xl" />
                   <span>Contact Us</span>
@@ -98,7 +97,7 @@ export const SideNav = ( ) => {
               </Link>
             </li>
             <li className={`${activePage('/setting')} w-full items-center p-2  shadow-lg rounded-sm my-2 flex justify-center`}>
-              <Link to={`/settings`} >
+              <Link to={`/settings`} className='w-full' >
                 <div className=" flex gap-2 ">
                   <FaGears className=" px-1 text-2xl" />
                   <span>Setting</span>
@@ -111,6 +110,6 @@ export const SideNav = ( ) => {
           </ul>
         </nav>
       </aside> 
-    </>
+   
   )
 }

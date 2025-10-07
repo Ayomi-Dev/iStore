@@ -112,8 +112,8 @@ export const ProductListProvider: React.FC<{ children : ReactNode}> = ( { childr
 
         try {
             const searchParams = new URLSearchParams();  //
-            for(const key in filters){ //
-                const value = filters[key as keyof typeof filters];   
+            for(const key in filters){ //cycles through each key/property of the filteroption object   
+                const value = filters[key as keyof typeof filters]; //extracts the value of each key
                 if(value !== undefined && value !== '' ) searchParams.append(key, value.toString());
             }
             const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products?${searchParams.toString()}`);
