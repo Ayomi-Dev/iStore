@@ -22,8 +22,8 @@ export const TopNavBar = () => {
     navigate('/login')
   }
   return (
-    <section className='w-full flex-col flex items-center justify-center sticky px-1 md:px-4 z-90 top-0 left-0 h-[120px] bg-gray-50'> 
-      <nav className='mx-3 py-3 w-full flex justify-between relativeitems-center'>
+    <section className='w-full sticky z-90 top-0 left-0 h-[100px] bg-gray-50'> 
+      <nav className='py-2 w-full px-3 flex justify-between items-center'>
   
         <div className="flex h-full items-center gap-4">
           {user?.isAdmin 

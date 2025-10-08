@@ -40,7 +40,7 @@ export const Header = () => {
     return () => clearInterval(loop);
   }, []);
   return (
-    <div className="relative bg-white w-full md:h-screen ">
+    <div className="relative bg-white w-full py-2 md:h-screen ">
       <AnimatePresence mode="wait">
         <motion.div
           key={index}
@@ -51,7 +51,7 @@ export const Header = () => {
           className=" w-full mx-auto md:h-full flex flex-col md:flex-row items-center justify-center gap-6"
         > 
           
-          <div className="w-full md:w-1/2 px-2 h-[500px]">
+          <div className="w-full md:w-1/2 px-2">
             <img
               src={slides[index].image}
               alt={`Slide ${index}`}

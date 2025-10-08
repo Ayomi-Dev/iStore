@@ -15,7 +15,7 @@ function App() {
   return (
       <div className='w-full h-[100vh]'>
           <TopNavBar />
-        <div className={`w-full flex relative`}>
+        <div className={`w-full flex relative gap-2`}>
           <SideNav />
           < PageRoutes />
         </div> 

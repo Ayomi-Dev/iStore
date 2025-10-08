@@ -12,7 +12,7 @@ export const PageWrapper = ({children}: {children: ReactNode}) => {
 
   return (
     <motion.section
-      className={`${sidePanel ? 'md:flex-1' : 'w-[97%] mx-auto'} overflow-auto h-screen  px-2 py-3`}
+      className={`${sidePanel ? 'md:w-[85%] md:ml-[15%]'  : 'w-[97%] mx-auto'} overflow-auto h-screen p-2`}
       initial="hidden"
       animate="enter"
       exit="exit" 
