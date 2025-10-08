@@ -23,7 +23,7 @@ export const CreateProduct = () => {
    const [error, setError] = useState<string>("");
 
    const handleChange = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setProduct({...product, [e.target.name]: e.target.value}) //spreads out the product object, then assigns value of the corresponding fieldname of each of the form as its property value.
+        setProduct({...product, [e.target.name]: e.target.value}) //spreads out the product object, then assigns value of the corresponding fieldname in the form as its property value.
    } 
    const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
 

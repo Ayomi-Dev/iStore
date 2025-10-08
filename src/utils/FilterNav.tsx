@@ -67,8 +67,8 @@ export const FilterNav = () => {
   };
 
   return (
-    <div className={`w-full relative px-1 py-3 bg-inherit ${showFilters ? 'md:top-[80px] top-[200px]' : 'top-0'}`}>
-      <div className="flex items-center rounded-md shadow-md w-full px-1 gap-2">
+    <div className={`w-full relative py-2 bg-gray-50 px-2`}>
+      <div className="flex items-center rounded-md shadow-md w-full px-2 gap-2">
         <input
           type="text"
           className="w-full px-3 py-2 outline-none"
